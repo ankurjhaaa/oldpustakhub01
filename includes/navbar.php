@@ -1,8 +1,9 @@
-<nav class="bg-[#A5BFCC] shadow-md px-6 py-3 flex items-center justify-between sticky top-0 w-full z-50">
+<nav
+    class="bg-white shadow-md border-b border-gray-200 shadow-md px-6 py-3 flex items-center justify-between sticky top-0 w-full h-20 z-50">
     <!-- Left Section: Logo -->
     <div class="flex items-center space-x-2">
         <a href="index.php">
-            <h1 class="text-blue-600 font-bold text-xl">Pustakhub</h1>
+            <h1 class="text-blue-600 font-bold text-xl">PUSTAKHUB</h1>
         </a>
     </div>
 
@@ -13,7 +14,7 @@
             <button id="locationBtn"
                 class="flex items-center space-x-1 text-gray-800 hover:text-blue-600 focus:outline-none">
                 <i class="fa-solid fa-location-dot text-blue-600"></i>
-                <span class="text-sm font-medium">Delhi, India</span>
+                <span class="text-sm font-medium">Delhi</span>
                 <i class="fa-solid fa-chevron-down text-xs"></i>
             </button>
 
@@ -62,8 +63,9 @@
     <div class="hidden md:flex items-center space-x-6">
 
         <!-- Wishlist Button -->
-        <button
-            class="relative flex items-center space-x-2 px-4 py-2 text-gray-800 font-medium transition-all duration-200 shadow-sm">
+        <a href="wishlist.php"
+            class="relative flex items-center space-x-3 py-2 text-gray-800 font-medium transition-all duration-200 shadow-sm">
+
             <div class="relative">
                 <!-- Wishlist (Heart) Icon -->
                 <i class="fa-solid fa-heart text-2xl text-gray-700 hover:text-red-600 transition-all duration-200"></i>
@@ -74,12 +76,15 @@
                     5
                 </span>
             </div>
-        </button>
+
+        </a>
+
 
 
         <!-- Chat Button -->
-        <button
-            class="relative flex items-center space-x-2 px-4 py-2 text-gray-800 font-medium transition-all duration-200 shadow-sm">
+        <a href="chat.php"
+            class="relative flex items-center space-x-3 py-2 text-gray-800 font-medium transition-all duration-200 shadow-sm">
+
             <div class="relative">
                 <!-- Chat Icon -->
                 <i
@@ -91,11 +96,13 @@
                     3
                 </span>
             </div>
-        </button>
+
+        </a>
+
 
 
         <!-- Cart Button -->
-        <button
+        <!-- <button
             class="relative flex items-center space-x-2 px-4 py-2  text-gray-800 font-medium   transition-all duration-200 shadow-sm ">
             <div class="relative">
                 <i
@@ -105,7 +112,7 @@
                     4
                 </span>
             </div>
-        </button>
+        </button> -->
 
         <!-- Profile Dropdown Button -->
         <div class="relative">
@@ -168,62 +175,118 @@
 
         </a>
 
-        <!-- <button class="text-gray-700 text-xl hover:text-gray-900">
-            <i class="fa-solid fa-ellipsis-vertical"></i>
-        </button> -->
+
     </div>
 
     <!-- Mobile Icons -->
-    <div class="md:hidden flex items-center space-x-4">
-        <!-- Mobile Location Icon -->
-        <button id="mobileLocationBtn" class="text-gray-700 mr-4">
-            <i class="fa-solid fa-location-dot text-lg"></i>
+    <div class="md:hidden flex items-center space-x-5">
+
+        <button onclick="document.getElementById('mobileLocationPopup').classList.remove('hidden')"
+            class="flex items-center space-x-1 text-gray-800 hover:text-blue-600 focus:outline-none">
+            <i class="fa-solid fa-location-dot text-blue-600"></i>
+            <span class="text-sm font-medium">Delhi</span>
+            <i class="fa-solid fa-chevron-down text-xs"></i>
         </button>
 
-        <!-- Mobile Search Icon -->
-        <button id="mobileSearchBtn" class="text-gray-700 text-xl">
-            <i class="fa-solid fa-magnifying-glass"></i>
+        <!-- Search Icon - More prominent and distinctive -->
+        <button id="mobileSearchBtn" class="group relative">
+            <div
+                class="flex items-center justify-center w-28 h-10 rounded-full border border-blue-600 bg-white shadow-sm hover:bg-blue-50 transition-all duration-200">
+                <i class="fa-solid fa-book text-blue-600 text-lg me-1"></i>
+                <span class="text-blue-700 font-medium text-sm">Search</span>
+                <i
+                    class="fa-solid fa-magnifying-glass text-blue-600 text-base ms-2 group-hover:scale-110 transition-transform"></i>
+            </div>
         </button>
+
     </div>
 </nav>
 
 <!-- Mobile Search Bar (Initially Hidden) -->
-<div id="mobileSearchBox" class="hidden w-full px-4 py-2 border-t border-gray-300 bg-white fixed top-14 left-0 z-50">
-    <div class="flex items-center border border-gray-300 rounded-md overflow-hidden shadow-sm">
-        <input type="text" placeholder="Search for Products, Brands and More"
-            class="w-full px-4 py-2 text-sm focus:outline-none">
-        <button class="bg-blue-600 px-4 py-2 text-white hover:bg-blue-700">
-            <i class="fa-solid fa-magnifying-glass"></i>
-        </button>
+<!-- Search Modal -->
+<div id="searchModal" class="fixed inset-0 z-50 bg-black/40 hidden items-center justify-center">
+    <div class="bg-white w-11/12 max-w-md mx-auto rounded-lg shadow-lg p-4">
+
+        <!-- Modal Header -->
+        <div class="flex items-center justify-between mb-3">
+            <h2 class="text-lg font-semibold text-gray-800">Search Book</h2>
+            <button id="closeSearchModal" class="text-gray-500 hover:text-red-500 text-xl">&times;</button>
+        </div>
+
+        <!-- Search Form -->
+        <form id="searchForm" action="search.php" method="GET" class="relative">
+            <input id="searchInput" type="text" name="q" placeholder="Search for books, authors..."
+                class="w-full border border-gray-300 rounded-md pr-10 pl-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required />
+            <button type="submit"
+                class="absolute inset-y-0 right-2 flex items-center text-blue-600 hover:text-blue-800">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </form>
+    </div>
+</div>
+<script>
+    const mobileSearchBtn = document.getElementById('mobileSearchBtn');
+    const searchModal = document.getElementById('searchModal');
+    const closeSearchModal = document.getElementById('closeSearchModal');
+
+    // Open Modal
+    mobileSearchBtn.addEventListener('click', () => {
+        searchModal.classList.remove('hidden');
+        searchModal.classList.add('flex');
+        document.getElementById('searchInput').focus();
+    });
+
+    // Close Modal
+    closeSearchModal.addEventListener('click', () => {
+        searchModal.classList.add('hidden');
+        searchModal.classList.remove('flex');
+    });
+
+    // ESC to close
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') {
+            searchModal.classList.add('hidden');
+            searchModal.classList.remove('flex');
+        }
+    });
+</script>
+<!-- mobile search ka kaam hai -->
+
+
+
+<!-- Mobile Location Selector (Initially Hidden) -->
+<!-- Overlay -->
+<div id="mobileLocationPopup"
+    class="fixed inset-0 bg-black bg-opacity-40 z-50 hidden flex items-start justify-center pt-20">
+    <!-- Popup Box -->
+    <div class="w-full max-w-md bg-white rounded-lg shadow-lg p-4 mx-4">
+        <div class="mb-4">
+            <h3 class="font-semibold text-gray-900 mb-2">Select Delivery Location</h3>
+            <div class="flex items-center mb-3 p-2 bg-blue-50 rounded-md">
+                <i class="fa-solid fa-location-crosshairs text-blue-600 mr-2"></i>
+                <button class="text-blue-600 font-medium">Use current location</button>
+            </div>
+            <div class="relative mb-3">
+                <input type="text" placeholder="Search for area"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-blue-500">
+                <i class="fa-solid fa-magnifying-glass absolute right-3 top-2.5 text-gray-400 text-sm"></i>
+            </div>
+        </div>
+        <div>
+            <h4 class="text-xs font-semibold text-gray-500 uppercase mb-2">Recent Locations</h4>
+            <ul class="space-y-1">
+                <li class="py-2 px-2 hover:bg-gray-100 rounded cursor-pointer flex justify-between items-center">
+                    <span>Delhi, India</span>
+                    <i class="fa-solid fa-check text-blue-600"></i>
+                </li>
+                <li class="py-2 px-2 hover:bg-gray-100 rounded cursor-pointer">Mumbai, Maharashtra</li>
+                <li class="py-2 px-2 hover:bg-gray-100 rounded cursor-pointer">Bangalore, Karnataka</li>
+            </ul>
+        </div>
     </div>
 </div>
 
-<!-- Mobile Location Selector (Initially Hidden) -->
-<div id="mobileLocationBox" class="hidden w-full px-4 py-3 border-t border-gray-300 bg-white fixed top-14 left-0 z-50">
-    <div class="mb-4">
-        <h3 class="font-semibold text-gray-900 mb-2">Select Delivery Location</h3>
-        <div class="flex items-center mb-3 p-2 bg-blue-50 rounded-md">
-            <i class="fa-solid fa-location-crosshairs text-blue-600 mr-2"></i>
-            <button class="text-blue-600 font-medium">Use current location</button>
-        </div>
-        <div class="relative mb-3">
-            <input type="text" placeholder="Search for area"
-                class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-blue-500">
-            <i class="fa-solid fa-magnifying-glass absolute right-3 top-2.5 text-gray-400 text-sm"></i>
-        </div>
-    </div>
-    <div>
-        <h4 class="text-xs font-semibold text-gray-500 uppercase mb-2">Recent Locations</h4>
-        <ul class="space-y-1">
-            <li class="py-2 px-2 hover:bg-gray-100 rounded cursor-pointer flex justify-between items-center">
-                <span>Delhi, India</span>
-                <i class="fa-solid fa-check text-blue-600"></i>
-            </li>
-            <li class="py-2 px-2 hover:bg-gray-100 rounded cursor-pointer">Mumbai, Maharashtra</li>
-            <li class="py-2 px-2 hover:bg-gray-100 rounded cursor-pointer">Bangalore, Karnataka</li>
-        </ul>
-    </div>
-</div>
 
 <script>
     // Profile Dropdown

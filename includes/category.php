@@ -126,6 +126,44 @@
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Accessories</a>
                             </div>
                         </div>
+                        <div class="inline-block category-item relative">
+                            <button
+                                class="category-button flex items-center space-x-1 text-gray-600 hover:text-blue-600 transition-all-300">
+                                <span class="font-medium">Electronics</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+                            <div
+                                class="category-dropdown hidden absolute left-0 ms-8 mt-2  w-48 bg-white rounded-sm shadow-lg py-1 z-50 border border-gray-100">
+                                <a href="#"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Smartphones</a>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Laptops</a>
+                                <a href="#"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Accessories</a>
+                            </div>
+                        </div>
+                        <div class="inline-block category-item relative">
+                            <button
+                                class="category-button flex items-center space-x-1 text-gray-600 hover:text-blue-600 transition-all-300">
+                                <span class="font-medium">Electronics</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+                            <div
+                                class="category-dropdown hidden absolute left-0 ms-8 mt-2  w-48 bg-white rounded-sm shadow-lg py-1 z-50 border border-gray-100">
+                                <a href="#"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Smartphones</a>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Laptops</a>
+                                <a href="#"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Accessories</a>
+                            </div>
+                        </div>
 
 
 
