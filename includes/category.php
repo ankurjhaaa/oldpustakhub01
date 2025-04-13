@@ -1,4 +1,3 @@
-
     <style>
         /* Hide scrollbar */
         .scrollbar-hide::-webkit-scrollbar {
@@ -60,9 +59,9 @@
 
 
     <!-- Navigation Bar -->
-    <div class="bg-white  shadow-sm flex items-center justify-between h-12 sticky top-0 z-40 ">
-        <div class="container mx-auto px-4">
-            <div class="flex justify-between items-center py-3">
+    <div class="bg-[#57B4BA] hidden md:block shadow-sm flex items-center justify-between h-12  top-0  ">
+        <div class="container  px-4">
+            <div class="flex justify-between items-center py-1">
 
                 <!-- Category Slider -->
                 <div class="relative w-full">
@@ -72,7 +71,7 @@
                         <div class="inline-block category-item relative">
                             <button
                                 class="category-button flex items-center space-x-1 text-gray-600 hover:text-blue-600 transition-all-300">
-                                <span class="font-medium">Electronics</span>
+                                <span class="font-medium ">Electronics</span>
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24"
                                     stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -80,8 +79,8 @@
                                 </svg>
                             </button>
                             <div
-                                class="category-dropdown hidden absolute left-0 ms-8 mt-2  w-48 bg-white rounded-sm shadow-lg py-1 z-50 border border-gray-100">
-                                <a href="#"
+                                class="category-dropdown hidden absolute left-0 ms-8 mt-3  w-48 bg-white rounded-sm shadow-lg py-1 z-50 border border-gray-100">
+                                <a href=""
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Smartphones</a>
                                 <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Laptops</a>
                                 <a href="#"

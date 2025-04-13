@@ -1,0 +1,9 @@
+user -->{
+    1. id
+    2. first name
+    3. last name
+    4. email
+    5. mobile no 
+    6. 
+
+}

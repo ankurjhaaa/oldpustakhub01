@@ -1,4 +1,4 @@
-<div class="relative w-full max-w-8xl mx-auto mt-1 overflow-hidden rounded-sm shadow-lg">
+<div class="relative w-full max-w-8xl mx-auto  overflow-hidden rounded-sm shadow-lg">
     <!-- Carousel Container -->
     <div class="relative w-full flex transition-transform duration-500 ease-in-out" id="carousel">
         <!-- Slides with different aspect ratios for different devices -->

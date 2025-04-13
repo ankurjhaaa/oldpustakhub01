@@ -26,57 +26,107 @@
     </style>
 </head>
 
-<body class="bg-[#DBE2EF]">
+<body class="bg-[url('images/bodylogo.jpg')] bg-cover bg-center bg-no-repeat min-h-screen">
     <?php include_once "includes/navbar.php"; ?>
     <!-- Navigation would be included here -->
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-1 md:gap-8 ">
             <!-- Image Gallery Section -->
-            <div class="lg:col-span-8 mt-12">
-                <div class="grid grid-cols-1 gap-4">
+            <div class=" lg:col-span-8">
+                <div class="flex flex-col gap-1">
+
                     <!-- Main Image Display -->
-                    <div class="relative image-gallery w-full flex justify-center items-center">
+                    <div class="relative w-full">
                         <button onclick="prevImage()"
-                            class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/80 p-2 rounded-full shadow-md border border-gray-300 hover:bg-gray-100 transition z-10">
+                            class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/80 p-2 rounded-md shadow-md border border-gray-300 hover:bg-gray-100 transition z-10">
                             <i class="fas fa-chevron-left text-gray-700"></i>
                         </button>
 
                         <img id="mainImage" src="https://picsum.photos/800/1000?random=1"
-                            class="w-full max-w-[850px] h-auto md:h-[500px] lg:h-[600px] object-contain rounded-lg shadow-md bg-white p-4 cursor-zoom-in"
+                            class="w-full max-h-[400px] sm:max-h-[500px] object-contain rounded-md shadow bg-white p-2 cursor-zoom-in"
                             alt="Book Cover" onclick="openFullScreen()">
 
                         <button onclick="nextImage()"
-                            class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/80 p-2 rounded-full shadow-md border border-gray-300 hover:bg-gray-100 transition z-10">
+                            class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/80 p-2 rounded-md shadow-md border border-gray-300 hover:bg-gray-100 transition z-10">
                             <i class="fas fa-chevron-right text-gray-700"></i>
                         </button>
                     </div>
 
-                    <!-- Thumbnails (Desktop में Side में, Mobile/Tablet में नीचे) -->
-                    <div class="flex justify-left gap-2 overflow-x-auto md:flex-wrap mt-10">
+                    <!-- Thumbnails Section -->
+                    <div
+                        class="flex bg-white rounded-md gap-3 hidden overflow-x-auto sm:justify-start md:justify-start  sm:px-0 scrollbar-hide md:flex-wrap ">
+
                         <img src="https://picsum.photos/200/300?random=1"
-                            class="thumbnail w-16 h-16 md:w-20 md:h-20 object-cover rounded-md cursor-pointer border-2 border-gray-200 hover:border-blue-400 transition-all duration-200"
+                            class="thumbnail w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-md cursor-pointer border-2 border-gray-200 hover:border-blue-400 transition-all duration-200 ms-1"
                             onclick="changeImage(0)">
+
                         <img src="https://picsum.photos/200/300?random=2"
-                            class="thumbnail w-16 h-16 md:w-20 md:h-20 object-cover rounded-md cursor-pointer border-2 border-gray-200 hover:border-blue-400 transition-all duration-200"
+                            class="thumbnail w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-md cursor-pointer border-2 border-gray-200 hover:border-blue-400 transition-all duration-200"
                             onclick="changeImage(1)">
+
                         <img src="https://picsum.photos/200/300?random=3"
-                            class="thumbnail w-16 h-16 md:w-20 md:h-20 object-cover rounded-md cursor-pointer border-2 border-gray-200 hover:border-blue-400 transition-all duration-200"
+                            class="thumbnail w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-md cursor-pointer border-2 border-gray-200 hover:border-blue-400 transition-all duration-200"
                             onclick="changeImage(2)">
+
                         <img src="https://picsum.photos/200/300?random=4"
-                            class="thumbnail w-16 h-16 md:w-20 md:h-20 object-cover rounded-md cursor-pointer border-2 border-gray-200 hover:border-blue-400 transition-all duration-200"
+                            class="thumbnail w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-md cursor-pointer border-2 border-gray-200 hover:border-blue-400 transition-all duration-200"
                             onclick="changeImage(3)">
                     </div>
+                    <!-- description   -->
+                    <!-- Tab Navigation -->
+                    <div class="border border-gray-300 rounded-md bg-white p-4">
+                        <div class="flex border-b mb-4">
+                            <button class="tab-btn px-4 py-2 font-semibold text-green-600 border-b-2 border-green-600"
+                                onclick="openTab(event, 'details')">Details</button>
+                            <button class="tab-btn px-4 py-2 text-gray-600"
+                                onclick="openTab(event, 'author')">Author</button>
+                        </div>
+
+                        <!-- Details Content -->
+                        <div id="details" class="tab-content block">
+                            <h2 class="text-lg font-semibold text-gray-900 mb-2">Description</h2>
+                            <p class="text-sm font-medium text-gray-800">CAT IQUANTA BOOKS FOR SALE</p>
+                            <p class="text-sm text-gray-700">Max discount and final price - 2500</p>
+                        </div>
+
+                        <!-- Author Content -->
+                        <div id="author" class="tab-content hidden">
+                            <h2 class="text-lg font-semibold text-gray-900 mb-2">Author</h2>
+                            <p class="text-sm text-gray-800">Written by expert faculty from iQuanta with years of CAT
+                                prep experience.</p>
+                        </div>
+                    </div>
+
+                    <script>
+                        function openTab(evt, tabName) {
+                            const contents = document.querySelectorAll(".tab-content");
+                            const tabs = document.querySelectorAll(".tab-btn");
+
+                            contents.forEach(c => c.classList.add("hidden"));
+                            tabs.forEach(t => {
+                                t.classList.remove("text-green-600", "border-b-2", "border-green-600");
+                                t.classList.add("text-gray-600");
+                            });
+
+                            document.getElementById(tabName).classList.remove("hidden");
+                            evt.currentTarget.classList.remove("text-gray-600");
+                            evt.currentTarget.classList.add("text-green-600", "border-b-2", "border-green-600");
+                        }
+                    </script>
+
+
                 </div>
             </div>
 
+
             <!-- Product Details Section -->
-            <div class="lg:col-span-4 space-y-5">
-                <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200">
+            <div class="lg:col-span-4 space-y-1">
+                <div class="bg-white p-5 rounded-md shadow-sm border border-gray-200">
                     <h1 class="text-2xl font-bold text-gray-800 mb-2">NEET Preparation Books (Complete Set)</h1>
                     <div class="flex justify-between items-center mb-4">
                         <div>
-                            <span class="text-3xl font-bold text-blue-600">₹3,000</span>
+                            <span class="text-3xl font-bold text-[#015551]">₹3,000</span>
                             <span class="text-sm text-gray-500 ml-1">(Negotiable)</span>
                         </div>
                         <div class="flex space-x-3">
@@ -89,16 +139,18 @@
                         </div>
                     </div>
 
-                    <div class="space-y-2 text-sm text-gray-600">
+                    <div class="space-y-1 text-sm text-gray-600">
                         <p><i class="fas fa-book text-blue-500 mr-2"></i> Complete set of NEET preparation books
                             including modules</p>
                         <p><i class="fas fa-clipboard-check text-blue-500 mr-2"></i> Excellent condition (like new)</p>
-                        <p><i class="fas fa-calendar-alt text-blue-500 mr-2"></i> Posted: Today</p>
-                        <p><i class="fas fa-map-marker-alt text-blue-500 mr-2"></i> Ambedkar Puram, Kanpur, UP</p>
+                        
                     </div>
                 </div>
 
-                <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200">
+
+
+
+                <div class="bg-white p-5 rounded-md shadow-sm border border-gray-200">
                     <div class="flex justify-between items-center mb-4">
                         <div class="flex items-center space-x-3">
                             <div class="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center">
@@ -109,7 +161,7 @@
                                 <p class="text-xs text-gray-500">Member since 2022</p>
                             </div>
                         </div>
-                        <a href="#" class="text-blue-500 hover:text-blue-700">
+                        <a href="profile.php" class="text-blue-500 hover:text-blue-700">
                             <i class="fas fa-chevron-right"></i>
                         </a>
                     </div>
@@ -119,7 +171,14 @@
                     </button>
                 </div>
 
-                <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200">
+                <!-- posted on  -->
+                <div class="border border-gray-300 rounded-md p-4 bg-white">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-2">Posted in</h2>
+
+                    <p class="text-sm text-blue-900">Adi Udupi, Udupi, Karnataka</p>
+                </div>
+
+                <div class="bg-white p-5 rounded-md shadow-sm border border-gray-200">
                     <h3 class="font-semibold text-gray-800 mb-3 flex items-center">
                         <i class="fas fa-map-marker-alt text-blue-500 mr-2"></i> Location
                     </h3>
@@ -156,6 +215,38 @@
             <i class="fas fa-times"></i>
         </button>
     </div>
+
+
+    <?php include_once "includes/books.php"; ?>
+
+
+
+
+
+
+
+    <div class="fixed bottom-0 left-0 right-0 bg-[#F4F4F2] text-white flex justify-around p-3 md:hidden shadow-lg z-50">
+
+        <button
+            class="flex items-center gap-2 px-4 py-2 rounded-md bg-[#015551] hover:bg-[#00a1a8] transition duration-300 text-sm font-semibold">
+            <i class="fas fa-comments"></i>
+            Chat With Ankur
+        </button>
+
+        <button
+            class="flex items-center gap-2 px-4 py-2 rounded-md bg-[#015551] hover:bg-[#00a1a8] transition duration-300 text-sm font-semibold">
+            <i class="fas fa-phone-alt"></i>
+            Call
+        </button>
+
+    </div>
+    <br>
+    <br>
+    <br>
+    <?php include_once "includes/footer.php" ?>
+
+
+
 
     <script>
         const images = [
@@ -216,6 +307,8 @@
         // Initialize
         updateActiveThumbnail();
     </script>
+
+
 </body>
 
 </html>
