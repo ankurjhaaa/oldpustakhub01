@@ -1,4 +1,4 @@
-<?php $connect = mysqli_connect("localhost","root","","pustakhub");?>
+<?php $connect = mysqli_connect("localhost","root","","pustakhub"); ?>
 
 <?php
 

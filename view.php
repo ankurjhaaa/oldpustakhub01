@@ -1,3 +1,5 @@
+<?php include_once "config/db.php"; ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -134,7 +136,7 @@
                                 <i class="fas fa-share-alt"></i>
                             </button>
                             <button class="text-gray-500 hover:text-red-500 transition-colors" title="Save">
-                                <i class="fas fa-heart"></i>
+                                <i class="fas fa-heart "></i>
                             </button>
                         </div>
                     </div>
@@ -244,6 +246,8 @@
     <br>
     <br>
     <?php include_once "includes/footer.php" ?>
+    <?php include_once "users_account/loginpopup.php"; ?>
+
 
 
 

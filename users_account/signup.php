@@ -45,7 +45,7 @@
       </div>
 
       <button
-        type="submit"
+        type="submit" name="signup"
         class="w-full bg-[#015551] text-white font-semibold py-2 rounded-lg hover:bg-[#013e3c] transition duration-200">
         Sign Up
       </button>
@@ -54,7 +54,7 @@
     <!-- Already have an account -->
     <p class="mt-6 text-center text-sm text-gray-600">
       Already have an account?
-      <a href="login.html" class="text-[#57B4BA] hover:underline font-medium">Login</a>
+      <a href="login.php" class="text-[#57B4BA] hover:underline font-medium">Login</a>
     </p>
   </div>
 
