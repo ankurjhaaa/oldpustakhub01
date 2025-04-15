@@ -68,22 +68,27 @@
                         <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
                             <i class="fas fa-sitemap text-green-500"></i> Add Subcategory
                         </h2>
-                        <form>
+                        <form method="post" action="action/insert_subcat.php" enctype="multipart/form-data">
                             <!-- Select Category -->
                             <div class="mb-4">
                                 <label class="block text-sm font-medium text-gray-700">Select Category</label>
                                 <select
-                                    class="mt-1 w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-green-400">
+                                    class="mt-1 w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-green-400" name="id_cat">
                                     <option>Select a category</option>
-                                    <option>Books</option>
-                                    <option>Electronics</option>
+                                    <?php
+                                        $call_category = $connect->query("SELECT * FROM category");
+                                        while($category_id = $call_category->fetch_array()){ ?>
+                                        <option value="<?= $category_id['cat_id']; ?>"><?= $category_id['category_title']; ?></option>
+                                    <?php } ?>
+                                    
+                                    
                                 </select>
                             </div>
 
                             <!-- Subcategory Name -->
                             <div class="mb-4">
                                 <label class="block text-sm font-medium text-gray-700">Subcategory Name</label>
-                                <input type="text" placeholder="e.g. Thriller, Sofa"
+                                <input type="text" placeholder="e.g. Thriller, Sofa" name="subcat_title"
                                     class="mt-1 w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-green-400"
                                     required>
                             </div>
@@ -93,7 +98,7 @@
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Upload Icon / Image</label>
                                 <div
                                     class="w-28 h-28 border rounded-md flex items-center justify-center overflow-hidden bg-gray-50 cursor-pointer relative">
-                                    <input type="file" id="subCatImage" accept="image/*"
+                                    <input type="file" name="subcat_img" id="subCatImage" accept="image/*"
                                         onchange="previewImage(event, 'subcatPreview')"
                                         class="absolute inset-0 opacity-0 cursor-pointer z-10" />
                                     <img id="subcatPreview" class="object-cover w-full h-full hidden" />
@@ -101,7 +106,7 @@
                                 </div>
                             </div>
 
-                            <button type="submit"
+                            <button type="submit" name="add_subcat"
                                 class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-md font-semibold mt-3">
                                 Add Subcategory
                             </button>
