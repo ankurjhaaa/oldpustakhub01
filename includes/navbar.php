@@ -24,16 +24,90 @@
         </div>
 
         <!-- Search Bar -->
-        <form action="search.php" method="GET" class="flex-1">
-            <div
-                class="flex items-center w-full border border-gray-300 rounded-md overflow-hidden shadow-sm bg-white px-3">
-                <button type="submit">
-                    <i class="fa-solid fa-magnifying-glass text-gray-500 text-sm md:text-base mr-2"></i>
-                </button>
-                <input type="text" name="query" placeholder="Search for Products, Brands and More"
-                    class="w-full px-2 py-2 text-sm md:text-base focus:outline-none text-gray-800">
-            </div>
-        </form>
+
+        <div class="relative w-full max-w-xl mx-auto">
+            <!-- ✅ SEARCH BAR -->
+            <form action="filter.php" method="GET" class="flex-1">
+                <div
+                    class="flex items-center w-full border border-gray-300 rounded-md overflow-hidden shadow-sm bg-white px-3">
+                    <button type="submit" name="find_book">
+                        <i class="fa-solid fa-magnifying-glass text-gray-500 text-sm md:text-base mr-2"></i>
+                    </button>
+                    <input type="text" name="book_name" id="searchInput"
+                        placeholder="Search for Products, Brands and More"
+                        class="w-full px-2 py-2 text-sm md:text-base focus:outline-none text-gray-800"
+                        onfocus="showDropdown()" oninput="filterSuggestions()">
+                </div>
+            </form>
+
+            <!-- 🔻 SUGGESTION BOX -->
+            <ul id="suggestionBox"
+                class="hidden absolute z-50 bg-white w-full border border-gray-300 rounded-lg shadow-md max-h-72 overflow-y-auto text-sm text-gray-800 custom-scroll">
+                <li class="px-4 py-2 font-semibold text-gray-500 cursor-default select-none">Search Book-Name,Category,Book-detail..</li>
+                <?php $call_books_name = mysqli_query($connect, "SELECT * FROM books ORDER BY RAND()");
+                while ($books_name = mysqli_fetch_array($call_books_name)) { ?>
+                    <a href="filter.php?find_book=&book_name=<?= $books_name['title'] ?>"><li
+                        class="px-4 py-2 cursor-pointer hover:bg-blue-50 transition-all duration-150 rounded flex items-center gap-2">
+                        <i class="fa-solid fa-magnifying-glass text-xs"></i> <?= $books_name['title'] ?>
+                    </li></a>
+                <?php } ?>
+
+
+            </ul>
+        </div>
+
+        <!-- 👇 Scrollbar Hiding (CSS) -->
+        <style>
+            .custom-scroll {
+                scrollbar-width: none;
+                /* Firefox */
+            }
+
+            .custom-scroll::-webkit-scrollbar {
+                display: none;
+                /* Chrome/Safari */
+            }
+        </style>
+
+        <!-- ✅ JavaScript -->
+        <script>
+            const input = document.getElementById('searchInput');
+            const suggestionBox = document.getElementById('suggestionBox');
+            const allItems = Array.from(suggestionBox.querySelectorAll('li')).slice(1); // skip "Trending"
+
+            function showDropdown() {
+                suggestionBox.classList.remove('hidden');
+            }
+
+            function filterSuggestions() {
+                const keyword = input.value.toLowerCase();
+                let shown = 0;
+
+                allItems.forEach(li => {
+                    if (li.textContent.toLowerCase().includes(keyword) && shown < 7) {
+                        li.classList.remove('hidden');
+                        shown++;
+                    } else {
+                        li.classList.add('hidden');
+                    }
+                });
+            }
+
+            input.addEventListener('blur', () => {
+                setTimeout(() => {
+                    suggestionBox.classList.add('hidden');
+                }, 200);
+            });
+
+            allItems.forEach(li => {
+                li.addEventListener('click', () => {
+                    input.value = li.textContent.trim();
+                    suggestionBox.classList.add('hidden');
+                });
+            });
+        </script>
+
+
     </div>
 
 
@@ -78,9 +152,7 @@
         </button> -->
 
 
-
-
-
+        
         <?php
         if (!isset($_SESSION['email'])) { ?>
             <button
@@ -111,23 +183,23 @@
 
 
             <!-- Profile Dropdown Button -->
-            <div class="relative">
+            <div class="relative ">
                 <button id="profileBtn"
                     class="flex items-center space-x-2 text-gray-800 hover:text-blue-600 focus:outline-none transition-all duration-200">
                     <div class="w-9 h-9 bg-gray-300 rounded-full flex items-center justify-center overflow-hidden">
-                        <img src="https://i.pravatar.cc/100" alt="User" class="w-full h-full object-cover">
+                        <img src="images/default_user.jpeg" alt="User" class="w-full h-full object-cover">
                     </div>
                     <i class="fa-solid fa-chevron-down text-xs text-[#FDFBEE] "></i>
                 </button>
 
                 <!-- Dropdown Menu (Initially Hidden) -->
                 <div id="profileDropdown"
-                    class="absolute right-0 mt-3 w-56 bg-white border border-gray-200 rounded-md shadow-lg hidden opacity-0 scale-95 transition-all duration-300 origin-top-right">
+                    class="absolute right-0 mt-5 w-56 bg-white border border-gray-200 rounded-sm shadow-lg hidden opacity-0 scale-95 transition-all duration-300 origin-top-right">
                     <!-- Top Section with User Info -->
                     <div class="p-4 border-b">
                         <div class="flex items-center space-x-3">
                             <div class="w-12 h-12 bg-gray-300 rounded-full overflow-hidden">
-                                <img src="https://i.pravatar.cc/100" alt="User" class="w-full h-full object-cover">
+                                <img src="images/default_user.jpeg" alt="User" class="w-full h-full object-cover">
                             </div>
                             <div>
                                 <h3 class="text-gray-900 font-semibold">Ankur Sharma</h3>
@@ -138,12 +210,19 @@
 
                     <!-- Menu Items -->
                     <ul class="py-2">
-                        <li><a href="profile.php" class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100">
+                        <li><a href="profile.php?email=<?= $_SESSION['email'] ?>" class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100">
                                 <i class="fa-solid fa-user-circle mr-3 text-blue-600"></i> My Profile</a></li>
                         <li><a href="orders.php" class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100">
                                 <i class="fa-solid fa-box mr-3 text-green-600"></i> My Orders</a></li>
-                        <li><a href="wishlist.php" class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100">
-                                <i class="fa-solid fa-heart mr-3 text-red-500"></i> Wishlist</a></li>
+                        <li><a href="wishlist.php" class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100"><i class="fa-solid fa-heart mr-3 text-red-500"></i> Wishlist 
+                                <?php
+                                $email = $_SESSION['email'];
+                                $findLikedQuery = $connect->query("SELECT * FROM liked WHERE UserEmail='$email'");
+                                $likeBookCount = mysqli_num_rows($findLikedQuery);
+                                if ($likeBookCount > 0) { ?>
+                                    (<?= $likeBookCount ?>)
+                                <?php } ?>
+                            </a></li>
                         <li><a href="settings.php" class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100">
                                 <i class="fa-solid fa-cog mr-3 text-yellow-500"></i> Settings</a></li>
                         <li><a href="users_account/logout.php"
@@ -182,7 +261,7 @@
                 </a>
             </button>
         <?php } else { ?>
-            <a href="sell.php" class="group relative inline-flex items-center justify-center text-white font-semibold 
+            <a href="sell/sell.php" class="group relative inline-flex items-center justify-center text-white font-semibold 
               transition-transform duration-300 hover:scale-105">
 
                 <!-- Outer Animated Glowing Border -->
@@ -269,67 +348,13 @@
         </button>
 
         <!-- Search Icon - More prominent and distinctive -->
-        <button id="mobileSearchBtn" class="group relative">
-            <div
-                class="flex items-center justify-center w-10 h-10 rounded-full border border-blue-600 bg-[#57B4BA] shadow-sm  transition-all duration-200">
-                <i
-                    class="fa-solid fa-magnifying-glass text-[#FDFBEE] text-base group-hover:scale-110 transition-transform"></i>
-            </div>
-        </button>
+
 
 
     </div>
 </nav>
 
-<!-- Mobile Search Bar (Initially Hidden) -->
-<!-- Search Modal -->
-<div id="searchModal" class="fixed inset-0 z-50 bg-black/40 hidden items-center justify-center">
-    <div class="bg-white w-11/12 max-w-md mx-auto rounded-lg shadow-lg p-4">
 
-        <!-- Modal Header -->
-        <div class="flex items-center justify-between mb-3">
-            <h2 class="text-lg font-semibold text-gray-800">Search Book</h2>
-            <button id="closeSearchModal" class="text-gray-500 hover:text-red-500 text-xl">&times;</button>
-        </div>
-
-        <!-- Search Form -->
-        <form id="searchForm" action="search.php" method="GET" class="relative">
-            <input id="searchInput" type="text" name="q" placeholder="Search for books, authors..."
-                class="w-full border border-gray-300 rounded-md pr-10 pl-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required />
-            <button type="submit"
-                class="absolute inset-y-0 right-2 flex items-center text-blue-600 hover:text-blue-800">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
-        </form>
-    </div>
-</div>
-<script>
-    const mobileSearchBtn = document.getElementById('mobileSearchBtn');
-    const searchModal = document.getElementById('searchModal');
-    const closeSearchModal = document.getElementById('closeSearchModal');
-
-    // Open Modal
-    mobileSearchBtn.addEventListener('click', () => {
-        searchModal.classList.remove('hidden');
-        searchModal.classList.add('flex');
-        document.getElementById('searchInput').focus();
-    });
-
-    // Close Modal
-    closeSearchModal.addEventListener('click', () => {
-        searchModal.classList.add('hidden');
-        searchModal.classList.remove('flex');
-    });
-
-    // ESC to close
-    document.addEventListener('keydown', function (event) {
-        if (event.key === 'Escape') {
-            searchModal.classList.add('hidden');
-            searchModal.classList.remove('flex');
-        }
-    });
-</script>
 <!-- mobile search ka kaam hai -->
 
 

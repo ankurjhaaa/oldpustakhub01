@@ -17,7 +17,7 @@
             <a href="category.php" class="flex items-center px-4 py-2 rounded hover:bg-gray-700">
                 <i class="fas fa-layer-group w-5 mr-2"></i> Categories
             </a>
-            <a href="#" class="flex items-center px-4 py-2 rounded hover:bg-gray-700">
+            <a href="includes/Users.php" class="flex items-center px-4 py-2 rounded hover:bg-gray-700">
                 <i class="fas fa-users w-5 mr-2"></i> Users
             </a>
             <a href="#" class="flex items-center px-4 py-2 rounded hover:bg-gray-700">

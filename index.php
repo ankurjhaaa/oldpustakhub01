@@ -1,4 +1,5 @@
 <?php include_once "config/db.php"; ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,6 +15,7 @@
      <?php include_once "includes/navbar.php" ?>
      <?php include_once "includes/category.php" ?>
      <?php include_once "includes/carousel.php" ?>
+     
      <?php include_once "includes/books.php" ?>
      
      

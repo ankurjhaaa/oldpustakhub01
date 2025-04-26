@@ -7,7 +7,7 @@
     $checkQuery = $connect->query("SELECT * FROM users WHERE email='$email' AND password='$password'");
     if($checkQuery->num_rows == 1){
         $_SESSION['email'] = $email;
-        echo '<script>window.location.href = "../index.php";</script>';
+        echo '<script>window.history.back();</script>';
     } 
  }
 
