@@ -1,7 +1,23 @@
-<?php include_once "config/db.php"; ?>
+<?php include_once "config/db.php";
+if(isset($_SESSION['email'])){
+    
+$email = $_SESSION['email'];
+$seeVersionQuery = $connect->query("SELECT * FROM users WHERE email='$email'");
+$seeVersion = $seeVersionQuery->fetch_assoc();
+
+if ($seeVersion['seeVersion'] == 0) {
+    $BG = "bg-gray-200";
+} else {
+    $BG = "bg-[url('images/bodylogo.jpg')] bg-cover bg-center bg-no-repeat min-h-screen";
+}
+
+}
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,25 +26,27 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"
         crossorigin="anonymous"></script>
 </head>
-<body class="bg-[url('images/bodylogo.jpg')] bg-cover bg-center bg-no-repeat min-h-screen">
+
+<body class="<?= $BG ?>">
     <!-- Sticky Navbar -->
-     <?php include_once "includes/navbar.php" ?>
-     <?php include_once "includes/category.php" ?>
-     <?php include_once "includes/carousel.php" ?>
-     
-     <?php include_once "includes/books.php" ?>
-     
-     
-   
+    <?php include_once "includes/navbar.php" ?>
+    <?php include_once "includes/category.php" ?>
+    <?php include_once "includes/carousel.php" ?>
+
+    <?php include_once "includes/books.php" ?>
+
+
+
 
     <!-- Bottom Navbar (Visible on Mobile) -->
-     <br><br><br>
-     <?php include_once "includes/footer.php" ?>
+    <br><br><br>
+    <?php include_once "includes/footer.php" ?>
     <?php include_once "includes/bottom_nav.php" ?>
     <?php include_once "includes/mob_foot.php" ?>
     <?php include_once "users_account/loginpopup.php"; ?>
 
-    
-    
+
+
 </body>
+
 </html>

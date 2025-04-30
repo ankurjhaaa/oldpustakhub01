@@ -182,10 +182,10 @@ if(isset($_SESSION['email'])){
                             <i class="fas fa-chevron-right"></i>
                         </a>
                     </div>
-                    <button
-                        class="w-full bg-[#015551] hover:bg-[#027c77] text-white font-medium py-2.5 px-4 rounded-lg transition-colors duration-300">
+                    <a href="chat/message.php?user=<?= $userDetail['id'] ?>&bookId=<?= $BookDetail['book_id'] ?>" 
+                        class="w-full bg-[#015551] hover:bg-[#027c77] text-white font-medium py-2.5 px-24 rounded-lg transition-colors duration-300">
                         <i class="fas fa-comment-dots mr-2"></i> Chat with Seller
-                    </button>
+                    </a>
                 </div>
 
                 <!-- posted on  -->
@@ -234,7 +234,6 @@ if(isset($_SESSION['email'])){
     </div>
 
 
-    <?php include_once "includes/books.php"; ?>
 
 
 

@@ -3,6 +3,9 @@
 if (isset($_GET['find_book'])) {
     $book_name = $_GET['book_name'];
 }
+if (isset($_GET['category'])) {
+    $category_name = $_GET['category'];
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,11 +26,23 @@ if (isset($_GET['find_book'])) {
 
     <!-- filter books  -->
     <div class="container mx-auto px-4 sm:px-6 py-6 min-h-screen">
-        <h2 class="text-2xl font-bold text-gray-800 mb-5">Search Book '<?= $book_name ?>' </h2>
+        <?php
+        if (isset($_GET['category'])) {
+            echo "<h2 class='text-2xl font-bold text-gray-800 mb-5'>Search Category '$category_name ' </h2>";
+        } else {
+            echo "<h2 class='text-2xl font-bold text-gray-800 mb-5'>Search Book '$book_name ' </h2>";
+        }
+        ?>
+        
 
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-1  md:gap-4">
             <?php
-            $call_books = mysqli_query($connect, "SELECT * FROM books WHERE title LIKE '%$book_name%' or author LIKE '%$book_name%' or book_condition LIKE '%$book_name%' or state LIKE '%$book_name%' or category LIKE '%$book_name%' or set_price LIKE '%$book_name%' or book_condition LIKE '%$book_name%' or district LIKE '%$book_name%' or sub_category LIKE '%$book_name%'");
+            if (isset($_GET['category'])) {
+                $call_books = mysqli_query($connect, "SELECT * FROM books WHERE category='$category_name'");
+            } else {
+
+                $call_books = mysqli_query($connect, "SELECT * FROM books WHERE title LIKE '%$book_name%' or author LIKE '%$book_name%' or book_condition LIKE '%$book_name%' or state LIKE '%$book_name%' or category LIKE '%$book_name%' or set_price LIKE '%$book_name%' or book_condition LIKE '%$book_name%' or district LIKE '%$book_name%' or sub_category LIKE '%$book_name%'");
+            }
             while ($books = mysqli_fetch_array($call_books)) { ?>
                 <div
                     class="border rounded-md shadow-sm hover:shadow-md transition-all duration-200 bg-white overflow-hidden flex flex-col p-1 max-w-sm">

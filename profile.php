@@ -5,8 +5,10 @@ if (isset($_GET['email'])) {
 }
 $sellerDetailQuery = $connect->query("SELECT * FROM users WHERE email='$userEmail'");
 $sellerDetail = $sellerDetailQuery->fetch_assoc();
+if (isset($_SESSION['email'])) {
 
-$thisUserEmail = $_SESSION['email'];
+    $thisUserEmail = $_SESSION['email'];
+}
 
 ?>
 <!DOCTYPE html>
@@ -38,19 +40,22 @@ $thisUserEmail = $_SESSION['email'];
 
 
                 <!-- count all follower and following -->
-                <?php $checkFollow = $connect->query("SELECT * FROM follow WHERE UserEmail = '$thisUserEmail' AND sellerEmail = '$userEmail'");
-                $isFollow = ($checkFollow->num_rows > 0); ?>
+                <?php if (isset($_SESSION['email'])) { ?>
+                    <?php
+                    $checkFollow = $connect->query("SELECT * FROM follow WHERE UserEmail = '$thisUserEmail' AND sellerEmail = '$userEmail'");
+                    $isFollow = ($checkFollow->num_rows > 0); ?>
 
-                <?php if ($sellerDetail['email'] != $thisUserEmail) { ?>
-                    <form action="action/follow.php" method="post">
-                        <button class="mt-2 px-4 py-1 border border-black text-sm flex items-center gap-2" name="followBtn">
-                            <?= $isFollow ? 'Following' : '<i class="fas fa-user-plus"></i> follow'; ?>
-                        </button>
-                        <input type="hidden" name="sellerEmailId" value="<?= $userEmail ?>">
-                        <input type="hidden" name="UserEmailId" value="<?= $thisUserEmail ?>">
-                    </form>
+                    <?php if ($sellerDetail['email'] != $thisUserEmail) { ?>
+                        <form action="action/follow.php" method="post">
+                            <button class="mt-2 px-4 py-1 border border-black text-sm flex items-center gap-2" name="followBtn">
+                                <?= $isFollow ? 'Following' : '<i class="fas fa-user-plus"></i> follow'; ?>
+                            </button>
+                            <input type="hidden" name="sellerEmailId" value="<?= $userEmail ?>">
+                            <input type="hidden" name="UserEmailId" value="<?= $thisUserEmail ?>">
+                        </form>
+                    <?php } ?>
+
                 <?php } ?>
-
 
 
 
@@ -103,7 +108,7 @@ $thisUserEmail = $_SESSION['email'];
                             <?php $allFollowerUserQuery = $connect->query("SELECT * FROM follow WHERE sellerEmail='$userEmail'");
                             while ($allFollowerUser = $allFollowerUserQuery->fetch_array()) { ?>
                                 <?php
-                                $allFollowerUserEmail = $allFollowerUser['userEmail'];
+                                $allFollowerUserEmail = $allFollowerUser['UserEmail'];
                                 $allFollowingUserDetailQuery = $connect->query("SELECT * FROM users WHERE email='$allFollowerUserEmail'");
                                 while ($allFollowingUserDetail = $allFollowingUserDetailQuery->fetch_array()) { ?>
                                     <a href="profile.php?email=<?= $allFollowingUserDetail['email'] ?>">
@@ -196,26 +201,68 @@ $thisUserEmail = $_SESSION['email'];
                         <i class="fas fa-envelope text-gray-600"></i>
                     </div>
                 </div>
-                <?php if ($sellerDetail['email'] != $thisUserEmail) { ?>
-                    <button class="w-full bg-cyan-900 text-white py-2 rounded-md mt-6 font-semibold">
-                        <i class="fas fa-share-alt mr-2"></i> Share profile
-                    </button>
-                <?php } else { ?>
-                    <button class="w-full bg-cyan-900 text-white py-2 rounded-md mt-6 font-semibold">
-                        <i class="fas fa-edit mr-2"></i>
-                        Update profile
-                    </button>
-                <?php } ?>
+                <?php if (isset($_SESSION['email'])) { ?>
 
-                <?php if ($sellerDetail['email'] != $thisUserEmail) { ?>
-                    <a href="" class="w-full border-cyan-900 text-cyan-900 py-2 rounded-md mt-3 font-semibold underline">
-                        Report Profile
-                    </a>
-                <?php } else { ?>
-                    <a href="" class="w-full border-cyan-900 text-cyan-900 py-2 rounded-md mt-3 font-semibold underline">
-                        Share Profile
-                    </a>
-                <?php } ?>
+                    <?php if ($sellerDetail['email'] != $thisUserEmail) { ?>
+                        <button onclick="shareProfile()"
+                            class="w-full bg-cyan-900 text-white py-2 rounded-md mt-6 font-semibold">
+                            <i class="fas fa-share-alt mr-2"></i> Share profile
+                        </button>
+
+                        <script>
+                            function shareProfile() {
+                                if (navigator.share) {
+                                    navigator.share({
+                                        title: document.title,
+                                        text: "Check out this profile!",
+                                        url: window.location.href
+                                    })
+                                        .then(() => console.log('Shared successfully'))
+                                        .catch((error) => console.log('Error sharing:', error));
+                                } else {
+                                    alert("Sharing not supported on this browser. You can copy the link manually: " + window.location.href);
+                                }
+                            }
+                        </script>
+
+                    <?php } else { ?>
+                        <button class="w-full bg-cyan-900 text-white py-2 rounded-md mt-6 font-semibold">
+                            <i class="fas fa-edit mr-2"></i>
+                            Update profile
+                        </button>
+                    <?php } ?>
+
+                    <?php if ($sellerDetail['email'] != $thisUserEmail) { ?>
+                        <a href="" class="w-full border-cyan-900 text-cyan-900 py-2 rounded-md mt-3 font-semibold underline">
+                            Report Profile
+                        </a>
+                    <?php } else { ?>
+                        <a href="" class="w-full border-cyan-900 text-cyan-900 py-2 rounded-md mt-3 font-semibold underline">
+                            Share Profile
+                        </a>
+                    <?php } ?> <?php } else { ?>
+                        <button onclick="shareProfile()"
+                            class="w-full bg-cyan-900 text-white py-2 rounded-md mt-6 font-semibold">
+                            <i class="fas fa-share-alt mr-2"></i> Share profile
+                        </button>
+
+                        <script>
+                            function shareProfile() {
+                                if (navigator.share) {
+                                    navigator.share({
+                                        title: document.title,
+                                        text: "Check out this profile!",
+                                        url: window.location.href
+                                    })
+                                        .then(() => console.log('Shared successfully'))
+                                        .catch((error) => console.log('Error sharing:', error));
+                                } else {
+                                    alert("Sharing not supported on this browser. You can copy the link manually: " + window.location.href);
+                                }
+                            }
+                        </script>
+                    
+                    <?php } ?>
 
 
 

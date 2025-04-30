@@ -3,7 +3,33 @@
 
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-1  md:gap-4">
         <?php
-        $call_books = mysqli_query($connect, "SELECT * FROM books");
+        if (isset($_SESSION['email'])) {
+            $email = $_SESSION['email'];
+            $callUserAddressQuery = $connect->query("SELECT * FROM users WHERE email='$email'");
+            $callUserAddress = $callUserAddressQuery->fetch_assoc();
+            $user_lat = $callUserAddress['lat'];
+            $user_lng = $callUserAddress['lng'];
+            if ($user_lat != "") {
+                $call_books = mysqli_query($connect, "SELECT *, (
+                    6371 * ACOS(
+                        COS(RADIANS($user_lat)) * COS(RADIANS(latitude)) *
+                        COS(RADIANS(longitude) - RADIANS($user_lng)) +
+                        SIN(RADIANS($user_lat)) * SIN(RADIANS(latitude))
+                    )
+                ) AS distance
+                FROM books WHERE version='$seeVersionn' 
+                ORDER BY distance ASC;
+                
+                ");
+            } 
+
+        } elseif (!isset($_SESSION['email'])) {
+            $call_books = mysqli_query($connect, "SELECT * FROM books ");
+
+        } else {
+            $call_books = mysqli_query($connect, "SELECT * FROM books WHERE version='$seeVersionn'");
+        }
+
         while ($books = mysqli_fetch_array($call_books)) { ?>
             <div
                 class="border rounded-md shadow-sm hover:shadow-md transition-all duration-200 bg-white overflow-hidden flex flex-col p-1 max-w-sm">

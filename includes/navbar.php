@@ -8,6 +8,49 @@
             <h1 class="text-[#FDFBEE] font-bold text-xl">PUSTAKHUB</h1>
         </a>
     </div>
+    <?php
+    if (isset($_SESSION['email'])) {
+        $email = $_SESSION['email'];
+        $userlatlngQuery = $connect->query("SELECT * FROM users WHERE email='$email'");
+        $userlatlng = $userlatlngQuery->fetch_assoc();
+        $latitude = $userlatlng['lat'] ?? null;
+        $longitude = $userlatlng['lng'] ?? null;
+
+        if ($latitude && $longitude) {
+            $url = "https://nominatim.openstreetmap.org/reverse?lat=$latitude&lon=$longitude&format=json";
+
+            $options = [
+                "http" => [
+                    "header" => "User-Agent: MyLocationApp/1.0\r\n"
+                ]
+            ];
+            $context = stream_context_create($options);
+            $response = file_get_contents($url, false, $context);
+            $data = json_decode($response, true);
+
+            if (isset($data['address'])) {
+                $address = $data['address'];
+
+                if (!empty($address['county'])) {
+                    $ADDRESS = $address['county'];
+                } elseif (!empty($address['district'])) {
+                    $ADDRESS = $address['district'];
+                } elseif (!empty($address['state_district'])) {
+                    $ADDRESS = $address['state_district'];
+                } elseif (!empty($address['region'])) {
+                    $ADDRESS = $address['region'];
+                } else {
+                    $ADDRESS = $address['region'];
+
+                }
+            } else {
+                echo "Invalid response from API.";
+            }
+        } else {
+
+        }
+    }
+    ?>
 
     <!-- Middle Section: Location and Search (Hidden on Mobile) -->
     <div class="hidden md:flex items-center w-full md:w-1/2 lg:w-1/2 gap-2 mx-8 ps-10">
@@ -16,15 +59,19 @@
             <button onclick="document.getElementById('mobileLocationPopup').classList.remove('hidden')"
                 class="flex items-center space-x-1 text-gray-800 hover:text-blue-600 focus:outline-none">
                 <i class="fa-solid fa-location-dot text-[#FDFBEE]"></i>
-                <span class="text-sm text-[#FDFBEE] font-medium">Delhi</span>
+                <span class="text-sm text-[#FDFBEE] font-medium"><?php if (isset($_SESSION['email'])) {
+                    if ($userlatlng['lat'] != "") {
+                        echo $ADDRESS;
+                    } else {
+                        echo "India";
+                    }
+                } else {
+                    echo "India";
+                } ?></span>
                 <i class="fa-solid fa-chevron-down text-xs"></i>
             </button>
-
-
         </div>
-
         <!-- Search Bar -->
-
         <div class="relative w-full max-w-xl mx-auto">
             <!-- ✅ SEARCH BAR -->
             <form action="filter.php" method="GET" class="flex-1">
@@ -43,13 +90,16 @@
             <!-- 🔻 SUGGESTION BOX -->
             <ul id="suggestionBox"
                 class="hidden absolute z-50 bg-white w-full border border-gray-300 rounded-lg shadow-md max-h-72 overflow-y-auto text-sm text-gray-800 custom-scroll">
-                <li class="px-4 py-2 font-semibold text-gray-500 cursor-default select-none">Search Book-Name,Category,Book-detail..</li>
+                <li class="px-4 py-2 font-semibold text-gray-500 cursor-default select-none">Search
+                    Book-Name,Category,Book-detail..</li>
                 <?php $call_books_name = mysqli_query($connect, "SELECT * FROM books ORDER BY RAND()");
                 while ($books_name = mysqli_fetch_array($call_books_name)) { ?>
-                    <a href="filter.php?find_book=&book_name=<?= $books_name['title'] ?>"><li
-                        class="px-4 py-2 cursor-pointer hover:bg-blue-50 transition-all duration-150 rounded flex items-center gap-2">
-                        <i class="fa-solid fa-magnifying-glass text-xs"></i> <?= $books_name['title'] ?>
-                    </li></a>
+                    <a href="filter.php?find_book=&book_name=<?= $books_name['title'] ?>">
+                        <li
+                            class="px-4 py-2 cursor-pointer hover:bg-blue-50 transition-all duration-150 rounded flex items-center gap-2">
+                            <i class="fa-solid fa-magnifying-glass text-xs"></i> <?= $books_name['title'] ?>
+                        </li>
+                    </a>
                 <?php } ?>
 
 
@@ -111,8 +161,6 @@
     </div>
 
 
-
-
     <!-- Right Section (Hidden on Mobile) -->
     <div class="hidden md:flex items-center space-x-6 lg:space-x-10 md:space-x-2 ">
 
@@ -152,7 +200,7 @@
         </button> -->
 
 
-        
+
         <?php
         if (!isset($_SESSION['email'])) { ?>
             <button
@@ -164,7 +212,7 @@
 
         <?php } else { ?>
             <!-- Chat Button -->
-            <a href="chat.php"
+            <a href="chat"
                 class="relative flex items-center space-x-3 py-2 text-gray-800 font-medium transition-all duration-200 shadow-sm">
 
                 <div class="relative w-10 h-10 flex items-center justify-center">
@@ -210,11 +258,13 @@
 
                     <!-- Menu Items -->
                     <ul class="py-2">
-                        <li><a href="profile.php?email=<?= $_SESSION['email'] ?>" class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100">
+                        <li><a href="profile.php?email=<?= $_SESSION['email'] ?>"
+                                class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100">
                                 <i class="fa-solid fa-user-circle mr-3 text-blue-600"></i> My Profile</a></li>
                         <li><a href="orders.php" class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100">
                                 <i class="fa-solid fa-box mr-3 text-green-600"></i> My Orders</a></li>
-                        <li><a href="wishlist.php" class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100"><i class="fa-solid fa-heart mr-3 text-red-500"></i> Wishlist 
+                        <li><a href="wishlist.php" class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100"><i
+                                    class="fa-solid fa-heart mr-3 text-red-500"></i> Wishlist
                                 <?php
                                 $email = $_SESSION['email'];
                                 $findLikedQuery = $connect->query("SELECT * FROM liked WHERE UserEmail='$email'");
@@ -340,12 +390,25 @@
     <!-- Mobile Icons -->
     <div class="md:hidden flex items-center space-x-5">
 
-        <button onclick="document.getElementById('mobileLocationPopup').classList.remove('hidden')"
-            class="flex items-center space-x-1 text-gray-800 hover:text-blue-600 focus:outline-none">
-            <i class="fa-solid fa-location-dot text-[#FDFBEE]"></i>
-            <span class="text-sm text-[#FDFBEE] font-medium">Delhi</span>
-            <i class="fa-solid fa-chevron-down text-xs text-[#FDFBEE]"></i>
-        </button>
+        <?php if (isset($_SESSION['email'])) { ?>
+
+            <button onclick="document.getElementById('mobileLocationPopup').classList.remove('hidden')"
+                class="flex items-center space-x-1 text-gray-800 hover:text-blue-600 focus:outline-none">
+                <i class="fa-solid fa-location-dot text-[#FDFBEE]"></i>
+                <span class="text-sm text-[#FDFBEE] font-medium"><?php if ($userlatlng['lat'] != "") {
+                    echo $ADDRESS;
+                } else {
+                    echo "India";
+                } ?></span>
+                <i class="fa-solid fa-chevron-down text-xs text-[#FDFBEE]"></i>
+            </button> <?php } else { ?>
+
+            <button
+                class="openPopupBtn inline-flex items-center gap-1 px-4 py-2 rounded-xl bg-[#00ADB5] hover:bg-[#009da3] text-white font-semibold text-sm shadow-md transition duration-300">
+                <i class="fas fa-sign-in-alt"></i>
+                Login
+            </button>
+        <?php } ?>
 
         <!-- Search Icon - More prominent and distinctive -->
 
@@ -378,10 +441,71 @@
         <div class="mb-4">
             <h3 class="font-semibold text-gray-900 mb-2">Select Delivery Location</h3>
 
-            <div class="flex items-center mb-3 p-2 bg-blue-50 rounded-md">
-                <i class="fa-solid fa-location-crosshairs text-blue-600 mr-2"></i>
-                <button class="text-blue-600 font-medium">Use current location</button>
-            </div>
+            <form action="action/locationInsert.php" method="post" class="max-w-xl mx-auto">
+                <div
+                    class="relative flex items-center w-full border rounded-md shadow-sm focus-within:ring-2 focus-within:ring-blue-500">
+
+                    <!-- Location icon button (gets location) -->
+                    <button type="button" onclick="getLocation()" class="pl-3 text-blue-500 hover:text-blue-700">
+                        <i class="fas fa-map-marker-alt text-lg text-[#015551]"></i>
+                    </button>
+
+                    <!-- Readonly visible input for location -->
+                    <input type="text" id="location" placeholder="Use Current Location"
+                        class="flex-grow px-3 py-2 bg-white focus:outline-none" readonly>
+
+                    <!-- Submit button inside the same input area -->
+                    <?php 
+                    if(!isset($_SESSION['email'])){ ?>
+                    <!-- <button 
+                        class=" openPopupBtn px-4 py-1 m-1 bg-[#015551] text-white font-semibold rounded-md  focus:outline-none transition duration-300">
+                        Submit
+                    </button> -->
+                <?php } else { ?>
+                    <button type="submit" name="locatiomInsertbtn"
+                        class="px-4 py-1 m-1 bg-[#015551] text-white font-semibold rounded-md  focus:outline-none transition duration-300">
+                        Submit
+                    </button>
+                <?php } ?>
+
+                    <!-- Hidden fields for lat/lng -->
+                    <input type="hidden" id="latitude" name="latitude">
+                    <input type="hidden" id="longitude" name="longitude">
+                </div>
+
+                <!-- Optional label -->
+                <label for="location" class="block mt-2 text-sm text-gray-600">Your Location</label>
+            </form>
+
+
+            <script>
+                function toggleAddressForm() {
+                    const form = document.getElementById('addressForm');
+                    form.classList.toggle('hidden');
+                }
+
+                document.getElementById('newAddressForm').addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    alert('Address saved!');
+                    toggleAddressForm();
+                });
+
+                function getLocation() {
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(function (position) {
+                            const lat = position.coords.latitude;
+                            const lng = position.coords.longitude;
+                            document.getElementById('location').value = `Lat: ${lat}, Lng: ${lng}`;
+                            document.getElementById('latitude').value = lat;
+                            document.getElementById('longitude').value = lng;
+                        }, function (error) {
+                            alert("Location access denied or unavailable.");
+                        });
+                    } else {
+                        alert("Geolocation is not supported by this browser.");
+                    }
+                }
+            </script>
 
             <div class="relative mb-3">
                 <form action="search.php" method="GET">
@@ -397,7 +521,7 @@
         </div>
 
         <!-- Recent Locations -->
-        <!-- <div>
+        <div>
             <h4 class="text-xs font-semibold text-gray-500 uppercase mb-2">Recent Locations</h4>
             <ul class="space-y-1">
                 <li class="py-2 px-2 hover:bg-gray-100 rounded cursor-pointer flex justify-between items-center">
@@ -407,7 +531,7 @@
                 <li class="py-2 px-2 hover:bg-gray-100 rounded cursor-pointer">Mumbai, Maharashtra</li>
                 <li class="py-2 px-2 hover:bg-gray-100 rounded cursor-pointer">Bangalore, Karnataka</li>
             </ul>
-        </div> -->
+        </div>
 
     </div>
 </div>

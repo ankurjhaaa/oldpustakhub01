@@ -43,23 +43,22 @@
       <div class="w-1/2 border-r divide-y" id="desktopCategoryList">
         <button onclick="showDesktopSubcategory('sub-cars', this)"
           class="w-full flex items-center justify-between px-4 py-3 hover:bg-gray-100">
-          <div class="flex items-center gap-2"><i class="fas fa-car-side text-gray-600"></i><span>Cars</span></div>
+          <div class="flex items-center gap-2"></i><span>Novel </span></div>
           <i class="fas fa-chevron-right text-gray-400 text-sm"></i>
         </button>
         <button onclick="showDesktopSubcategory('sub-mobiles', this)"
           class="w-full flex items-center justify-between px-4 py-3 hover:bg-gray-100">
-          <div class="flex items-center gap-2"><i class="fas fa-mobile-alt text-gray-600"></i><span>Mobiles</span></div>
+          <div class="flex items-center gap-2"><span>Science</span></div>
           <i class="fas fa-chevron-right text-gray-400 text-sm"></i>
         </button>
         <button onclick="showDesktopSubcategory('sub-jobs', this)"
           class="w-full flex items-center justify-between px-4 py-3 hover:bg-gray-100">
-          <div class="flex items-center gap-2"><i class="fas fa-briefcase text-gray-600"></i><span>Jobs</span></div>
+          <div class="flex items-center gap-2"></i><span>Entertenment</span></div>
           <i class="fas fa-chevron-right text-gray-400 text-sm"></i>
         </button>
         <button onclick="showDesktopSubcategory('sub-books', this)"
           class="w-full flex items-center justify-between px-4 py-3 hover:bg-gray-100">
-          <div class="flex items-center gap-2"><i class="fas fa-dumbbell text-gray-600"></i><span>Books, Sports &
-              Hobbies</span></div>
+          <div class="flex items-center gap-2"></i><span>Dummy</span></div>
           <i class="fas fa-chevron-right text-gray-400 text-sm"></i>
         </button>
       </div>
@@ -79,22 +78,16 @@
           <div class="px-4 py-3 hover:bg-gray-100 cursor-pointer">Others</div> -->
         </div>
         <div id="sub-mobiles" data-desktop-sub class="hidden">
-          <div class="px-4 py-3 hover:bg-gray-100 cursor-pointer">Smartphones</div>
-          <div class="px-4 py-3 hover:bg-gray-100 cursor-pointer">Tablets</div>
-          <div class="px-4 py-3 hover:bg-gray-100 cursor-pointer">Accessories</div>
+          <div class="px-4 py-3 hover:bg-gray-100 cursor-pointer">chemistry</div>
+          
         </div>
         <div id="sub-jobs" data-desktop-sub class="hidden">
-          <div class="px-4 py-3 hover:bg-gray-100 cursor-pointer">IT Jobs</div>
-          <div class="px-4 py-3 hover:bg-gray-100 cursor-pointer">Marketing</div>
-          <div class="px-4 py-3 hover:bg-gray-100 cursor-pointer">BPO</div>
-          <div class="px-4 py-3 hover:bg-gray-100 cursor-pointer">Education</div>
+          <div class="px-4 py-3 hover:bg-gray-100 cursor-pointer">physics</div>
+          
         </div>
         <div id="sub-books" data-desktop-sub class="hidden">
-          <div class="px-4 py-3 hover:bg-gray-100 cursor-pointer">Books</div>
-          <div class="px-4 py-3 hover:bg-gray-100 cursor-pointer">Gym & Fitness</div>
-          <div class="px-4 py-3 hover:bg-gray-100 cursor-pointer">Musical Instruments</div>
-          <div class="px-4 py-3 hover:bg-gray-100 cursor-pointer">Sports Equipment</div>
-          <div class="px-4 py-3 hover:bg-gray-100 cursor-pointer">Other Hobbies</div>
+          <div class="px-4 py-3 hover:bg-gray-100 cursor-pointer">new books</div>
+          
         </div>
       </div>
     </div>
