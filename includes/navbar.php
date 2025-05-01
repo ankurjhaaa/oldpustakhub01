@@ -261,8 +261,8 @@
                         <li><a href="profile.php?email=<?= $_SESSION['email'] ?>"
                                 class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100">
                                 <i class="fa-solid fa-user-circle mr-3 text-blue-600"></i> My Profile</a></li>
-                        <li><a href="orders.php" class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100">
-                                <i class="fa-solid fa-box mr-3 text-green-600"></i> My Orders</a></li>
+                        <!-- <li><a href="orders.php" class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100">
+                                <i class="fa-solid fa-box mr-3 text-green-600"></i> My Orders</a></li> -->
                         <li><a href="wishlist.php" class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100"><i
                                     class="fa-solid fa-heart mr-3 text-red-500"></i> Wishlist
                                 <?php
@@ -403,10 +403,13 @@
                 <i class="fa-solid fa-chevron-down text-xs text-[#FDFBEE]"></i>
             </button> <?php } else { ?>
 
-            <button
-                class="openPopupBtn inline-flex items-center gap-1 px-4 py-2 rounded-xl bg-[#00ADB5] hover:bg-[#009da3] text-white font-semibold text-sm shadow-md transition duration-300">
-                <i class="fas fa-sign-in-alt"></i>
-                Login
+            <button onclick="document.getElementById('mobileLocationPopup').classList.remove('hidden')"
+                class="flex items-center space-x-1 text-gray-800 hover:text-blue-600 focus:outline-none">
+                <i class="fa-solid fa-location-dot text-[#FDFBEE]"></i>
+                <span class="text-sm text-[#FDFBEE] font-medium">
+                India
+                </span>
+                <i class="fa-solid fa-chevron-down text-xs text-[#FDFBEE]"></i>
             </button>
         <?php } ?>
 
@@ -441,7 +444,9 @@
         <div class="mb-4">
             <h3 class="font-semibold text-gray-900 mb-2">Select Delivery Location</h3>
 
-            <form action="action/locationInsert.php" method="post" class="max-w-xl mx-auto">
+
+            <?php if (!isset($_SESSION['email'])) { ?>
+
                 <div
                     class="relative flex items-center w-full border rounded-md shadow-sm focus-within:ring-2 focus-within:ring-blue-500">
 
@@ -449,33 +454,51 @@
                     <button type="button" onclick="getLocation()" class="pl-3 text-blue-500 hover:text-blue-700">
                         <i class="fas fa-map-marker-alt text-lg text-[#015551]"></i>
                     </button>
-
                     <!-- Readonly visible input for location -->
-                    <input type="text" id="location" placeholder="Use Current Location"
+                    <input type="text" id="location" placeholder="please login to Continue"
                         class="flex-grow px-3 py-2 bg-white focus:outline-none" readonly>
-
                     <!-- Submit button inside the same input area -->
-                    <?php 
-                    if(!isset($_SESSION['email'])){ ?>
-                    <!-- <button 
-                        class=" openPopupBtn px-4 py-1 m-1 bg-[#015551] text-white font-semibold rounded-md  focus:outline-none transition duration-300">
-                        Submit
-                    </button> -->
-                <?php } else { ?>
                     <button type="submit" name="locatiomInsertbtn"
-                        class="px-4 py-1 m-1 bg-[#015551] text-white font-semibold rounded-md  focus:outline-none transition duration-300">
-                        Submit
+                        class=" openPopupBtn px-4 py-1 m-1 bg-[#015551] text-white font-semibold rounded-md  focus:outline-none transition duration-300">
+                        Login
                     </button>
-                <?php } ?>
 
-                    <!-- Hidden fields for lat/lng -->
-                    <input type="hidden" id="latitude" name="latitude">
-                    <input type="hidden" id="longitude" name="longitude">
                 </div>
 
                 <!-- Optional label -->
                 <label for="location" class="block mt-2 text-sm text-gray-600">Your Location</label>
-            </form>
+            <?php } else { ?>
+                <form action="action/locationInsert.php" method="post" class="max-w-xl mx-auto">
+                    <div
+                        class="relative flex items-center w-full border rounded-md shadow-sm focus-within:ring-2 focus-within:ring-blue-500">
+
+                        <!-- Location icon button (gets location) -->
+                        <button type="button" onclick="getLocation()" class="pl-3 text-blue-500 hover:text-blue-700">
+                            <i class="fas fa-map-marker-alt text-lg text-[#015551]"></i>
+                        </button>
+
+                        <!-- Readonly visible input for location -->
+                        <input type="text" id="location" placeholder="Use Current Location"
+                            class="flex-grow px-3 py-2 bg-white focus:outline-none" readonly>
+
+                        <!-- Submit button inside the same input area -->
+
+                        <button type="submit" name="locatiomInsertbtn"
+                            class="px-4 py-1 m-1 bg-[#015551] text-white font-semibold rounded-md  focus:outline-none transition duration-300">
+                            Submit
+                        </button>
+
+
+                        <!-- Hidden fields for lat/lng -->
+                        <input type="hidden" id="latitude" name="latitude">
+                        <input type="hidden" id="longitude" name="longitude">
+                    </div>
+
+                    <!-- Optional label -->
+                    <label for="location" class="block mt-2 text-sm text-gray-600">Your Location</label>
+                </form>
+
+            <?php } ?>
 
 
             <script>

@@ -42,6 +42,7 @@ if ($seeVersion['seeVersion'] == 0) {
     <br><br><br>
     <?php include_once "includes/footer.php" ?>
     <?php include_once "includes/bottom_nav.php" ?>
+    <?php include_once "includes/mob_search.php" ?>
     <?php include_once "includes/mob_foot.php" ?>
     <?php include_once "users_account/loginpopup.php"; ?>
 

@@ -1,4 +1,4 @@
-<?php include_once "config/db.php"; 
+<?php include_once "config/db.php";
 
 $bookId = $_GET['bookId'];
 $CallBookDetail = $connect->query("SELECT * FROM books WHERE book_id='$bookId'");
@@ -9,7 +9,7 @@ $sellerEmail = $BookDetail['seller_email'];
 $callUserDetail = $connect->query("SELECT * FROM users WHERE email='$sellerEmail'");
 $userDetail = $callUserDetail->fetch_assoc();
 
-if(isset($_SESSION['email'])){
+if (isset($_SESSION['email'])) {
     $User = UserDetail();
 }
 ?>
@@ -53,14 +53,14 @@ if(isset($_SESSION['email'])){
                 <div class="flex flex-col gap-1">
 
                     <!-- Main Image Display -->
-                    <div class="relative w-full">
+                    <div class="relative w-full ">
                         <button onclick="prevImage()"
                             class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/80 p-2 rounded-md shadow-md border border-gray-300 hover:bg-gray-100 transition z-10">
                             <i class="fas fa-chevron-left text-gray-700"></i>
                         </button>
 
                         <img id="mainImage" src="images/<?= $BookDetail['img1'] ?>"
-                            class="w-full max-h-[400px] sm:max-h-[500px] object-contain rounded-md shadow bg-white p-2 cursor-zoom-in"
+                            class="w-full h-[400px] sm:h-[500px] object-contain rounded-md shadow bg-white p-2 cursor-zoom-in"
                             alt="Book Cover" onclick="openFullScreen()">
 
                         <button onclick="nextImage()"
@@ -68,11 +68,11 @@ if(isset($_SESSION['email'])){
                             <i class="fas fa-chevron-right text-gray-700"></i>
                         </button>
                     </div>
-                    
+
 
                     <!-- Thumbnails Section -->
                     <div
-                        class="flex bg-white rounded-md gap-3  overflow-x-auto sm:justify-start md:justify-start  sm:px-0 scrollbar-hide md:flex-wrap ">
+                        class="flex bg-white rounded-md gap-3  overflow-x-auto sm:justify-start md:justify-start  sm:px-0 scrollbar-hide md:flex-wrap hidden">
 
                         <img src="images/<?= $BookDetail['img1'] ?>"
                             class="thumbnail w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-md cursor-pointer border-2 border-gray-200 hover:border-blue-400 transition-all duration-200 ms-1"
@@ -89,6 +89,19 @@ if(isset($_SESSION['email'])){
                         <img src="images/<?= $BookDetail['img4'] ?>"
                             class="thumbnail w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-md cursor-pointer border-2 border-gray-200 hover:border-blue-400 transition-all duration-200"
                             onclick="changeImage(3)">
+
+                        <img src="images/<?= $BookDetail['img5'] ?>"
+                            class="thumbnail w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-md cursor-pointer border-2 border-gray-200 hover:border-blue-400 transition-all duration-200"
+                            onclick="changeImage(4)">
+
+                        <img src="images/<?= $BookDetail['img6'] ?>"
+                            class="thumbnail w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-md cursor-pointer border-2 border-gray-200 hover:border-blue-400 transition-all duration-200"
+                            onclick="changeImage(5)">
+
+                        <img src="images/<?= $BookDetail['img7'] ?>"
+                            class="thumbnail w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-md cursor-pointer border-2 border-gray-200 hover:border-blue-400 transition-all duration-200"
+                            onclick="changeImage(6)">
+
                     </div>
                     <!-- description   -->
                     <!-- Tab Navigation -->
@@ -103,14 +116,14 @@ if(isset($_SESSION['email'])){
                         <!-- Details Content -->
                         <div id="details" class="tab-content block">
                             <h2 class="text-lg font-semibold text-gray-900 mb-2">Description</h2>
-                            <p class="text-sm font-medium text-gray-800"><?= $BookDetail['description']  ?></p>
-                            <p class="text-sm text-gray-700"><?= $BookDetail['reason']  ?></p>
+                            <p class="text-sm font-medium text-gray-800"><?= $BookDetail['description'] ?></p>
+                            <p class="text-sm text-gray-700"><?= $BookDetail['reason'] ?></p>
                         </div>
 
                         <!-- Author Content -->
                         <div id="author" class="tab-content hidden">
                             <h2 class="text-lg font-semibold text-gray-900 mb-2">Author</h2>
-                            <p class="text-sm text-gray-800"><?= $BookDetail['author']  ?></p>
+                            <p class="text-sm text-gray-800"><?= $BookDetail['author'] ?></p>
                         </div>
                     </div>
 
@@ -139,11 +152,11 @@ if(isset($_SESSION['email'])){
             <!-- Product Details Section -->
             <div class="lg:col-span-4 space-y-1">
                 <div class="bg-white p-5 rounded-md shadow-sm border border-gray-200">
-                    <h1 class="text-2xl font-bold text-gray-800 mb-2"><?= $BookDetail['title']  ?></h1>
+                    <h1 class="text-2xl font-bold text-gray-800 mb-2"><?= $BookDetail['title'] ?></h1>
                     <div class="flex justify-between items-center mb-4">
                         <div>
-                            <span class="text-3xl font-bold text-[#015551]">₹<?= $BookDetail['set_price']  ?></span>
-                            <span class="text-sm text-gray-500 ml-1">(MRP:-<?= $BookDetail['mrp']  ?>)</span>
+                            <span class="text-3xl font-bold text-[#015551]">₹<?= $BookDetail['set_price'] ?></span>
+                            <span class="text-sm text-gray-500 ml-1">(MRP:-<?= $BookDetail['mrp'] ?>)</span>
                         </div>
                         <div class="flex space-x-3">
                             <button class="text-gray-500 hover:text-blue-500 transition-colors" title="Share">
@@ -153,14 +166,16 @@ if(isset($_SESSION['email'])){
                                 <a href="wishlist.php"><i class="fas fa-heart "></i></a>
                             </button>
                         </div>
-                        
+
                     </div>
 
                     <div class="space-y-1 text-sm text-gray-600">
                         <!-- <p><i class="fas fa-book text-blue-500 mr-2"></i> Complete set of NEET preparation books
                             including modules</p> -->
-                        <p><i class="fas fa-clipboard-check text-blue-500 mr-2"></i>  condition ( <?= $BookDetail['book_condition']  ?> )</p>
-                        
+                        <p><i class="fas fa-clipboard-check text-blue-500 mr-2"></i> condition (
+                            <?= $BookDetail['book_condition'] ?> )
+                        </p>
+
                     </div>
                 </div>
 
@@ -174,25 +189,37 @@ if(isset($_SESSION['email'])){
                                 <i class="fas fa-user text-teal-700"></i>
                             </div>
                             <div>
-                                <h3 class="font-semibold text-gray-800"><?= $userDetail['firstname'] ?> <?= $userDetail['lastname'] ?></h3>
+                                <h3 class="font-semibold text-gray-800"><?= $userDetail['firstname'] ?>
+                                    <?= $userDetail['lastname'] ?>
+                                </h3>
                                 <p class="text-xs text-gray-500">Member since 2022</p>
                             </div>
                         </div>
-                        <a href="profile.php?email=<?= $userDetail['email'] ?>" class="text-blue-500 hover:text-blue-700">
+                        <a href="profile.php?email=<?= $userDetail['email'] ?>"
+                            class="text-blue-500 hover:text-blue-700">
                             <i class="fas fa-chevron-right"></i>
                         </a>
                     </div>
-                    <a href="chat/message.php?user=<?= $userDetail['id'] ?>&bookId=<?= $BookDetail['book_id'] ?>" 
-                        class="w-full bg-[#015551] hover:bg-[#027c77] text-white font-medium py-2.5 px-24 rounded-lg transition-colors duration-300">
-                        <i class="fas fa-comment-dots mr-2"></i> Chat with Seller
-                    </a>
+                    <?php if (!isset($_SESSION['email'])) { ?>
+                        <a
+                            class="flex items-center justify-center gap-2 w-full md:w-auto bg-[#015551] hover:bg-[#027c77] text-white font-semibold text-base px-6 py-2.5 rounded-lg transition-all duration-300 shadow-md">
+                            <i class="fas fa-comment-dots"></i>
+                            <span>Login to Chat</span>
+                        </a>
+                    <?php } else { ?>
+                        <a href="chat/message.php?user=<?= $userDetail['id'] ?>&bookId=<?= $BookDetail['book_id'] ?>"
+                            class="flex items-center justify-center gap-2 w-full md:w-auto bg-[#015551] hover:bg-[#027c77] text-white font-semibold text-base px-6 py-2.5 rounded-lg transition-all duration-300 shadow-md">
+                            <i class="fas fa-comment-dots"></i>
+                            <span>Chat with Seller</span>
+                        </a> <?php } ?>
+
                 </div>
 
                 <!-- posted on  -->
                 <div class="border border-gray-300 rounded-md p-4 bg-white">
                     <h2 class="text-lg font-semibold text-gray-900 mb-2">Posted in</h2>
 
-                    <p class="text-sm text-blue-900"><?= $BookDetail['district']  ?>, <?= $BookDetail['state']  ?></p>
+                    <p class="text-sm text-blue-900"><?= $BookDetail['district'] ?>, <?= $BookDetail['state'] ?></p>
                 </div>
 
                 <div class="bg-white p-5 rounded-md shadow-sm border border-gray-200">
@@ -205,7 +232,8 @@ if(isset($_SESSION['email'])){
                             allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
                         </iframe>
                     </div>
-                    <p class="text-sm text-gray-600 mt-2"><?= $BookDetail['district']  ?>, <?= $BookDetail['state']  ?></p>
+                    <p class="text-sm text-gray-600 mt-2"><?= $BookDetail['district'] ?>, <?= $BookDetail['state'] ?>
+                    </p>
                 </div>
 
             </div>
@@ -216,14 +244,14 @@ if(isset($_SESSION['email'])){
     <!-- Fullscreen Image Modal -->
     <div id="fullscreenModal" class="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center hidden">
         <button onclick="prevImage()"
-            class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white p-3 rounded-full shadow-lg hover:bg-gray-100 transition z-10">
+            class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white p-3 rounded-md shadow-lg hover:bg-gray-100 transition z-10">
             <i class="fas fa-chevron-left text-gray-700"></i>
         </button>
 
         <img id="fullscreenImage" class="max-w-[90vw] max-h-[90vh] object-contain">
 
         <button onclick="nextImage()"
-            class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white p-3 rounded-full shadow-lg hover:bg-gray-100 transition z-10">
+            class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white p-3 rounded-md shadow-lg hover:bg-gray-100 transition z-10">
             <i class="fas fa-chevron-right text-gray-700"></i>
         </button>
 
@@ -269,9 +297,40 @@ if(isset($_SESSION['email'])){
     <script>
         const images = [
             "images/<?= $BookDetail['img1'] ?>",
-            "images/<?= $BookDetail['img2'] ?>",
-            "images/<?= $BookDetail['img3'] ?>",
-            "images/<?= $BookDetail['img4'] ?>"
+            "images/<?php if ($BookDetail['img2'] != "") {
+                echo $BookDetail['img2'];
+            } else {
+                echo "No_Image_Available.jpg";
+            } ?>",
+
+            "images/<?php if ($BookDetail['img3'] != "") {
+                echo $BookDetail['img3'];
+            } else {
+                echo "No_Image_Available.jpg";
+            } ?>",
+
+            "images/<?php if ($BookDetail['img4'] != "") {
+                echo $BookDetail['img4'];
+            } else {
+                echo "No_Image_Available.jpg";
+            } ?>",
+            "images/<?php if ($BookDetail['img5'] != "") {
+                echo $BookDetail['img5'];
+            } else {
+                echo "No_Image_Available.jpg";
+            } ?>",
+            "images/<?php if ($BookDetail['img6'] != "") {
+                echo $BookDetail['img6'];
+            } else {
+                echo "No_Image_Available.jpg";
+            } ?>",
+            "images/<?php if ($BookDetail['img7'] != "") {
+                echo $BookDetail['img7'];
+            } else {
+                echo "No_Image_Available.jpg";
+            } ?>",
+
+
         ];
         let currentIndex = 0;
         const thumbnails = document.querySelectorAll('.thumbnail');
