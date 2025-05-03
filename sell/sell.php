@@ -1,4 +1,9 @@
-<?php include_once "../config/db.php"; ?>
+
+<?php include_once "../config/db.php"; 
+ if(!isset($_SESSION['email'])){
+  echo '<script>window.history.back();</script>';
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 

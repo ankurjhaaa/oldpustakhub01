@@ -1,14 +1,36 @@
 <?php
- include_once "../config/db.php";
 
- if(isset($_POST['login'])){
-    $email = $_POST['email'];
-    $password = sha1($_POST['password']);
-    $checkQuery = $connect->query("SELECT * FROM users WHERE email='$email' AND password='$password'");
-    if($checkQuery->num_rows == 1){
-        $_SESSION['email'] = $email;
-        echo '<script>window.history.back();</script>';
-    } 
- }
+include_once "../config/db.php";
 
+if (isset($_POST['login'])) {
+    // Sanitize input
+    $email    = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
+    $password = $_POST['password'];
+
+    // Fetch user by email
+    $stmt = $connect->prepare("SELECT id, email, password FROM users WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+
+    $result = $stmt->get_result();
+
+    if ($result->num_rows === 1) {
+        $user = $result->fetch_assoc();
+
+        // Verify password
+        if (password_verify($password, $user['password'])) {
+            session_regenerate_id(true); // Prevent session fixation
+            $_SESSION['email'] = $user['email'];
+            
+            
+
+            // Redirect securely
+            header("Location: ../index.php");
+            exit();
+        }
+    }
+
+    // If failed
+    echo "Invalid email or password.";
+}
 ?>

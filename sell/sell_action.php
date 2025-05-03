@@ -1,29 +1,139 @@
 <?php
 include_once "../config/db.php";
+if (!isset($_SESSION['email'])) {
+    echo '<script>window.history.back();</script>';
+}
+
 if (isset($_POST['post_book'])) {
     // Text Inputs
-    $title = $_POST['title'];
-    $author = $_POST['author'];
-    $mrp = $_POST['mrp'];
-    $set_price = $_POST['set_price'];
-    $publish_year = $_POST['publish_year'];
-    $page = $_POST['page'];
-    $description = $_POST['description'];
-    $reason = $_POST['reason'];
-    $book_condition = $_POST['book_condition'];
-    $longitude = $_POST['longitude'];
-    $latitude = $_POST['latitude'];
-    $state = $_POST['state'];
-    $district = $_POST['district'];
-    $category = $cate4_name['category_title'];
-    $sub_category = $sub_cate2_name['subcat_title'];
-    $email = $_SESSION['email'];
-    date_default_timezone_set("Asia/Kolkata"); // Set to Indian time zone
-    $timestamp = date("Y-m-d H:i:s"); // Output: 2025-04-21 14:52:30
+    // Initialize error array
+    $errors = [];
 
+    $title = trim($_POST['title'] ?? '');
+    $author = trim($_POST['author'] ?? '');
+    $mrp = $_POST['mrp'] ?? '';
+    $set_price = $_POST['set_price'] ?? '';
+    $publish_year = $_POST['publish_year'] ?? '';
+    $page = $_POST['page'] ?? '';
+    $description = trim($_POST['description'] ?? '');
+    $reason = trim($_POST['reason'] ?? '');
+    $book_condition = $_POST['book_condition'] ?? '';
+    $longitude = $_POST['longitude'] ?? '';
+    $latitude = $_POST['latitude'] ?? '';
+    $state = $_POST['state'] ?? '';
+    $district = $_POST['district'] ?? '';
+    $email = $_SESSION['email'] ?? '';
+
+    $category = $cate4_name['category_title'] ?? '';
+    $sub_category = $sub_cate2_name['subcat_title'] ?? '';
+
+    date_default_timezone_set("Asia/Kolkata");
+    $timestamp = date("Y-m-d H:i:s");
+
+    // 🛡 Validate fields
+
+    $errors = [];
+
+    // Title validation
+    if (empty($_POST['title']) || strlen(trim($_POST['title'])) < 3) {
+        $errors['title'] = "Title must be at least 3 characters.";
+    } else {
+        $title = trim($_POST['title']);
+    }
+
+    // Author
+    if (empty($_POST['author'])) {
+        $errors['author'] = "Author is required.";
+    } else {
+        $author = trim($_POST['author']);
+    }
+
+    // MRP
+    if (!is_numeric($_POST['mrp']) || $_POST['mrp'] <= 0) {
+        $errors['mrp'] = "Please enter a valid MRP.";
+    } else {
+        $mrp = floatval($_POST['mrp']);
+    }
+
+    // Set Price
+    if (!is_numeric($_POST['set_price']) || $_POST['set_price'] <= 0) {
+        $errors['set_price'] = "Please enter a valid Set Price.";
+    } else {
+        $set_price = floatval($_POST['set_price']);
+    }
+
+    // Year
+    if (!preg_match('/^\d{4}$/', $_POST['publish_year']) || $_POST['publish_year'] < 1800 || $_POST['publish_year'] > date('Y')) {
+        $errors['publish_year'] = "Enter a valid publish year.";
+    } else {
+        $publish_year = $_POST['publish_year'];
+    }
+
+    // Page Count
+    if (!is_numeric($_POST['page']) || $_POST['page'] <= 0) {
+        $errors['page'] = "Enter a valid number of pages.";
+    } else {
+        $page = intval($_POST['page']);
+    }
+
+    // Description
+    if (empty($_POST['description']) || strlen(trim($_POST['description'])) < 10) {
+        $errors['description'] = "Description must be at least 10 characters.";
+    } else {
+        $description = trim($_POST['description']);
+    }
+    if ($userRole['role'] == 2) {
+
+
+    } else {
+        // Reason
+        if (empty($_POST['reason'])) {
+            $errors['reason'] = "Selling reason is required.";
+        } else {
+            $reason = trim($_POST['reason']);
+        }
+
+        // Book condition
+        if (empty($_POST['book_condition'])) {
+            $errors['book_condition'] = "Please select book condition.";
+        } else {
+            $book_condition = $_POST['book_condition'];
+        }
+    }
+
+
+    // Longitude & Latitude
+    if (!is_numeric($_POST['longitude']) || !is_numeric($_POST['latitude'])) {
+        $errors['location'] = "Invalid location coordinates.";
+    } else {
+        $longitude = $_POST['longitude'];
+        $latitude = $_POST['latitude'];
+    }
+
+    // State & District
+    if (empty($_POST['state']) || empty($_POST['district'])) {
+        $errors['location_info'] = "State and District are required.";
+    } else {
+        $state = $_POST['state'];
+        $district = $_POST['district'];
+    }
+
+    // Email from session
+    if (!isset($_SESSION['email'])) {
+        $errors['session'] = "Session expired. Please login again.";
+    } else {
+        $email = $_SESSION['email'];
+    }
+
+    // Check if any errors
+    if (!empty($errors)) {
+        $_SESSION['form_errors'] = $errors;
+        $_SESSION['old_data'] = $_POST;
+        echo "<script>window.history.back();</script>";
+        exit;
+    }
 
     // Upload function
-    // File Upload
     $target_dir = "../images/";
     $img1 = $img2 = $img3 = $img4 = $img5 = $img6 = $img7 = "";
 
@@ -31,8 +141,9 @@ if (isset($_POST['post_book'])) {
     {
         if (!empty($_FILES[$fileInput]["name"])) {
             $unique_name = time() . "_" . uniqid() . "_" . basename($_FILES[$fileInput]["name"]);
-            move_uploaded_file($_FILES[$fileInput]["tmp_name"], $target_dir . $unique_name);
-            return $unique_name;
+            if (move_uploaded_file($_FILES[$fileInput]["tmp_name"], $target_dir . $unique_name)) {
+                return $unique_name;
+            }
         }
         return "";
     }
@@ -48,23 +159,52 @@ if (isset($_POST['post_book'])) {
     $uploaded_images = array_filter([$img1, $img2, $img3, $img4, $img5, $img6, $img7]);
 
     if (count($uploaded_images) < 1) {
-        echo "<script>
-         alert('Please upload at least 1 images of the book.');
-         window.history.back();
-     </script>";
-        exit();
+        $errors[] = "Please upload at least 1 image of the book.";
     }
 
-    // Insert Query
-    $sql = "INSERT INTO books (
-    title, author, mrp, set_price, publish_year, page, description, reason, 
-    book_condition, img1, img2, img3, img4, img5, img6, img7, 
-    longitude, latitude, state, district, category, sub_category, seller_email, post_date 
-) VALUES (
-    '$title', '$author', '$mrp', '$set_price', '$publish_year', '$page', '$description', '$reason', 
-    '$book_condition', '$img1', '$img2', '$img3', '$img4', '$img5', '$img6', '$img7', 
-    '$longitude', '$latitude', '$state', '$district', '$category', '$sub_category', '$email', '$timestamp' 
-)";
+    // 🚨 Show errors if any
+    if (!empty($errors)) {
+        echo "<ul style='color: red;'>";
+        foreach ($errors as $error) {
+            echo "<li>" . htmlspecialchars($error) . "</li>";
+        }
+        echo "</ul>";
+        echo "<script>window.history.back();</script>";
+        exit;
+    }
+
+    // ✅ If all validations pass, now proceed to DB insert
+    // insert your DB query here...
+
+    // ----------------------------------------
+// insert alag alag user or seller 
+    $email = $_SESSION['email'];
+    $getUserRole = $connect->query("SELECT role FROM users WHERE email='$email'");
+    $userRole = $getUserRole->fetch_assoc();
+
+    // Check if not seller
+    if ($userRole['role'] == 2) {
+        // Insert Query for seller
+        $sql = "INSERT INTO books (
+        title, author, mrp, set_price, publish_year, page, description, img1, img2, img3, img4, img5, img6, img7, 
+        longitude, latitude, state, district, category, sub_category, seller_email, post_date ,version
+    ) VALUES (
+        '$title', '$author', '$mrp', '$set_price', '$publish_year', '$page', '$description', '$img1', '$img2', '$img3', '$img4', '$img5', '$img6', '$img7', 
+        '$longitude', '$latitude', '$state', '$district', '$category', '$sub_category', '$email', '$timestamp' ,1
+    )";
+    } else {
+        // Insert Query for user
+        $sql = "INSERT INTO books (
+        title, author, mrp, set_price, publish_year, page, description, reason, 
+        book_condition, img1, img2, img3, img4, img5, img6, img7, 
+        longitude, latitude, state, district, category, sub_category, seller_email, post_date 
+    ) VALUES (
+        '$title', '$author', '$mrp', '$set_price', '$publish_year', '$page', '$description', '$reason', 
+        '$book_condition', '$img1', '$img2', '$img3', '$img4', '$img5', '$img6', '$img7', 
+        '$longitude', '$latitude', '$state', '$district', '$category', '$sub_category', '$email', '$timestamp' 
+    )";
+    }
+
 
     if (mysqli_query($connect, $sql)) {
         echo "<script>window.location.href = '';</script>";

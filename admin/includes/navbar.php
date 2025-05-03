@@ -1,3 +1,4 @@
+
 <!-- Navbar -->
 <nav class="bg-[#1F2937] text-white px-4 py-3 shadow-md fixed w-full z-50">
     <div class="max-w-7xl mx-auto flex items-center justify-between">
@@ -12,7 +13,7 @@
 
         <div class="hidden md:flex items-center space-x-6">
             <div class="relative group">
-                <a href="#" class="block px-4 py-2 bg-gray-700 hover:bg-gray-600 text-sm rounded-lg">
+                <a href="../users_account/logout.php" class="block px-4 py-2 bg-gray-700 hover:bg-gray-600 text-sm rounded-lg">
                     <i class="fas fa-sign-out-alt mr-2 w-4 text-gray-500"></i> Logout
                 </a>
             </div>

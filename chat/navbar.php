@@ -1,3 +1,6 @@
+<?php if(!isset($_SESSION['email'])){
+    echo '<script>window.history.back();</script>';
+}  ?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js" crossorigin="anonymous"></script>
 
 <nav

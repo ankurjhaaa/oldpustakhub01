@@ -61,6 +61,7 @@ if (isset($_SESSION['email'])) {
 
                 <div class="text-sm text-gray-600 mt-4">
                     <p><i class="far fa-calendar-alt mr-1"></i> Member since Jan 2015</p>
+                    <p><?= $sellerDetail['role'] ?></p>
                     <!-- <p class="mt-2"><i class="fas fa-users mr-1"></i>
                         <strong></strong>
                         Followers &nbsp; | &nbsp;

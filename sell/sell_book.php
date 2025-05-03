@@ -1,5 +1,18 @@
 <?php include_once "../config/db.php";
 
+if (!isset($_SESSION['email'])) {
+    echo '<script>window.history.back();</script>';
+}
+
+$email = $_SESSION['email'];
+$getUserRole = $connect->query("SELECT role FROM users WHERE email='$email'");
+$userRole = $getUserRole->fetch_assoc();
+if ($userRole['role'] == 2) {
+    $bookVersion = 1;
+} else {
+    $bookVersion = 0;
+}
+
 $subcat_id2 = $_GET['subcat_id'];
 $call_subcat_name = $connect->query("SELECT * FROM sub_category where subcat_id='$subcat_id2'");
 $sub_cate2_name = $call_subcat_name->fetch_array();
@@ -25,7 +38,7 @@ $cate4_name = $call_cat3_name->fetch_array();
 <body class="bg-gray-100 ">
     <?php include_once "../includes/mini_nav.php"; ?>
 
-    <form action="" method="post" enctype="multipart/form-data" >
+    <form action="" method="post" enctype="multipart/form-data">
         <div class="max-w-3xl mx-auto bg-white shadow-lg rounded-sm p-6 space-y-6 mt-4">
             <h2 class="text-3xl font-bold text-gray-800 mb-4 text-center">Sell Your Book</h2>
 
@@ -44,79 +57,159 @@ $cate4_name = $call_cat3_name->fetch_array();
 
 
             <!-- Book Title -->
-            <div>
+            <div class="mb-4">
                 <label class="block text-[#015551] mb-1">Book Title</label>
-                <input type="text" placeholder="Enter book title (minimum 5)" name="title"
-                    class="w-full px-4 py-2 border-2 border-[#015551] rounded-sm focus:outline-none focus:ring-2 focus:ring-[#015551] placeholder:text-[#015551]" />
+                <input type="text" name="title" placeholder="Enter book title (minimum 5)"
+                    value="<?= isset($_SESSION['old_data']['title']) ? htmlspecialchars($_SESSION['old_data']['title']) : '' ?>"
+                    class="w-full px-4 py-2 border-2 <?= isset($_SESSION['form_errors']['title']) ? 'border-red-500' : 'border-[#015551]' ?> rounded-sm focus:outline-none focus:ring-2 focus:ring-[#015551] placeholder:text-[#015551]" />
+
+                <?php if (isset($_SESSION['form_errors']['title'])): ?>
+                    <p class="text-red-500 text-sm mt-1">
+                        <?= $_SESSION['form_errors']['title'] ?>
+                    </p>
+                <?php endif; ?>
             </div>
+
 
             <!-- Author Name -->
-            <div>
+            <div class="mb-4">
                 <label class="block text-gray-600 mb-1">Author Name</label>
-                <input type="text" placeholder="Enter author's name" name="author"
-                    class="w-full px-4 py-2 border-2 border-[#015551] rounded-sm focus:outline-none focus:ring-2 focus:ring-[#015551] placeholder:text-[#015551]" />
+                <input type="text" name="author" placeholder="Enter author's name"
+                    value="<?= isset($_SESSION['old_data']['author']) ? htmlspecialchars($_SESSION['old_data']['author']) : '' ?>"
+                    class="w-full px-4 py-2 border-2 <?= isset($_SESSION['form_errors']['author']) ? 'border-red-500' : 'border-[#015551]' ?> rounded-sm focus:outline-none focus:ring-2 focus:ring-[#015551] placeholder:text-[#015551]" />
+
+                <?php if (isset($_SESSION['form_errors']['author'])): ?>
+                    <p class="text-red-500 text-sm mt-1">
+                        <?= $_SESSION['form_errors']['author'] ?>
+                    </p>
+                <?php endif; ?>
             </div>
 
-            <!-- Mrp -->
-            <div>
+
+            <!-- MRP -->
+            <div class="mb-4">
                 <label class="block text-gray-600 mb-1">MRP (₹)</label>
-                <input type="number" placeholder="Enter MRP (max ₹9999)" name="mrp"
-                    class="w-full px-4 py-2 border-2 border-[#015551] rounded-sm focus:outline-none focus:ring-2 focus:ring-[#015551] placeholder:text-[#015551]" />
+                <input type="number" name="mrp" placeholder="Enter MRP (max ₹9999)"
+                    value="<?= isset($_SESSION['old_data']['mrp']) ? htmlspecialchars($_SESSION['old_data']['mrp']) : '' ?>"
+                    class="w-full px-4 py-2 border-2 <?= isset($_SESSION['form_errors']['mrp']) ? 'border-red-500' : 'border-[#015551]' ?> rounded-sm focus:outline-none focus:ring-2 focus:ring-[#015551] placeholder:text-[#015551]" />
+
+                <?php if (isset($_SESSION['form_errors']['mrp'])): ?>
+                    <p class="text-red-500 text-sm mt-1">
+                        <?= $_SESSION['form_errors']['mrp'] ?>
+                    </p>
+                <?php endif; ?>
             </div>
 
-            <!-- Price -->
-            <div>
+
+            <!-- Set Price -->
+            <div class="mb-4">
                 <label class="block text-gray-600 mb-1">Set Your Price (₹)</label>
-                <input type="number" placeholder="Enter price (max ₹9999)" name="set_price"
-                    class="w-full px-4 py-2 border-2 border-[#015551] rounded-sm focus:outline-none focus:ring-2 focus:ring-[#015551] placeholder:text-[#015551]" />
+                <input type="number" name="set_price" placeholder="Enter price (max ₹9999)"
+                    value="<?= isset($_SESSION['old_data']['set_price']) ? htmlspecialchars($_SESSION['old_data']['set_price']) : '' ?>"
+                    class="w-full px-4 py-2 border-2 <?= isset($_SESSION['form_errors']['set_price']) ? 'border-red-500' : 'border-[#015551]' ?> rounded-sm focus:outline-none focus:ring-2 focus:ring-[#015551] placeholder:text-[#015551]" />
+
+                <?php if (isset($_SESSION['form_errors']['set_price'])): ?>
+                    <p class="text-red-500 text-sm mt-1">
+                        <?= $_SESSION['form_errors']['set_price'] ?>
+                    </p>
+                <?php endif; ?>
             </div>
+
             <hr>
 
-            <div>
+            <!-- Publish Year -->
+            <div class="mb-4">
                 <label class="block text-gray-600 mb-1">Publish Year</label>
-                <select
-                    class="w-full px-4 py-2 border-2 border-[#015551] rounded-sm focus:outline-none focus:ring-2 focus:ring-[#015551] placeholder:text-[#015551]"
-                    name="publish_year">
-                    <option>Publish Year</option>
-                    <script>
-                        for (let year = new Date().getFullYear(); year >= 1950; year--) {
-                            document.write(`<option>${year}</option>`);
-                        }
-                    </script>
+                <select name="publish_year"
+                    class="w-full px-4 py-2 border-2 <?= isset($_SESSION['form_errors']['publish_year']) ? 'border-red-500' : 'border-[#015551]' ?> rounded-sm focus:outline-none focus:ring-2 focus:ring-[#015551] placeholder:text-[#015551]">
+
+                    <option value="">Publish Year</option>
+                    <?php
+                    // Generating year options
+                    for ($year = date("Y"); $year >= 1950; $year--) {
+                        // Check if the current year is already selected
+                        $selected = (isset($_SESSION['old_data']['publish_year']) && $_SESSION['old_data']['publish_year'] == $year) ? 'selected' : '';
+                        echo "<option value='$year' $selected>$year</option>";
+                    }
+                    ?>
                 </select>
+
+                <?php if (isset($_SESSION['form_errors']['publish_year'])): ?>
+                    <p class="text-red-500 text-sm mt-1">
+                        <?= $_SESSION['form_errors']['publish_year'] ?>
+                    </p>
+                <?php endif; ?>
             </div>
 
-            <div>
-                <label class="block text-gray-600 mb-1">Total Page</label>
+
+            <!-- Total Page -->
+            <div class="mb-4">
+                <label class="block text-gray-600 mb-1">Total Pages</label>
                 <input type="number" placeholder="Enter Book Pages" name="page"
-                    class="w-full px-4 py-2 border-2 border-[#015551] rounded-sm focus:outline-none focus:ring-2 focus:ring-[#015551] placeholder:text-[#015551]" />
+                    class="w-full px-4 py-2 border-2 <?= isset($_SESSION['form_errors']['page']) ? 'border-red-500' : 'border-[#015551]' ?> rounded-sm focus:outline-none focus:ring-2 focus:ring-[#015551] placeholder:text-[#015551]"
+                    value="<?= isset($_SESSION['old_data']['page']) ? $_SESSION['old_data']['page'] : '' ?>" />
+
+                <?php if (isset($_SESSION['form_errors']['page'])): ?>
+                    <p class="text-red-500 text-sm mt-1">
+                        <?= $_SESSION['form_errors']['page'] ?>
+                    </p>
+                <?php endif; ?>
             </div>
+
             <!-- Description -->
-            <div>
+            <div class="mb-4">
                 <label class="block text-gray-600 mb-1">Description</label>
                 <textarea rows="4" placeholder="Write a short description..." name="description"
-                    class="w-full px-4 py-2 border-2 border-[#015551] rounded-sm focus:outline-none focus:ring-2 focus:ring-[#015551] placeholder:text-[#015551]"></textarea>
+                    class="w-full px-4 py-2 border-2 <?= isset($_SESSION['form_errors']['description']) ? 'border-red-500' : 'border-[#015551]' ?> rounded-sm focus:outline-none focus:ring-2 focus:ring-[#015551] placeholder:text-[#015551]"><?= isset($_SESSION['old_data']['description']) ? $_SESSION['old_data']['description'] : '' ?></textarea>
+
+                <?php if (isset($_SESSION['form_errors']['description'])): ?>
+                    <p class="text-red-500 text-sm mt-1">
+                        <?= $_SESSION['form_errors']['description'] ?>
+                    </p>
+                <?php endif; ?>
             </div>
 
-            <!-- reason You sell -->
-            <div>
-                <label class="block text-gray-600 mb-1">Reason ? Why you Sell</label>
-                <textarea rows="4" placeholder="Write a short Reason..." name="reason"
-                    class="w-full px-4 py-2 border-2 border-[#015551] rounded-sm focus:outline-none focus:ring-2 focus:ring-[#015551] placeholder:text-[#015551]"></textarea>
-            </div>
+            <?php
+            if ($userRole['role'] == 2) {
+                // If user is a seller, don't show reason and book condition
+            } else { ?>
+                <!-- Reason: Why you Sell -->
+                <div class="mb-4">
+                    <label class="block text-gray-600 mb-1">Reason? Why you Sell</label>
+                    <textarea rows="4" placeholder="Write a short Reason..." name="reason"
+                        class="w-full px-4 py-2 border-2 <?= isset($_SESSION['form_errors']['reason']) ? 'border-red-500' : 'border-[#015551]' ?> rounded-sm focus:outline-none focus:ring-2 focus:ring-[#015551] placeholder:text-[#015551]"><?= isset($_SESSION['old_data']['reason']) ? $_SESSION['old_data']['reason'] : '' ?></textarea>
 
-            <!-- Book Condition -->
-            <div>
-                <label class="block text-gray-600 mb-1">Book Condition</label>
-                <select name="book_condition"
-                    class="w-full px-4 py-2 border-2 border-[#015551] rounded-sm focus:outline-none focus:ring-2 focus:ring-[#015551] placeholder:text-[#015551]">
-                    <option value="">Select Condition</option>
-                    <option value="new">New</option>
-                    <option value="like-new">Like New</option>
-                    <option value="used">Used</option>
-                    <option value="heavily-used">Heavily Used</option>
-                </select>
-            </div>
+                    <?php if (isset($_SESSION['form_errors']['reason'])): ?>
+                        <p class="text-red-500 text-sm mt-1">
+                            <?= $_SESSION['form_errors']['reason'] ?>
+                        </p>
+                    <?php endif; ?>
+                </div>
+
+                <!-- Book Condition -->
+                <div class="mb-4">
+                    <label class="block text-gray-600 mb-1">Book Condition</label>
+                    <select name="book_condition"
+                        class="w-full px-4 py-2 border-2 <?= isset($_SESSION['form_errors']['book_condition']) ? 'border-red-500' : 'border-[#015551]' ?> rounded-sm focus:outline-none focus:ring-2 focus:ring-[#015551] placeholder:text-[#015551]">
+                        <option value="">Select Condition</option>
+                        <option value="new" <?= isset($_SESSION['old_data']['book_condition']) && $_SESSION['old_data']['book_condition'] == 'new' ? 'selected' : '' ?>>New</option>
+                        <option value="like-new" <?= isset($_SESSION['old_data']['book_condition']) && $_SESSION['old_data']['book_condition'] == 'like-new' ? 'selected' : '' ?>>Like New</option>
+                        <option value="used" <?= isset($_SESSION['old_data']['book_condition']) && $_SESSION['old_data']['book_condition'] == 'used' ? 'selected' : '' ?>>Used</option>
+                        <option value="heavily-used" <?= isset($_SESSION['old_data']['book_condition']) && $_SESSION['old_data']['book_condition'] == 'heavily-used' ? 'selected' : '' ?>>Heavily Used
+                        </option>
+                    </select>
+
+                    <?php if (isset($_SESSION['form_errors']['book_condition'])): ?>
+                        <p class="text-red-500 text-sm mt-1">
+                            <?= $_SESSION['form_errors']['book_condition'] ?>
+                        </p>
+                    <?php endif; ?>
+                </div>
+            <?php } ?>
+
+
+
+
             <hr>
 
 
@@ -128,7 +221,7 @@ $cate4_name = $call_cat3_name->fetch_array();
 
                     <!-- Image Box 1 -->
                     <div
-                        class="relative border-2 border-dashed border-[#015551] rounded-md overflow-hidden h-32 flex justify-center items-center">
+                        class="relative border-2 border-dashed <?= isset($_SESSION['form_errors']['img1']) ? 'border-red-500' : '#015551' ?> rounded-md overflow-hidden h-32 flex justify-center items-center">
                         <input type="file" name="img1" class="absolute inset-0 opacity-0 cursor-pointer z-10"
                             accept="image/*" onchange="showPreview(event, 'preview1')" />
                         <div id="preview1" class="flex flex-col items-center text-gray-400">
@@ -142,6 +235,13 @@ $cate4_name = $call_cat3_name->fetch_array();
                             <span class="text-sm">Add Thumbnail</span>
                         </div>
                     </div>
+
+                    <?php if (isset($_SESSION['form_errors']['img1'])): ?>
+                        <p class="text-red-500 text-sm mt-1">
+                            <?= $_SESSION['form_errors']['img1'] ?>
+                        </p>
+                    <?php endif; ?>
+
 
                     <!-- Image Box 2 -->
                     <div
@@ -275,23 +375,29 @@ $cate4_name = $call_cat3_name->fetch_array();
             </div>
             <input type="hidden" id="latitude" name="latitude">
             <input type="hidden" id="longitude" name="longitude">
+
             <script>
+                // Toggle the address form visibility
                 function toggleAddressForm() {
                     const form = document.getElementById('addressForm');
                     form.classList.toggle('hidden');
                 }
 
+                // Handle new address form submission
                 document.getElementById('newAddressForm').addEventListener('submit', function (e) {
                     e.preventDefault();
-                    alert('Address saved!');
+                    alert('Address saved successfully!');
                     toggleAddressForm();
                 });
 
+                // Get the user’s current location
                 function getLocation() {
                     if (navigator.geolocation) {
                         navigator.geolocation.getCurrentPosition(function (position) {
                             const lat = position.coords.latitude;
                             const lng = position.coords.longitude;
+
+                            // Set the values in the input fields
                             document.getElementById('location').value = `Lat: ${lat}, Lng: ${lng}`;
                             document.getElementById('latitude').value = lat;
                             document.getElementById('longitude').value = lng;
@@ -303,6 +409,7 @@ $cate4_name = $call_cat3_name->fetch_array();
                     }
                 }
             </script>
+
             <?php include_once "location.php"; ?>
 
             <!-- Submit Button -->

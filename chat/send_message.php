@@ -1,5 +1,8 @@
 <?php 
-include "db.php";
+include "../config/db.php";
+if(!isset($_SESSION['email'])){
+    echo '<script>window.history.back();</script>';
+} 
 $sender_id = $_POST['sender_id'];
 $reciver_id = $_POST['reciver_id'];
 $bookId = 1;

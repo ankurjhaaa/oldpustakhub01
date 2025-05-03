@@ -40,7 +40,7 @@
                 } elseif (!empty($address['region'])) {
                     $ADDRESS = $address['region'];
                 } else {
-                    $ADDRESS = $address['region'];
+                    $ADDRESS = "India";
 
                 }
             } else {
@@ -92,7 +92,11 @@
                 class="hidden absolute z-50 bg-white w-full border border-gray-300 rounded-lg shadow-md max-h-72 overflow-y-auto text-sm text-gray-800 custom-scroll">
                 <li class="px-4 py-2 font-semibold text-gray-500 cursor-default select-none">Search
                     Book-Name,Category,Book-detail..</li>
-                <?php $call_books_name = mysqli_query($connect, "SELECT * FROM books ORDER BY RAND()");
+                <?php $call_books_name = mysqli_query($connect, " SELECT title FROM books
+    UNION ALL
+    SELECT category_title FROM category
+    UNION ALL
+    SELECT subcat_title FROM sub_category ORDER BY RAND()");
                 while ($books_name = mysqli_fetch_array($call_books_name)) { ?>
                     <a href="filter.php?find_book=&book_name=<?= $books_name['title'] ?>">
                         <li
@@ -407,7 +411,7 @@
                 class="flex items-center space-x-1 text-gray-800 hover:text-blue-600 focus:outline-none">
                 <i class="fa-solid fa-location-dot text-[#FDFBEE]"></i>
                 <span class="text-sm text-[#FDFBEE] font-medium">
-                India
+                    India
                 </span>
                 <i class="fa-solid fa-chevron-down text-xs text-[#FDFBEE]"></i>
             </button>

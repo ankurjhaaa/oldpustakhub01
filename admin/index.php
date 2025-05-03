@@ -1,3 +1,6 @@
+<?php include_once "../config/db.php"; ?>
+<?php include_once "includes/redirectLogin.php"; ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,7 +19,7 @@
         <?php include_once "includes/sidebar.php"; ?>
         <!-- Main Content -->
         <main class="flex-1 ml-0 md:ml-64 h-[calc(100vh-56px)] overflow-y-auto bg-gray-100 p-6">
-            <h1 class="text-3xl font-bold text-gray-800 mb-6">Welcome, Admin</h1>
+            <h1 class="text-3xl font-bold text-gray-800 mb-6">Welcome, <?= $userRole['firstname'] ?> <?= $userRole['lastname'] ?></h1>
 
 
             <!-- main work space foe shown -->
@@ -25,12 +28,12 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                 <div class="bg-white p-5 rounded-lg shadow border-l-4 border-blue-500">
                     <h3 class="text-sm text-gray-500">Total Users</h3>
-                    <p class="text-2xl font-bold text-gray-800">4,320</p>
+                    <p class="text-2xl font-bold text-gray-800"><?= mysqli_num_rows($connect->query("SELECT * FROM users")) ?></p>
                     <p class="text-xs text-gray-400">+85 this week</p>
                 </div>
                 <div class="bg-white p-5 rounded-lg shadow border-l-4 border-green-500">
                     <h3 class="text-sm text-gray-500">Total Listings</h3>
-                    <p class="text-2xl font-bold text-gray-800">8,115</p>
+                    <p class="text-2xl font-bold text-gray-800"><?= mysqli_num_rows($connect->query("SELECT * FROM books")) ?></p>
                     <p class="text-xs text-gray-400">+234 new ads</p>
                 </div>
                 <div class="bg-white p-5 rounded-lg shadow border-l-4 border-yellow-500">

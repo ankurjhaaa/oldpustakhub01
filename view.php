@@ -168,15 +168,18 @@ if (isset($_SESSION['email'])) {
                         </div>
 
                     </div>
+                    <?php if ($BookDetail['version'] == 0) { ?>
 
-                    <div class="space-y-1 text-sm text-gray-600">
-                        <!-- <p><i class="fas fa-book text-blue-500 mr-2"></i> Complete set of NEET preparation books
-                            including modules</p> -->
-                        <p><i class="fas fa-clipboard-check text-blue-500 mr-2"></i> condition (
-                            <?= $BookDetail['book_condition'] ?> )
-                        </p>
+                        <div class="space-y-1 text-sm text-gray-600">
+                            <!-- <p><i class="fas fa-book text-blue-500 mr-2"></i> Complete set of NEET preparation books
+                                    including modules</p> -->
+                            <p><i class="fas fa-clipboard-check text-blue-500 mr-2"></i> condition (
+                                <?= $BookDetail['book_condition'] ?> )
+                            </p>
 
-                    </div>
+                        </div>
+
+                    <?php } ?>
                 </div>
 
 

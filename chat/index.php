@@ -1,4 +1,4 @@
-<?php include_once "db.php"; ?>
+<?php include_once "../config/db.php"; ?>
 
 <?php
 if (!isset($_SESSION['email'])) {

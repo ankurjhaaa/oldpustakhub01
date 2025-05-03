@@ -1,3 +1,6 @@
+<?php if(!isset($_SESSION['email'])){
+    echo '<script>window.history.back();</script>';
+} ?>
 <div class=" rounded shadow w-full ">
   <!-- State -->
   <div>

@@ -12,9 +12,9 @@
     <div class="order-2 lg:order-2">
       <h3 class="text-lg font-semibold text-white mb-3">Quick Links</h3>
       <ul class="space-y-2 text-sm">
-        <li><a href="#" class="hover:text-blue-400 flex items-center"><i class="fa-solid fa-angle-right mr-2"></i> Home</a></li>
-        <li><a href="#" class="hover:text-blue-400 flex items-center"><i class="fa-solid fa-angle-right mr-2"></i> Buy Books</a></li>
-        <li><a href="#" class="hover:text-blue-400 flex items-center"><i class="fa-solid fa-angle-right mr-2"></i> Sell Books</a></li>
+        <li><a href="index.php" class="hover:text-blue-400 flex items-center"><i class="fa-solid fa-angle-right mr-2"></i> Home</a></li>
+        <li><a href="filter.php?find_book=&book_name=" class="hover:text-blue-400 flex items-center"><i class="fa-solid fa-angle-right mr-2"></i> Buy Books</a></li>
+        <li><a href="sell/sell.php" class="hover:text-blue-400 flex items-center"><i class="fa-solid fa-angle-right mr-2"></i> Sell Books</a></li>
         <li><a href="#" class="hover:text-blue-400 flex items-center"><i class="fa-solid fa-angle-right mr-2"></i> Categories</a></li>
         <li><a href="#" class="hover:text-blue-400 flex items-center"><i class="fa-solid fa-angle-right mr-2"></i> New Arrivals</a></li>
       </ul>

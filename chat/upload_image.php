@@ -1,4 +1,8 @@
-<?php include_once "db.php"; ?>
+<?php include_once "../config/db.php";
+if(!isset($_SESSION['email'])){
+    echo '<script>window.history.back();</script>';
+} 
+ ?>
 <?php
 if (isset($_FILES['image'])) {
     $sender_id = $_POST['sender_id'];

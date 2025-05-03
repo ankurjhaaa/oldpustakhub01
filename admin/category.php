@@ -1,4 +1,5 @@
 <?php include_once "../config/db.php"; ?>
+<?php include_once "includes/redirectLogin.php"; ?>
 <!DOCTYPE html>
 <html lang="en">
 
