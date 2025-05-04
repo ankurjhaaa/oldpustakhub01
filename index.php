@@ -6,9 +6,9 @@ $seeVersionQuery = $connect->query("SELECT * FROM users WHERE email='$email'");
 $seeVersion = $seeVersionQuery->fetch_assoc();
 
 if ($seeVersion['seeVersion'] == 0) {
-    $BG = "bg-gray-200";
-} else {
     $BG = "bg-[url('images/bodylogo.jpg')] bg-cover bg-center bg-no-repeat min-h-screen";
+} else {
+    $BG = "bg-gray-200";
 }
 
 }

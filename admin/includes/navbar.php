@@ -4,7 +4,7 @@
     <div class="max-w-7xl mx-auto flex items-center justify-between">
 
         <!-- Logo -->
-        <a href="">
+        <a href="index.php">
             <div class="text-xl font-bold tracking-wide">
                 Admin<span class="text-blue-400">Panel</span>
             </div>

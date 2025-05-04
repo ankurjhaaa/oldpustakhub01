@@ -12,6 +12,21 @@ $userDetail = $callUserDetail->fetch_assoc();
 if (isset($_SESSION['email'])) {
     $User = UserDetail();
 }
+
+//bg rough or white 
+if (isset($_SESSION['email'])) {
+
+    $email = $_SESSION['email'];
+    $seeVersionQuery = $connect->query("SELECT * FROM users WHERE email='$email'");
+    $seeVersion = $seeVersionQuery->fetch_assoc();
+
+    if ($seeVersion['seeVersion'] == 0) {
+        $BG = "bg-[url('images/bodylogo.jpg')] bg-cover bg-center bg-no-repeat min-h-screen";
+    } else {
+        $BG = "bg-gray-200";
+    }
+
+}
 ?>
 
 <!DOCTYPE html>
@@ -42,7 +57,7 @@ if (isset($_SESSION['email'])) {
     </style>
 </head>
 
-<body class="bg-[url('images/bodylogo.jpg')] bg-cover bg-center bg-no-repeat min-h-screen">
+<body class="<?= $BG ?>">
     <?php include_once "includes/navbar.php"; ?>
     <!-- Navigation would be included here -->
 

@@ -60,7 +60,7 @@
             </a>
         </button>
     <?php } else { ?>
-        <a href="chat.php"
+        <a href="chat/"
             class="text-[#495464] hover:text-[#00ADB5] flex flex-col items-center px-2 py-1 transition-colors duration-200">
             <div class="relative">
                 <!-- Chat Icon -->

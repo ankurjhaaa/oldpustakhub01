@@ -1,10 +1,11 @@
-<?php $connect = mysqli_connect("localhost","root","","oldpustakhub01"); ?>
+<?php $connect = mysqli_connect("localhost", "root", "", "oldpustakhub01"); ?>
 
 <?php
 
 session_start();
 
-function UserDetail(){
+function UserDetail()
+{
     global $connect;
     $email = $_SESSION['email'];
     $query = $connect->query("select * from users where email='$email'");
@@ -12,6 +13,8 @@ function UserDetail(){
     return $UserDetail;
 }
 
+if (isset($_SESSION['email'])) {
+    $USERDETAIL = UserDetail();
 
-
+}
 ?>

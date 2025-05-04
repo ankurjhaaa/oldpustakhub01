@@ -1,7 +1,7 @@
 <?php
 // Pagination Setup
-$limit = 10; // Number of books per page
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$limit = 9; // Number of books per page
+$page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
 $offset = ($page - 1) * $limit;
 
 // Fetching user location if logged in
@@ -47,36 +47,39 @@ $total_pages = ceil($total_books / $limit);
 
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-1 md:gap-4">
         <?php while ($books = mysqli_fetch_array($call_books)) { ?>
-            <div class="border rounded-md shadow-sm hover:shadow-md transition-all duration-200 bg-white overflow-hidden flex flex-col p-1 max-w-sm">
+            <div
+                class="border rounded-md shadow-sm hover:shadow-md transition-all duration-200 bg-white overflow-hidden flex flex-col p-1 max-w-sm">
                 <div class="relative w-full h-[160px] sm:h-[200px]">
-                <?php if (!isset($_SESSION['email'])) { ?>
-                                <button
-                                    class="openPopupBtn absolute top-2 right-2 p-2 rounded-full bg-white/60 backdrop-blur-md shadow-md hover:bg-red-100 hover:scale-110 transition-all duration-300 group"
-                                    aria-label="Add to Wishlist">
+                    <?php if (!isset($_SESSION['email'])) { ?>
+                        <button
+                            class="openPopupBtn absolute top-2 right-2 p-2 rounded-full bg-white/60 backdrop-blur-md shadow-md hover:bg-red-100 hover:scale-110 transition-all duration-300 group"
+                            aria-label="Add to Wishlist">
+                            <i
+                                class="fa-regular fa-heart text-gray-600 group-hover:text-red-500 group-hover:fa-solid transition-all duration-300 text-lg"></i>
+                        </button>
+                    <?php } else { ?>
+                        <form action="action/liked.php" method="post">
+                            <button id="wishlistBtn" name="like"
+                                class="absolute top-2 right-2 p-2 rounded-full bg-white/60 backdrop-blur-md shadow-md hover:bg-red-100 hover:scale-110 transition-all duration-300 group"
+                                aria-label="Add to Wishlist">
+                                <div class="group w-fit cursor-pointer">
+                                    <?php
+                                    $bookId = $books['book_id'];
+                                    $UserEmail = $_SESSION['email'];
+                                    $CheckLiked = $connect->query("SELECT * FROM liked WHERE UserEmail = '$UserEmail' AND BookId = '$bookId'");
+                                    $isLiked = ($CheckLiked->num_rows > 0);
+                                    ?>
                                     <i
-                                        class="fa-regular fa-heart text-gray-600 group-hover:text-red-500 group-hover:fa-solid transition-all duration-300 text-lg"></i>
-                                </button>
-                            <?php } else { ?>
-                                <form action="action/liked.php" method="post">
-                                    <button id="wishlistBtn" name="like"
-                                        class="absolute top-2 right-2 p-2 rounded-full bg-white/60 backdrop-blur-md shadow-md hover:bg-red-100 hover:scale-110 transition-all duration-300 group"
-                                        aria-label="Add to Wishlist">
-                                        <div class="group w-fit cursor-pointer">
-                                            <?php
-                                            $bookId = $books['book_id'];
-                                            $UserEmail = $_SESSION['email'];
-                                            $CheckLiked = $connect->query("SELECT * FROM liked WHERE UserEmail = '$UserEmail' AND BookId = '$bookId'");
-                                            $isLiked = ($CheckLiked->num_rows > 0);
-                                            ?>
-                                            <i
-                                                class="fa-solid fa-heart text-<?= $isLiked ? 'red' : 'gray'; ?>-500 group-hover-red-500 transition-colors duration-300 text-xl"></i>
-                                        </div>
-                                    </button>
-                                    <input type="hidden" name="BookLikeId" value="<?= $books['book_id'] ?>">
-                                </form>
-                            <?php } ?>
+                                        class="fa-solid fa-heart text-<?= $isLiked ? 'red' : 'gray'; ?>-500 group-hover-red-500 transition-colors duration-300 text-xl"></i>
+                                </div>
+                            </button>
+                            <input type="hidden" name="BookLikeId" value="<?= $books['book_id'] ?>">
+                        </form>
+                    <?php } ?>
                     <a href="view.php?bookId=<?= $books['book_id'] ?>">
-                        <img src="images/<?= $books['img1'] ?>" class="w-full h-full object-cover hover:shadow-lg rounded-sm border" alt="<?= $books['title'] ?>" loading="lazy">
+                        <img src="images/<?= $books['img1'] ?>"
+                            class="w-full h-full object-cover hover:shadow-lg rounded-sm border"
+                            alt="<?= $books['title'] ?>" loading="lazy">
                     </a>
                 </div>
                 <div class="p-2 flex-grow flex flex-col">
@@ -87,7 +90,9 @@ $total_pages = ceil($total_books / $limit);
                             <span class="text-xs text-green-600 font-semibold">20% off</span>
                         </div>
                     </div>
-                    <p class="text-gray-800 text-sm sm:text-base font-medium mb-1 line-clamp-1"><?= $books['title'] ?></p>
+                    <p class="text-gray-800 text-md sm:text-base font-medium mb-1 line-clamp-1">
+                        <?= strlen($books['title']) > 20 ? substr($books['title'], 0, 20) . '...' : $books['title'] ?>
+                    </p>
                     <p class="text-gray-600 text-xs sm:text-sm mb-1">Author: <?= $books['author'] ?></p>
                     <div class="flex justify-between text-xs text-gray-500">
                         <span class="truncate">📍 <?= $books['district'] ?></span>
@@ -99,23 +104,36 @@ $total_pages = ceil($total_books / $limit);
         <?php } ?>
     </div>
 
+    <?php
+    $start = max(1, $page - 2);
+    $end = min($total_pages, $page + 2);
+    ?>
+
     <!-- Pagination -->
-    <div class="mt-6 flex justify-center gap-2">
+    <div class="mt-10 flex justify-center gap-2 text-sm">
         <?php if ($page > 1): ?>
-            <a href="?page=<?= $page - 1 ?>" class="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded">Previous</a>
+            <a href="?page=<?= $page - 1 ?>" class="text-[#015551] hover:underline px-3 py-1 mt-1">Previous</a>
         <?php endif; ?>
-        <?php for ($p = 1; $p <= $total_pages; $p++): ?>
-            <a href="?page=<?= $p ?>" class="px-3 py-1 <?= $p == $page ? 'bg-blue-500 text-white' : 'bg-gray-100' ?> rounded hover:bg-blue-100"><?= $p ?></a>
+
+        <?php for ($p = $start; $p <= $end; $p++): ?>
+            <a href="?page=<?= $p ?>" class="px-4 py-2 rounded-full font-medium 
+           <?= $p == $page
+               ? 'bg-[#015551] text-white'
+               : ' text-black hover:bg-[#66BBB3] hover:text-white' ?>">
+                <?= $p ?>
+            </a>
         <?php endfor; ?>
+
         <?php if ($page < $total_pages): ?>
-            <a href="?page=<?= $page + 1 ?>" class="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded">Next</a>
+            <a href="?page=<?= $page + 1 ?>" class="text-[#015551] hover:underline px-3 py-1 mt-1">Next</a>
         <?php endif; ?>
     </div>
+
 </div>
 <script>
-            window.addEventListener('pageshow', function (event) {
-                if (event.persisted || performance.getEntriesByType("navigation")[0].type === "back_forward") {
-                    location.reload();
-                }
-            });
-        </script>
+    window.addEventListener('pageshow', function (event) {
+        if (event.persisted || performance.getEntriesByType("navigation")[0].type === "back_forward") {
+            location.reload();
+        }
+    });
+</script>
