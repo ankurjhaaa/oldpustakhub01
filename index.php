@@ -25,6 +25,7 @@ if ($seeVersion['seeVersion'] == 0) {
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"
         crossorigin="anonymous"></script>
+        <link rel="icon" type="image/png" href="images\logo2.png">
 </head>
 
 <body class="<?= $BG ?>">

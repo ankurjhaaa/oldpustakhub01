@@ -160,7 +160,7 @@
             <a
                 class="text-[#495464] hover:text-[#00ADB5] flex flex-col items-center px-2 py-1 transition-colors duration-200">
                 <div class="relative w-6 h-6 rounded-full overflow-hidden border border-[#00ADB5]">
-                    <img src="https://i.pravatar.cc/100" alt="Profile" class="w-full h-full object-cover">
+                    <img src="images\default_user.jpeg" alt="Profile" class="w-full h-full object-cover">
                 </div>
                 <span class="text-xs mt-1 font-medium">Profile</span>
             </a>
@@ -169,7 +169,7 @@
         <a href="m_profile.php"
             class="text-[#495464] hover:text-[#00ADB5] flex flex-col items-center px-2 py-1 transition-colors duration-200">
             <div class="relative w-6 h-6 rounded-full overflow-hidden border border-[#00ADB5]">
-                <img src="https://i.pravatar.cc/100" alt="Profile" class="w-full h-full object-cover">
+                <img src="images\default_user.jpeg" alt="Profile" class="w-full h-full object-cover">
             </div>
             <span class="text-xs mt-1 font-medium">Profile</span>
         </a>

@@ -63,10 +63,10 @@
                     if ($userlatlng['lat'] != "") {
                         echo $ADDRESS;
                     } else {
-                        echo "India";
+                        echo "New Delhi";
                     }
                 } else {
-                    echo "India";
+                    echo "New Delhi";
                 } ?></span>
                 <i class="fa-solid fa-chevron-down text-xs"></i>
             </button>
@@ -402,7 +402,7 @@
                 <span class="text-sm text-[#FDFBEE] font-medium"><?php if ($userlatlng['lat'] != "") {
                     echo $ADDRESS;
                 } else {
-                    echo "India";
+                    echo "New Delhi";
                 } ?></span>
                 <i class="fa-solid fa-chevron-down text-xs text-[#FDFBEE]"></i>
             </button> <?php } else { ?>

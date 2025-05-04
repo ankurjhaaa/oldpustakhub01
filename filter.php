@@ -12,8 +12,8 @@ if (isset($_SESSION['email'])) {
     $seeVersionQuery = $connect->query("SELECT * FROM users WHERE email='$email'");
     $seeVersion = $seeVersionQuery->fetch_assoc();
     $seeVersionUser = $seeVersion['seeVersion'];
-    
-    
+
+
 
 
     if ($seeVersion['seeVersion'] == 0) {
@@ -22,7 +22,7 @@ if (isset($_SESSION['email'])) {
         $BG = "bg-gray-200";
     }
 
-} 
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -49,11 +49,16 @@ if (isset($_SESSION['email'])) {
 
         // Category या Search टाइटल
         if (isset($_GET['category'])) {
+            if (isset($_SESSION['email'])) {
+                $seeVersionUserQuery = "AND version='$seeVersionUser'";
+            } else {
+                $seeVersionUserQuery = "";
+            }
             $category_name = $_GET['category'];
             echo "<h2 class='text-2xl font-bold text-gray-800 mb-5'>Search Category '$category_name'</h2>";
-            $where = "WHERE category='$category_name' AND version='$seeVersionUser'";
+            $where = "WHERE category='$category_name' $seeVersionUserQuery";
         } else {
-            if(isset($_SESSION['email'])){
+            if (isset($_SESSION['email'])) {
                 $seeVersionUserQuery = "AND version='$seeVersionUser'";
             } else {
                 $seeVersionUserQuery = "";

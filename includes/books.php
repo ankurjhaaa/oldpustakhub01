@@ -10,8 +10,10 @@ if (isset($_SESSION['email'])) {
     $email = $_SESSION['email'];
     $callUserAddressQuery = $connect->query("SELECT * FROM users WHERE email='$email'");
     $callUserAddress = $callUserAddressQuery->fetch_assoc();
-    $user_lat = $callUserAddress['lat'];
-    $user_lng = $callUserAddress['lng'];
+    $user_lat = (!empty($callUserAddress['lat'])) ? $callUserAddress['lat'] : 28.6139;
+    $user_lng = (!empty($callUserAddress['lng'])) ? $callUserAddress['lng'] : 77.2090;
+
+    
 
     if ($user_lat != "") {
         $books_query = "SELECT *, (

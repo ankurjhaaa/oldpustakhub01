@@ -218,18 +218,40 @@ if (isset($_SESSION['email'])) {
                             <i class="fas fa-chevron-right"></i>
                         </a>
                     </div>
-                    <?php if (!isset($_SESSION['email'])) { ?>
+                    <?php if (isset($_SESSION['email'])) { ?>
+                        <?php if ($email = $userDetail['email']) { ?>
+                            <div class="flex gap-2 w-full">
+
+                                <!-- Change Button (60%) -->
+                                <a href="edit.php?bookId=<?= $BookDetail['book_id'] ?>"
+                                    class="flex items-center justify-center gap-2 w-[60%] bg-[#015551] hover:bg-[#027c77] text-white font-semibold text-base px-4 py-2.5 rounded-md transition-all duration-300 shadow-md">
+                                    <i class="fas fa-edit text-white"></i>
+                                    <span>Change</span>
+                                </a>
+
+                                <!-- Remove Button (40%) -->
+                                <a href="remove.php?bookId=<?= $BookDetail['book_id'] ?>"
+                                    class="flex items-center justify-center gap-2 w-[40%] bg-[#015551] hover:bg-[#027c77] text-white font-semibold text-base px-4 py-2.5 rounded-md transition-all duration-300 shadow-md">
+                                    <i class="fas fa-trash-alt text-white"></i>
+                                    <span>Remove</span>
+                                </a>
+
+                            </div>
+                        <?php } else { ?>
+                            <a href="chat/message.php?user=<?= $userDetail['id'] ?>&bookId=<?= $BookDetail['book_id'] ?>"
+                                class="flex items-center justify-center gap-2 w-full md:w-auto bg-[#015551] hover:bg-[#027c77] text-white font-semibold text-base px-6 py-2.5 rounded-lg transition-all duration-300 shadow-md">
+                                <i class="fas fa-comment-dots"></i>
+                                <span>Chat with Seller</span>
+                            </a>
+                        <?php } ?>
+                    <?php } else { ?>
                         <a
                             class="flex items-center justify-center gap-2 w-full md:w-auto bg-[#015551] hover:bg-[#027c77] text-white font-semibold text-base px-6 py-2.5 rounded-lg transition-all duration-300 shadow-md">
                             <i class="fas fa-comment-dots"></i>
                             <span>Login to Chat</span>
                         </a>
-                    <?php } else { ?>
-                        <a href="chat/message.php?user=<?= $userDetail['id'] ?>&bookId=<?= $BookDetail['book_id'] ?>"
-                            class="flex items-center justify-center gap-2 w-full md:w-auto bg-[#015551] hover:bg-[#027c77] text-white font-semibold text-base px-6 py-2.5 rounded-lg transition-all duration-300 shadow-md">
-                            <i class="fas fa-comment-dots"></i>
-                            <span>Chat with Seller</span>
-                        </a> <?php } ?>
+
+                    <?php } ?>
 
                 </div>
 
