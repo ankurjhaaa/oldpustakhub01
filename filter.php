@@ -79,7 +79,9 @@ if (isset($_SESSION['email'])) {
         ?>
 
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-1 md:gap-4">
-            <?php while ($books = mysqli_fetch_array($call_books)) { ?>
+            <?php
+            $countBooksInRow = 1;
+            while ($books = mysqli_fetch_array($call_books)) { ?>
                 <div
                     class="border rounded-md shadow-sm hover:shadow-md transition-all duration-200 bg-white overflow-hidden flex flex-col p-1 max-w-sm">
                     <!-- Image Section -->
@@ -134,6 +136,52 @@ if (isset($_SESSION['email'])) {
                     </div>
                     <hr>
                 </div>
+                <?php
+                if ($countBooksInRow == 7) { ?>
+                    <!-- Match exact size and layout of book card -->
+                    <div
+                        class="border shadow-sm hover:shadow-md transition-all duration-200 bg-blue-600 text-white flex flex-col p-1 max-w-sm w-full h-full">
+                        <!-- Dummy image section for height balance -->
+                        <div
+                            class="w-full h-[160px] sm:h-[200px] bg-blue-500 flex items-center justify-center text-center px-4">
+                            <p class="text-sm sm:text-base font-semibold">Want to see<br> your books here?</p>
+                        </div>
+
+                        <!-- Content Section -->
+                        <div class="p-2 flex-grow flex flex-col justify-between text-center">
+                            <div class="space-y-2">
+                                <?php if ($books['version'] == 0) { ?>
+                                    <p class="text-sm sm:text-base text-white">
+                                        Sell your Old books on <span class="font-bold text-white underline">Pustakhub</span>
+
+                                    </p>
+
+                                <?php } else { ?>
+                                    <p class="text-sm sm:text-base text-white">
+                                        Make seller, sell New books on <a href="index.php"
+                                            class="font-bold text-white underline">Pustakhub</a>
+
+                                    </p>
+                                <?php } ?>
+                            </div>
+                            <?php if (!isset($_SESSION['email'])) { ?>
+                                <button
+                                    class="openPopupBtn mt-4 py-2 bg-white text-blue-600 font-semibold text-sm hover:bg-blue-100 hover:shadow-md transition border">
+                                    Start Selling
+                                </button>
+                            <?php } else { ?>
+
+                                <a href="sell/sell.php"
+                                    class="mt-4 py-2 bg-white text-blue-600 font-semibold text-sm hover:bg-blue-100 hover:shadow-md transition border">
+                                    Start Selling
+                                </a>
+                            <?php } ?>
+                        </div>
+                        <hr class="border-blue-500">
+                    </div>
+                <?php }
+                $countBooksInRow++;
+                ?>
             <?php } ?>
         </div>
 

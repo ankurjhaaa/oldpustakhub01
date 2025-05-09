@@ -1,6 +1,10 @@
 <?php include_once "config/db.php";
 
 $bookId = $_GET['bookId'];
+if(isset($_GET['bookId'])){
+    $bookId = $_GET['bookId'];
+    $insertView = mysqli_query($connect,"INSERT INTO book_views (book_id) VALUE ('$bookId')");
+}
 $CallBookDetail = $connect->query("SELECT * FROM books WHERE book_id='$bookId'");
 $BookDetail = $CallBookDetail->fetch_assoc();
 
@@ -74,9 +78,28 @@ if (isset($_SESSION['email'])) {
                             <i class="fas fa-chevron-left text-gray-700"></i>
                         </button>
 
-                        <img id="mainImage" src="images/<?= $BookDetail['img1'] ?>"
-                            class="w-full h-[400px] sm:h-[500px] object-contain rounded-md shadow bg-white p-2 cursor-zoom-in"
-                            alt="Book Cover" onclick="openFullScreen()">
+                        <div class="relative w-full">
+                            <!-- 🟠 Orange "NEW" Badge -->
+                            <?php if ($BookDetail['version'] == 1) { ?>
+                                <div
+                                    class="absolute top-2 left-2 bg-orange-500 text-white text-[11px] sm:text-xs font-bold px-2 py-[2px] rounded shadow-md uppercase tracking-wide z-10">
+                                    NEW Book
+                                </div>
+
+                            <?php } else { ?>
+                                <div
+                                    class="absolute top-2 left-2 bg-gray-500 text-white text-[11px] sm:text-xs font-bold px-2 py-[2px] rounded shadow-md uppercase tracking-wide z-10">
+                                    OLD Book
+                                </div>
+
+                            <?php } ?>
+
+                            <!-- 📚 Main Image -->
+                            <img id="mainImage" src="images/<?= $BookDetail['img1'] ?>"
+                                class="w-full h-[400px] sm:h-[500px] object-contain rounded-md shadow bg-white p-2 cursor-zoom-in"
+                                alt="Book Cover" onclick="openFullScreen()">
+                        </div>
+
 
                         <button onclick="nextImage()"
                             class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/80 p-2 rounded-md shadow-md border border-gray-300 hover:bg-gray-100 transition z-10">
@@ -168,21 +191,56 @@ if (isset($_SESSION['email'])) {
             <div class="lg:col-span-4 space-y-1">
                 <div class="bg-white p-5 rounded-md shadow-sm border border-gray-200">
                     <h1 class="text-2xl font-bold text-gray-800 mb-2"><?= $BookDetail['title'] ?></h1>
-                    <div class="flex justify-between items-center mb-4">
+                    <p class="text-sm text-gray-500 mt-1">
+                        Author : <a href=""><strong
+                                class="text-sm text-blue-900"><?= $BookDetail['author'] ?></strong></a>
+                    </p>
+                    <div class="flex justify-between items-start mb-4">
+                        <!-- Price & Info -->
                         <div>
-                            <span class="text-3xl font-bold text-[#015551]">₹<?= $BookDetail['set_price'] ?></span>
-                            <span class="text-sm text-gray-500 ml-1">(MRP:-<?= $BookDetail['mrp'] ?>)</span>
-                        </div>
-                        <div class="flex space-x-3">
-                            <button class="text-gray-500 hover:text-blue-500 transition-colors" title="Share">
-                                <i class="fas fa-share-alt"></i>
-                            </button>
-                            <button class="text-gray-500 hover:text-red-500 transition-colors" title="Save">
-                                <a href="wishlist.php"><i class="fas fa-heart "></i></a>
-                            </button>
+                            <div>
+                                <span class="text-3xl font-bold text-[#015551]">₹<?= $BookDetail['set_price'] ?></span>
+                                <span class="text-sm text-gray-500 ml-2">(MRP: ₹<?= $BookDetail['mrp'] ?>)</span>
+                            </div>
+                            <div class="text-xs text-gray-500 mt-1">
+                                👁️ <?= mysqli_num_rows(mysqli_query($connect,"SELECT * FROM book_views where book_id='$bookId'")) ?> views &nbsp;•&nbsp;
+                                📅 <?= 1234//date("d M Y", strtotime($BookDetail['created_at'])) ?>
+                            </div>
                         </div>
 
+                        <!-- Share + Save -->
+                        <div class="flex space-x-4 items-center">
+                            <!-- Share -->
+                            <button onclick="shareNow()" class="text-gray-600 hover:text-blue-600 transition-colors"
+                                title="Share this page">
+                                <i class="fas fa-share-alt text-lg"></i>
+                            </button>
+
+                            <!-- Wishlist -->
+                            <a href="wishlist.php" class="text-gray-600 hover:text-red-600 transition-colors"
+                                title="Save to wishlist">
+                                <i class="fas fa-heart text-lg"></i>
+                            </a>
+                        </div>
                     </div>
+
+                    <!-- ✅ Native Share Script -->
+                    <script>
+                        function shareNow() {
+                            if (navigator.share) {
+                                navigator.share({
+                                    title: document.title,
+                                    text: 'Check out this book on Pustakhub!',
+                                    url: window.location.href
+                                }).catch(err => {
+                                    console.error("Error sharing:", err);
+                                });
+                            } else {
+                                alert("Sharing not supported in this browser.");
+                            }
+                        }
+                    </script>
+
                     <?php if ($BookDetail['version'] == 0) { ?>
 
                         <div class="space-y-1 text-sm text-gray-600">
@@ -219,7 +277,7 @@ if (isset($_SESSION['email'])) {
                         </a>
                     </div>
                     <?php if (isset($_SESSION['email'])) { ?>
-                        <?php if ($email = $userDetail['email']) { ?>
+                        <?php if ($email == $userDetail['email']) { ?>
                             <div class="flex gap-2 w-full">
 
                                 <!-- Change Button (60%) -->
