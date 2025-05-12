@@ -265,8 +265,8 @@
                         <li><a href="profile.php?email=<?= $_SESSION['email'] ?>"
                                 class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100">
                                 <i class="fa-solid fa-user-circle mr-3 text-blue-600"></i> My Profile</a></li>
-                        <!-- <li><a href="orders.php" class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100">
-                                <i class="fa-solid fa-box mr-3 text-green-600"></i> My Orders</a></li> -->
+                        <li><a href="wallet/wallet.php" class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100">
+                                <i class="fa-solid fa-box mr-3 text-green-600"></i> Wallet</a></li>
                         <li><a href="wishlist.php" class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100"><i
                                     class="fa-solid fa-heart mr-3 text-red-500"></i> Wishlist
                                 <?php

@@ -4,7 +4,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Account Page</title>
+  <title>profile | pustakhub</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -38,18 +38,18 @@
 
         <!-- Follower / Following -->
         <div class="flex space-x-6 mt-2 text-[12px] text-gray-600 font-medium">
-          <span>👥 Followers: <strong>145</strong></span>
-          <span>🔄 Following: <strong>87</strong></span>
+          <span>👥 Followers: <strong><?= mysqli_num_rows($connect->query("SELECT * FROM follow WHERE sellerEmail='$email'")) ?></strong></span>
+          <span>🔄 Following: <strong><?= mysqli_num_rows($connect->query("SELECT * FROM follow WHERE userEmail='$email'")) ?></strong></span>
         </div>
       </div>
     </div>
 
     <!-- Top Buttons -->
     <div class="grid grid-cols-2 gap-2 bg-white p-4">
-      <a href="sell/sell.php">
+      <a href="wallet/wallet.php">
         <div class="flex items-center gap-2 border rounded p-2">
           <div class="text-blue-600">📦</div>
-          <span>Sell Book</span>
+          <span>Wallet</span>
         </div>
       </a>
       <a href="wishlist.php">
@@ -80,7 +80,7 @@
       <p>✨ Flipkart Plus</p>
     </div> -->
       <div class="p-2">
-        <p>👤 Edit Profile</p>
+        <a href="users_account/editProfile.php">👤 Edit Profile</a>
       </div>
       <!-- <div class="p-2">
       <p>💳 Saved Credit / Debit & Gift Cards</p>
@@ -174,7 +174,10 @@
     <div class="bg-white mt-2 p-4 space-y-2">
       <h3 class="font-bold">Get Seller Tag</h3>
       <div class="p-2">
-        <p>🏪 Sell New Books With Us</p>
+        <a href="wallet/purchaseSellPlan.php">
+          <p>🏪 Sell New Books With Us</p>
+
+        </a>
       </div>
 
     </div>

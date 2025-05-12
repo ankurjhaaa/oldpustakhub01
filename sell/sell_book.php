@@ -365,7 +365,7 @@ $cate4_name = $call_cat3_name->fetch_array();
             <!-- Location -->
             <div class="relative">
                 <label for="location" class="floating-label">Your Location</label>
-                <input type="text" placeholder=" "
+                <input type="text" placeholder="Click Location Icon "
                     class="w-full px-4 py-2 border-2 border-[#015551] rounded-sm focus:outline-none focus:ring-2 focus:ring-[#015551] placeholder:text-[#015551]"
                     id="location" readonly>
                 <button type="button" onclick="getLocation()"

@@ -1,9 +1,9 @@
 <?php include_once "config/db.php";
 
 $bookId = $_GET['bookId'];
-if(isset($_GET['bookId'])){
+if (isset($_GET['bookId'])) {
     $bookId = $_GET['bookId'];
-    $insertView = mysqli_query($connect,"INSERT INTO book_views (book_id) VALUE ('$bookId')");
+    $insertView = mysqli_query($connect, "INSERT INTO book_views (book_id) VALUE ('$bookId')");
 }
 $CallBookDetail = $connect->query("SELECT * FROM books WHERE book_id='$bookId'");
 $BookDetail = $CallBookDetail->fetch_assoc();
@@ -192,7 +192,7 @@ if (isset($_SESSION['email'])) {
                 <div class="bg-white p-5 rounded-md shadow-sm border border-gray-200">
                     <h1 class="text-2xl font-bold text-gray-800 mb-2"><?= $BookDetail['title'] ?></h1>
                     <p class="text-sm text-gray-500 mt-1">
-                        Author : <a href=""><strong
+                        Author : <a href="filter.php?authorName=<?= $BookDetail['author'] ?>"><strong
                                 class="text-sm text-blue-900"><?= $BookDetail['author'] ?></strong></a>
                     </p>
                     <div class="flex justify-between items-start mb-4">
@@ -203,7 +203,9 @@ if (isset($_SESSION['email'])) {
                                 <span class="text-sm text-gray-500 ml-2">(MRP: ₹<?= $BookDetail['mrp'] ?>)</span>
                             </div>
                             <div class="text-xs text-gray-500 mt-1">
-                                👁️ <?= mysqli_num_rows(mysqli_query($connect,"SELECT * FROM book_views where book_id='$bookId'")) ?> views &nbsp;•&nbsp;
+                                👁️
+                                <?= mysqli_num_rows(mysqli_query($connect, "SELECT * FROM book_views where book_id='$bookId'")) ?>
+                                views &nbsp;•&nbsp;
                                 📅 <?= 1234//date("d M Y", strtotime($BookDetail['created_at'])) ?>
                             </div>
                         </div>
@@ -281,18 +283,98 @@ if (isset($_SESSION['email'])) {
                             <div class="flex gap-2 w-full">
 
                                 <!-- Change Button (60%) -->
-                                <a href="edit.php?bookId=<?= $BookDetail['book_id'] ?>"
+
+                                <!-- Trigger Button -->
+                                <button onclick="openChangeModal()"
                                     class="flex items-center justify-center gap-2 w-[60%] bg-[#015551] hover:bg-[#027c77] text-white font-semibold text-base px-4 py-2.5 rounded-md transition-all duration-300 shadow-md">
                                     <i class="fas fa-edit text-white"></i>
                                     <span>Change</span>
-                                </a>
+                                </button>
+
+                                <!-- Modal Background -->
+                                <div id="changeModal"
+                                    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+                                    <!-- Modal Box -->
+                                    <div class="bg-white rounded-lg p-6 w-full max-w-md shadow-lg">
+                                        <h2 class="text-xl font-semibold text-gray-800 mb-4">Feature Not Available</h2>
+                                        <p class="text-gray-600 mb-6">
+                                            The "Change" feature is not available yet. If you want to update this product,
+                                            please delete it and upload a new book with the changes.
+                                        </p>
+
+                                        <!-- Buttons -->
+                                        <div class="flex justify-end gap-4">
+                                            <form method="post" action="includes/deleteBook.php">
+                                                <input type="hidden" name="deleteBookId" value="<?= $BookDetail['book_id'] ?>">
+                                                <button type="submit" name="deleteBook"
+                                                    class="bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-2 rounded-md shadow">
+                                                    Delete
+                                                </button>
+                                            </form>
+
+                                            <button onclick="closeChangeModal()"
+                                                class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold px-4 py-2 rounded-md shadow">
+                                                Cancel
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- JavaScript for Modal -->
+                                <script>
+                                    function openChangeModal() {
+                                        document.getElementById('changeModal').classList.remove('hidden');
+                                    }
+
+                                    function closeChangeModal() {
+                                        document.getElementById('changeModal').classList.add('hidden');
+                                    }
+                                </script>
+
+
 
                                 <!-- Remove Button (40%) -->
-                                <a href="remove.php?bookId=<?= $BookDetail['book_id'] ?>"
+                                <!-- Remove Button -->
+                                <button onclick="openModal()"
                                     class="flex items-center justify-center gap-2 w-[40%] bg-[#015551] hover:bg-[#027c77] text-white font-semibold text-base px-4 py-2.5 rounded-md transition-all duration-300 shadow-md">
                                     <i class="fas fa-trash-alt text-white"></i>
                                     <span>Remove</span>
-                                </a>
+                                </button>
+
+                                <!-- Modal Background -->
+                                <div id="deleteModal"
+                                    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+                                    <div class="bg-white rounded-lg shadow-lg w-[90%] max-w-md p-6 text-center">
+
+                                        <h2 class="text-xl font-semibold text-gray-800 mb-4">Are you sure you want to delete
+                                            this item?</h2>
+
+                                        <div class="flex justify-center gap-4">
+                                            <form action="includes/deleteBook.php" method="post">
+                                                <input type="hidden" name="deleteBookId" value="<?= $BookDetail['book_id'] ?>">
+                                                <!-- Yes Button -->
+                                                <button type="submit" name="deleteBook"
+                                                    class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition">Yes</button>
+                                            </form>
+
+                                            <!-- No Button -->
+                                            <button onclick="closeModal()"
+                                                class="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 transition">No</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- JavaScript -->
+                                <script>
+                                    function openModal() {
+                                        document.getElementById('deleteModal').classList.remove('hidden');
+                                    }
+
+                                    function closeModal() {
+                                        document.getElementById('deleteModal').classList.add('hidden');
+                                    }
+                                </script>
+
 
                             </div>
                         <?php } else { ?>

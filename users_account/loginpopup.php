@@ -21,7 +21,7 @@
 
             <!-- Image -->
             <div class="flex justify-center mb-4">
-                <img src="https://cdn-icons-png.flaticon.com/512/109/109618.png" alt="Icon" class="w-16 h-16">
+                <img src="images/logo2.png" alt="Icon" class="w-16 h-16">
             </div>
 
             <!-- Message -->
@@ -44,7 +44,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M16 12H8m0 0l-4 4m4-4l-4-4" />
                 </svg>
-                Continue with Email
+                Continue with Password
             </button>
 
             <!-- Login Form -->
@@ -60,22 +60,31 @@
             </div>
 
             <!-- Google Button -->
-            <button
+            <?php
+                require 'vendor/autoload.php';
+                $client = new Google_Client();
+                $client->setClientId('221201399960-mtidn0pcb10bgrga4nu9v15pssvaj2fi.apps.googleusercontent.com');
+                $client->setClientSecret('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');
+                $client->setRedirectUri('http://localhost/pustakhub/index.php');
+                $client->addScope(['email', 'profile']);
+                $login_url = $client->createAuthUrl();
+                ?>
+            <a href="<?= $login_url ?>"
                 class="w-full border border-gray-400 rounded-md py-2 flex items-center justify-center gap-2 mb-4 hover:bg-gray-100">
                 <img src="https://www.google.com/favicon.ico" alt="Google" class="w-5 h-5">
                 Continue with Google
-            </button>
+            </a>
 
             <!-- OR -->
-            <div class="text-center mb-4 font-semibold text-gray-500">OR</div>
+            <!-- <div class="text-center mb-4 font-semibold text-gray-500">OR</div> -->
 
             <!-- Forget Password Link -->
-            <div class="text-center mb-4">
+            <!-- <div class="text-center mb-4">
                 <a href="#" id="showOtpSection" class="text-blue-800 font-semibold underline">Forget Password</a>
-            </div>
+            </div> -->
 
             <!-- OTP Section -->
-            <div id="otpSection" class="hidden">
+            <!-- <div id="otpSection" class="hidden">
                 <input type="email" placeholder="Enter your email"
                     class="w-full mb-3 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400" />
                 <button class="w-full bg-purple-600 text-white py-2 rounded-md hover:bg-purple-700 transition mb-3">Send
@@ -84,7 +93,7 @@
                     class="w-full mb-3 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400" />
                 <button class="w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition">Verify
                     OTP</button>
-            </div>
+            </div> -->
 
             <!-- Privacy Note -->
             <p class="text-xs text-center text-gray-500 mt-4">

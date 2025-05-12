@@ -50,41 +50,72 @@
         }
         ?>
 
-        <!-- ✅ Auto-submit form on toggle -->
-        <form method="POST">
-          <label class="relative inline-flex items-center cursor-pointer mt-2">
-            <input type="checkbox" name="bookToggle" class="sr-only peer" id="bookToggle" onchange="this.form.submit()"
-              <?php if (isset($_SESSION['email'])) {
-                echo ($seeVersion['seeVersion'] == 1) ? 'checked' : '';
+        <?php if (isset($_SESSION['email'])) { ?>
+          <!-- ✅ Auto-submit form on toggle -->
+          <form method="POST">
+            <label class="relative inline-flex items-center cursor-pointer mt-2">
+              <input type="checkbox" name="bookToggle" class="sr-only peer" id="bookToggle" onchange="this.form.submit()"
+                <?php if (isset($_SESSION['email'])) {
+                  echo ($seeVersion['seeVersion'] == 1) ? 'checked' : '';
+                } else {
+                  echo ($seeVersion['version'] == 1) ? 'checked' : '';
+                } ?>>
+              <div class="w-11 h-6 bg-gray-300 rounded-full peer peer-checked:bg-[#2874f0] transition-colors"></div>
+              <div class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-all peer-checked:translate-x-5">
+              </div>
+            </label>
+          </form>
+
+          <span
+            class="text-[12px] font-medium mt-1 text-gray-700 group-hover:text-[#2874f0] transition-colors duration-300"><!-- 📘 Old Books Section -->
+            <div id="oldBooks">
+              <h2><?php if (isset($_SESSION['email'])) {
+                if ($seeVersion['seeVersion'] == 0) {
+                  echo "Old Books ";
+                } else {
+                  echo "New Books";
+                }
               } else {
-                echo ($seeVersion['version'] == 1) ? 'checked' : '';
-              } ?>>
-            <div class="w-11 h-6 bg-gray-300 rounded-full peer peer-checked:bg-[#2874f0] transition-colors"></div>
-            <div class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-all peer-checked:translate-x-5">
+                if ($seeVersion['version'] == 0) {
+                  echo "Old Books ";
+                } else {
+                  echo "New Books";
+                }
+              } ?></h2>
             </div>
-          </label>
-        </form>
-
-        <span
-          class="text-[12px] font-medium mt-1 text-gray-700 group-hover:text-[#2874f0] transition-colors duration-300"><!-- 📘 Old Books Section -->
-          <div id="oldBooks">
-            <h2><?php if (isset($_SESSION['email'])) {
-              if ($seeVersion['seeVersion'] == 0) {
-                echo "Old Books ";
-              } else {
-                echo "New Books";
-              }
-            } else {
-              if ($seeVersion['version'] == 0) {
-                echo "Old Books ";
-              } else {
-                echo "New Books";
-              }
-            } ?></h2>
-          </div>
 
 
-        </span>
+          </span>
+        <?php } else { ?>
+          <!-- ✅ Auto-submit form on toggle -->
+          <!-- <form method="POST"> -->
+          <button class="openPopupBtn">
+            <label class="relative inline-flex items-center cursor-pointer mt-2">
+              <input type="checkbox" name="bookToggle" class="sr-only peer" id="bookToggle" onchange="this.form.submit()"
+                <?php
+                // if (isset($_SESSION['email'])) {
+                //   echo ($seeVersion['seeVersion'] == 1) ? 'checked' : '';
+                // } else {
+                //   echo ($seeVersion['version'] == 1) ? 'checked' : '';
+                // }
+                ?>>
+              <div class="w-11 h-6 bg-gray-300 rounded-full peer peer-checked:bg-[#2874f0] transition-colors"></div>
+              <div class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-all peer-checked:translate-x-5">
+              </div>
+            </label>
+          </button>
+          <!-- </form> -->
+
+          <span
+            class="text-[12px] font-medium mt-1 text-gray-700 group-hover:text-[#2874f0] transition-colors duration-300"><!-- 📘 Old Books Section -->
+            <div id="oldBooks">
+              <h2>All Books</h2>
+            </div>
+
+
+          </span>
+        <?php } ?>
+
       </div>
       <?php
       $callCatQuery = $connect->query("SELECT * FROM category");

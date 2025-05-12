@@ -6,15 +6,15 @@ if (isset($_GET['find_book'])) {
 if (isset($_GET['category'])) {
     $category_name = $_GET['category'];
 }
+if (isset($_GET['authorName'])) {
+    $authorName = $_GET['authorName'];
+}
 if (isset($_SESSION['email'])) {
 
     $email = $_SESSION['email'];
     $seeVersionQuery = $connect->query("SELECT * FROM users WHERE email='$email'");
     $seeVersion = $seeVersionQuery->fetch_assoc();
     $seeVersionUser = $seeVersion['seeVersion'];
-
-
-
 
     if ($seeVersion['seeVersion'] == 0) {
         $BG = "bg-[url('images/bodylogo.jpg')] bg-cover bg-center bg-no-repeat min-h-screen";
@@ -47,25 +47,69 @@ if (isset($_SESSION['email'])) {
         $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
         $offset = ($page - 1) * $limit;
 
+        if (isset($_SESSION['email'])) {
+            $email = $_SESSION['email'];
+            $callUserAddressQuery = $connect->query("SELECT * FROM users WHERE email='$email'");
+            $callUserAddress = $callUserAddressQuery->fetch_assoc();
+            $user_lat = (!empty($callUserAddress['lat'])) ? $callUserAddress['lat'] : 28.6139;
+            $user_lng = (!empty($callUserAddress['lng'])) ? $callUserAddress['lng'] : 77.2090;
+        }
+
         // Category या Search टाइटल
         if (isset($_GET['category'])) {
             if (isset($_SESSION['email'])) {
                 $seeVersionUserQuery = "AND version='$seeVersionUser'";
+                $where = "WHERE category='$category_name' $seeVersionUserQuery";
+
+                $call_books = mysqli_query($connect, "SELECT *, (
+                6371 * ACOS(
+                COS(RADIANS($user_lat)) * COS(RADIANS(latitude)) *
+                COS(RADIANS(longitude) - RADIANS($user_lng)) +
+                SIN(RADIANS($user_lat)) * SIN(RADIANS(latitude))
+            )
+        ) AS distance
+        FROM books $where ORDER BY book_id DESC LIMIT $offset, $limit");
+
             } else {
                 $seeVersionUserQuery = "";
+                $where = "WHERE category='$category_name' $seeVersionUserQuery";
+                $call_books = mysqli_query($connect, "SELECT * FROM books $where ORDER BY book_id DESC LIMIT $offset, $limit");
+
+
             }
             $category_name = $_GET['category'];
             echo "<h2 class='text-2xl font-bold text-gray-800 mb-5'>Search Category '$category_name'</h2>";
-            $where = "WHERE category='$category_name' $seeVersionUserQuery";
-        } else {
+            // $where = "WHERE category='$category_name' $seeVersionUserQuery";
+        } elseif (isset($_GET['find_book'])) {
             if (isset($_SESSION['email'])) {
                 $seeVersionUserQuery = "AND version='$seeVersionUser'";
+                $where = "WHERE( title LIKE '%$book_name%' OR author LIKE '%$book_name%' OR book_condition LIKE '%$book_name%' OR state LIKE '%$book_name%' OR category LIKE '%$book_name%' OR set_price LIKE '%$book_name%' OR district LIKE '%$book_name%' OR sub_category LIKE '%$book_name%') $seeVersionUserQuery";
+                $call_books = mysqli_query($connect, "SELECT *, (
+                6371 * ACOS(
+                COS(RADIANS($user_lat)) * COS(RADIANS(latitude)) *
+                COS(RADIANS(longitude) - RADIANS($user_lng)) +
+                SIN(RADIANS($user_lat)) * SIN(RADIANS(latitude))
+            )
+        ) AS distance
+        FROM books $where ORDER BY book_id DESC LIMIT $offset, $limit");
+
             } else {
                 $seeVersionUserQuery = "";
+                $where = "WHERE( title LIKE '%$book_name%' OR author LIKE '%$book_name%' OR book_condition LIKE '%$book_name%' OR state LIKE '%$book_name%' OR category LIKE '%$book_name%' OR set_price LIKE '%$book_name%' OR district LIKE '%$book_name%' OR sub_category LIKE '%$book_name%') $seeVersionUserQuery";
+                $call_books = mysqli_query($connect, "SELECT * FROM books $where ORDER BY book_id DESC LIMIT $offset, $limit");
             }
             $book_name = $_GET['book_name'] ?? '';
+
             echo "<h2 class='text-2xl font-bold text-gray-800 mb-5'>Search Book '$book_name'</h2>";
-            $where = "WHERE title LIKE '%$book_name%' OR author LIKE '%$book_name%' OR book_condition LIKE '%$book_name%' OR state LIKE '%$book_name%' OR category LIKE '%$book_name%' OR set_price LIKE '%$book_name%' OR district LIKE '%$book_name%' OR sub_category LIKE '%$book_name%' $seeVersionUserQuery";
+        } elseif (isset($_GET['authorName'])) {
+            if (isset($_SESSION['email'])) {
+                $seeVersionUserQuery = "";
+                $where = "WHERE author='$authorName' $seeVersionUserQuery";
+                $call_books = mysqli_query($connect, "SELECT * FROM books $where ORDER BY book_id DESC LIMIT $offset, $limit");
+
+
+            }
+
         }
 
         // Total Books Count
@@ -74,8 +118,7 @@ if (isset($_SESSION['email'])) {
         $total_books = $count_row['total'];
         $total_pages = ceil($total_books / $limit);
 
-        // Books Query with LIMIT
-        $call_books = mysqli_query($connect, "SELECT * FROM books $where ORDER BY book_id DESC LIMIT $offset, $limit");
+
         ?>
 
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-1 md:gap-4">

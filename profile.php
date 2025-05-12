@@ -17,7 +17,7 @@ if (isset($_SESSION['email'])) {
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Profile</title>
+    <title>Profile | pustakhub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"
         crossorigin="anonymous"></script>
@@ -227,10 +227,14 @@ if (isset($_SESSION['email'])) {
                         </script>
 
                     <?php } else { ?>
-                        <button class="w-full bg-cyan-900 text-white py-2 rounded-md mt-6 font-semibold">
+                        <a href="users_account\editProfile.php" class="w-full bg-cyan-900 text-white py-2 rounded-md mt-6 font-semibold">
                             <i class="fas fa-edit mr-2"></i>
                             Update profile
-                        </button>
+                        </a>
+                        <a href="wallet/purchaseSellPlan.php" class="w-full bg-cyan-900 text-white py-2 rounded-md mt-6 font-semibold">
+                            <!-- <i class="fas fa-edit mr-2"></i> -->
+                            Make You Seller
+                        </a>
                     <?php } ?>
 
                     <?php if ($sellerDetail['email'] != $thisUserEmail) { ?>
