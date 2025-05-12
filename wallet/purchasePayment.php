@@ -10,7 +10,8 @@ if (isset($_GET['plan'])) {
 // else{
 //     echo '<script>window.location.href = "purchasePayment.php";</script>';
 
-// }
+// } 
+
 
 if ($planName == "PLAN30") {
     $planAmountPrice = 30;
