@@ -60,16 +60,8 @@
             </div>
 
             <!-- Google Button -->
-            <?php
-                require 'vendor/autoload.php';
-                $client = new Google_Client();
-                $client->setClientId('221201399960-mtidn0pcb10bgrga4nu9v15pssvaj2fi.apps.googleusercontent.com');
-                $client->setClientSecret('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');
-                $client->setRedirectUri('http://localhost/pustakhub/index.php');
-                $client->addScope(['email', 'profile']);
-                $login_url = $client->createAuthUrl();
-                ?>
-            <a href="<?= $login_url ?>"
+            
+            <a href=""
                 class="w-full border border-gray-400 rounded-md py-2 flex items-center justify-center gap-2 mb-4 hover:bg-gray-100">
                 <img src="https://www.google.com/favicon.ico" alt="Google" class="w-5 h-5">
                 Continue with Google
