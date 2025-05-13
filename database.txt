@@ -7,3 +7,7 @@ user -->{
     6. 
 
 }
+
+agar role=0 hai to user 
+agar role=1 hai to admin 
+agar role=2 hai to seller

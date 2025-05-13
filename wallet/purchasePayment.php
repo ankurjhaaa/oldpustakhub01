@@ -6,6 +6,7 @@
 
 if (isset($_GET['plan'])) {
     $planName = $_GET['plan'];
+    
 }
 // else{
 //     echo '<script>window.location.href = "purchasePayment.php";</script>';
@@ -21,9 +22,9 @@ if ($planName == "PLAN30") {
     $planAmountPrice = 300;
 } else{
     echo '<script>window.location.href = "purchasePayment.php";</script>';
-
 }
 $planAmount = floatval($planAmountPrice);
+$_SESSION['planAmountPrice'] = $planAmount;
 $total = floatval($total); // अगर ये DB से आ रहा है तो ensure करें कि ये number है
 $shortage = $planAmount - $total;
 
@@ -103,8 +104,8 @@ $shortage = $planAmount - $total;
                     </div>
 
                     <form method="post" action="process-purchase.php" class="flex justify-center gap-4">
-                        <input type="hidden" name="confirmed_plan" value="<?= $planAmount ?>">
-                        <button type="submit"
+                        <input type="hidden" name="planName" value="<?=  $planName ?>">
+                        <button type="submit" name="processPurchase"
                             class="bg-[#015551] hover:bg-[#01443e] text-white px-5 py-2 rounded-md text-sm font-semibold">
                             Confirm Purchase
                         </button>

@@ -3,6 +3,20 @@
 
 session_start();
 
+
+function UserDetail()
+{
+    global $connect;
+    $email = $_SESSION['email'];
+    $query = $connect->query("select * from users where email='$email'");
+    $UserDetail = $query->fetch_assoc();
+    return $UserDetail;
+}
+
+if (isset($_SESSION['email'])) {
+    $USERDETAIL = UserDetail();
+
+}
 // session_start();
 
 // Database connection (change this part as needed)
@@ -45,21 +59,28 @@ if (isset($_SESSION['email'])) {
             $total -= $row['amount'];
         }
     }
+
+
+
+    // users table subscription date end kiya mat lab database me 0 kiya
+    date_default_timezone_set("Asia/Kolkata");
+    $userSubscriptionEndDate = $USERDETAIL['purchased_end']; // e.g. "2025-07-10 16:30:00"
+    $userCurrentTime = time(); // current timestamp
+    $subscriptionEnd = strtotime($userSubscriptionEndDate); // convert datetime to timestamp
+
+    if ($subscriptionEnd > $userCurrentTime) {
+        $updateIsSubscriptionActive = $connect->query("UPDATE users SET isPlanActive=1 WHERE email='$email'");
+
+    } else {
+        // $isSubscriptionActive = 0; // subscription expire ho chuka hai
+        $updateIsSubscriptionActive = $connect->query("UPDATE users SET isPlanActive=0 WHERE email='$email'");
+
+    }
+    // if($isSubscriptionActive == 0){
+
+    // }
+
 }
 
 
-
-function UserDetail()
-{
-    global $connect;
-    $email = $_SESSION['email'];
-    $query = $connect->query("select * from users where email='$email'");
-    $UserDetail = $query->fetch_assoc();
-    return $UserDetail;
-}
-
-if (isset($_SESSION['email'])) {
-    $USERDETAIL = UserDetail();
-
-}
 ?>

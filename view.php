@@ -273,7 +273,7 @@ if (isset($_SESSION['email'])) {
                                 <p class="text-xs text-gray-500">Member since 2022</p>
                             </div>
                         </div>
-                        <a href="profile.php?email=<?= $userDetail['email'] ?>"
+                        <a href="booksFrom.php?email=<?= $userDetail['email'] ?>"
                             class="text-blue-500 hover:text-blue-700">
                             <i class="fas fa-chevron-right"></i>
                         </a>

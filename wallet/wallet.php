@@ -51,6 +51,7 @@
             class="bg-[#015551] hover:bg-[#014341] text-white px-6 py-2 rounded-sm transition duration-300">Add
             Money</button>
         </form>
+        
       </div>
       <script>
         document.getElementById("payBtn").onclick = function (e) {
