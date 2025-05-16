@@ -1,4 +1,9 @@
-<?php $connect = mysqli_connect("localhost", "root", "", "oldpustakhub01"); ?>
+<?php 
+
+$connect = mysqli_connect("localhost", "root", "", "oldpustakhub01");
+
+//  $connect = mysqli_connect("localhost", "pustakhub", "?SvGfHBac;+{", "pustakhub"); 
+?>
 <?php
 
 session_start();
