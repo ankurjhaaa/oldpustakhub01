@@ -61,7 +61,8 @@ if (isset($_SESSION['email'])) {
     }
 
 
-
+if($USERDETAIL['role'] == 2){
+    
     // users table subscription date end kiya mat lab database me 0 kiya
     date_default_timezone_set("Asia/Kolkata");
     $userSubscriptionEndDate = $USERDETAIL['purchased_end']; // e.g. "2025-07-10 16:30:00"
@@ -76,6 +77,7 @@ if (isset($_SESSION['email'])) {
         $updateIsSubscriptionActive = $connect->query("UPDATE users SET isPlanActive=0 WHERE email='$email'");
 
     }
+}
     // if($isSubscriptionActive == 0){
 
     // }

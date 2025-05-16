@@ -69,7 +69,7 @@
                     echo "New Delhi";
                 } ?></span>
                 <i class="fa-solid fa-chevron-down text-xs"></i>
-            </button>
+            </button> 
         </div>
         <!-- Search Bar -->
         <div class="relative w-full max-w-xl mx-auto">
@@ -88,43 +88,43 @@
             </form>
 
             <!-- 🔻 SUGGESTION BOX -->
-            <ul id="suggestionBox"
-                class="hidden absolute z-50 bg-white w-full border border-gray-300 rounded-lg shadow-md max-h-72 overflow-y-auto text-sm text-gray-800 custom-scroll">
-                <li class="px-4 py-2 font-semibold text-gray-500 cursor-default select-none">Search
-                    Book-Name,Category,Book-detail..</li>
-                <?php $call_books_name = mysqli_query($connect, " SELECT title FROM books
-    UNION ALL
-    SELECT category_title FROM category
-    UNION ALL
-    SELECT subcat_title FROM sub_category ORDER BY RAND()");
-                while ($books_name = mysqli_fetch_array($call_books_name)) { ?>
-                    <a href="filter.php?find_book=&book_name=<?= $books_name['title'] ?>">
-                        <li
-                            class="px-4 py-2 cursor-pointer hover:bg-blue-50 transition-all duration-150 rounded flex items-center gap-2">
-                            <i class="fa-solid fa-magnifying-glass text-xs"></i> <?= $books_name['title'] ?>
-                        </li>
-                    </a>
-                <?php } ?>
+            <!-- <ul id="suggestionBox"
+                class="hidden absolute z-50 bg-white w-full border border-gray-300 rounded-lg shadow-md max-h-72 overflow-y-auto text-sm text-gray-800 custom-scroll"> -->
+                <!-- <li class="px-4 py-2 font-semibold text-gray-500 cursor-default select-none">Search
+                    Book-Name,Category,Book-detail..</li> -->
+                <?php 
+    //             $call_books_name = mysqli_query($connect, " SELECT title FROM books
+    // UNION ALL
+    // SELECT category_title FROM category
+    // UNION ALL
+    // SELECT subcat_title FROM sub_category ORDER BY RAND()");
+               // while ($books_name = mysqli_fetch_array($call_books_name)) { 
+                    ?>
+                    <!-- <a href="filter.php?find_book=&book_name=<?php //echo  $books_name['title'] ?>"> -->
+                        <!-- <li -->
+                            <!-- class="px-4 py-2 cursor-pointer hover:bg-blue-50 transition-all duration-150 rounded flex items-center gap-2"> -->
+                            <!-- <i class="fa-solid fa-magnifying-glass text-xs"></i> <?php //echo $books_name['title'] ?> -->
+                        <!-- </li> -->
+                    <!-- </a> -->
+                <?php //} ?>
 
 
-            </ul>
+            <!-- </ul> -->
         </div>
 
         <!-- 👇 Scrollbar Hiding (CSS) -->
-        <style>
+        <!-- <style>
             .custom-scroll {
                 scrollbar-width: none;
-                /* Firefox */
             }
 
             .custom-scroll::-webkit-scrollbar {
                 display: none;
-                /* Chrome/Safari */
             }
-        </style>
+        </style> -->
 
         <!-- ✅ JavaScript -->
-        <script>
+        <!-- <script>
             const input = document.getElementById('searchInput');
             const suggestionBox = document.getElementById('suggestionBox');
             const allItems = Array.from(suggestionBox.querySelectorAll('li')).slice(1); // skip "Trending"
@@ -159,7 +159,7 @@
                     suggestionBox.classList.add('hidden');
                 });
             });
-        </script>
+        </script> -->
 
 
     </div>
@@ -262,8 +262,7 @@
 
                     <!-- Menu Items -->
                     <ul class="py-2">
-                        <li><a href="profile.php?email=<?= $_SESSION['email'] ?>"
-                                class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100">
+                        <li><a href="profile.php" class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100">
                                 <i class="fa-solid fa-user-circle mr-3 text-blue-600"></i> My Profile</a></li>
                         <li><a href="wallet/wallet.php" class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100">
                                 <i class="fa-solid fa-box mr-3 text-green-600"></i> Wallet</a></li>
@@ -315,25 +314,49 @@
                 </a>
             </button>
         <?php } else { ?>
-            <a href="sell/sell.php" class="group relative inline-flex items-center justify-center text-white font-semibold 
-              transition-transform duration-300 hover:scale-105">
+            <?php if ($USERDETAIL['role'] == 2 && $USERDETAIL['isPlanActive'] == 0) { ?>
+                <!-- Your Existing Button (No Changes) -->
+                <button class="sell-btn group relative inline-flex items-center justify-center text-white font-semibold 
+    transition-transform duration-300 hover:scale-105">
 
-                <!-- Outer Animated Glowing Border -->
-                <span class="absolute inset-0 rounded-full bg-gradient-to-tr from-yellow-400 via-pink-500 to-cyan-400 
-               animate-rotate-slow blur-md opacity-40 group-hover:opacity-70 transition-all duration-500"></span>
+                    <!-- Outer Animated Glowing Border -->
+                    <span class="absolute inset-0 rounded-full bg-gradient-to-tr from-yellow-400 via-pink-500 to-cyan-400 
+        animate-rotate-slow blur-md opacity-40 group-hover:opacity-70 transition-all duration-500"></span>
 
-                <!-- Middle Soft Glow Pulse -->
-                <span class="absolute inset-0 rounded-full bg-gradient-to-tr from-yellow-400 via-pink-500 to-cyan-400 
-               opacity-20 animate-pulse-slow blur-xl group-hover:blur-lg group-hover:opacity-40"></span>
+                    <!-- Middle Soft Glow Pulse -->
+                    <span class="absolute inset-0 rounded-full bg-gradient-to-tr from-yellow-400 via-pink-500 to-cyan-400 
+        opacity-20 animate-pulse-slow blur-xl group-hover:blur-lg group-hover:opacity-40"></span>
 
-                <!-- Inner Core Button -->
-                <span class="relative z-10 flex items-center space-x-2 bg-[#015551] px-6 py-2 rounded-full 
-               border border-white/10 shadow-md backdrop-blur-md group-hover:shadow-lg">
-                    <i class="fa-solid fa-star text-white text-xl animate-wiggle group-hover:animate-none"></i>
-                    <span class="tracking-wide">SELL</span>
-                </span>
+                    <!-- Inner Core Button -->
+                    <span class="relative z-10 flex items-center space-x-2 bg-[#015551] px-6 py-2 rounded-full 
+        border border-white/10 shadow-md backdrop-blur-md group-hover:shadow-lg">
+                        <i class="fa-solid fa-star text-white text-xl animate-wiggle group-hover:animate-none"></i>
+                        <span class="tracking-wide">SELL</span>
+                    </span>
+                </button>
 
-            </a>
+
+            <?php } else { ?>
+                <a href="sell/sell.php" class="group relative inline-flex items-center justify-center text-white font-semibold 
+                  transition-transform duration-300 hover:scale-105">
+
+                    <!-- Outer Animated Glowing Border -->
+                    <span class="absolute inset-0 rounded-full bg-gradient-to-tr from-yellow-400 via-pink-500 to-cyan-400 
+                   animate-rotate-slow blur-md opacity-40 group-hover:opacity-70 transition-all duration-500"></span>
+
+                    <!-- Middle Soft Glow Pulse -->
+                    <span class="absolute inset-0 rounded-full bg-gradient-to-tr from-yellow-400 via-pink-500 to-cyan-400 
+                   opacity-20 animate-pulse-slow blur-xl group-hover:blur-lg group-hover:opacity-40"></span>
+
+                    <!-- Inner Core Button -->
+                    <span class="relative z-10 flex items-center space-x-2 bg-[#015551] px-6 py-2 rounded-full 
+                   border border-white/10 shadow-md backdrop-blur-md group-hover:shadow-lg">
+                        <i class="fa-solid fa-star text-white text-xl animate-wiggle group-hover:animate-none"></i>
+                        <span class="tracking-wide">SELL</span>
+                    </span>
+
+                </a>
+            <?php } ?>
 
             <style>
                 @keyframes pulse-slow {
@@ -388,9 +411,7 @@
 
 
     </div>
-
-
-
+    
     <!-- Mobile Icons -->
     <div class="md:hidden flex items-center space-x-5">
 

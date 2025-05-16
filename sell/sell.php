@@ -2,6 +2,11 @@
 <?php include_once "../config/db.php"; 
  if(!isset($_SESSION['email'])){
   echo '<script>window.history.back();</script>';
+} else {
+  if($USERDETAIL['isPlanActive'] == 0){
+  echo '<script>window.history.back();</script>';
+
+  }
 }
 ?>
 <!DOCTYPE html>
@@ -102,19 +107,21 @@
       <div>
         <button onclick="toggleMobileSub('mobile-sub-0')"
           class="w-full flex items-center justify-between px-4 py-3 hover:bg-gray-100">
-          <div class="flex items-center gap-2"><i class="fas fa-car-side text-gray-600"></i><span>Cars</span></div>
+          <div class="flex items-center gap-2"></i><span>Novel</span></div>
           <i class="fas fa-chevron-down text-gray-400 text-sm"></i>
         </button>
         <div id="mobile-sub-0" class="hidden bg-gray-50 border-t">
-          <div class="px-6 py-2 hover:bg-gray-100 text-sm">SUV</div>
-          <div class="px-6 py-2 hover:bg-gray-100 text-sm">Hatchback</div>
-          <div class="px-6 py-2 hover:bg-gray-100 text-sm">Sedan</div>
-          <div class="px-6 py-2 hover:bg-gray-100 text-sm">Luxury</div>
-          <div class="px-6 py-2 hover:bg-gray-100 text-sm">Others</div>
+          <?php
+          $call_subcat_id = $connect->query("SELECT * FROM sub_category WHERE cat_id=1");
+          while ($subcat_id = $call_subcat_id->fetch_array()) { ?>
+            <a href="sell_book.php?subcat_id=<?= $subcat_id['subcat_id'] ?>"><div class="px-6 py-2 hover:bg-gray-100 text-sm"><?= $subcat_id['subcat_title'] ?></div></a>
+          <?php } ?>
+          
+          
         </div>
       </div>
 
-      <div>
+      <!-- <div>
         <button onclick="toggleMobileSub('mobile-sub-1')"
           class="w-full flex items-center justify-between px-4 py-3 hover:bg-gray-100">
           <div class="flex items-center gap-2"><i class="fas fa-mobile-alt text-gray-600"></i><span>Mobiles</span></div>
@@ -155,7 +162,7 @@
           <div class="px-6 py-2 hover:bg-gray-100 text-sm">Sports Equipment</div>
           <div class="px-6 py-2 hover:bg-gray-100 text-sm">Other Hobbies</div>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </body>

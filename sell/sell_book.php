@@ -2,6 +2,11 @@
 
 if (!isset($_SESSION['email'])) {
     echo '<script>window.history.back();</script>';
+}else {
+  if($USERDETAIL['isPlanActive'] == 0){
+  echo '<script>window.history.back();</script>';
+
+  }
 }
 
 $email = $_SESSION['email'];

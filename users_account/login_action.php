@@ -4,7 +4,7 @@ include_once "../config/db.php";
 
 if (isset($_POST['login'])) {
     // Sanitize input
-    $email    = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
+    $email = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
     $password = $_POST['password'];
 
     // Fetch user by email
@@ -21,8 +21,8 @@ if (isset($_POST['login'])) {
         if (password_verify($password, $user['password'])) {
             session_regenerate_id(true); // Prevent session fixation
             $_SESSION['email'] = $user['email'];
-            
-            
+
+
 
             // Redirect securely
             // header("Location: ../index.php");
@@ -32,6 +32,8 @@ if (isset($_POST['login'])) {
     }
 
     // If failed
-    echo "Invalid email or password.";
+    echo '<script>window.history.back();</script>';
+
+    // echo "Invalid email or password.";
 }
 ?>

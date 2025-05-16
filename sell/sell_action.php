@@ -2,6 +2,11 @@
 include_once "../config/db.php";
 if (!isset($_SESSION['email'])) {
     echo '<script>window.history.back();</script>';
+}else {
+  if($USERDETAIL['isPlanActive'] == 0){
+  echo '<script>window.history.back();</script>';
+
+  }
 }
 
 if (isset($_POST['post_book'])) {

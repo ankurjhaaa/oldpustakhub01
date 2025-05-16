@@ -13,7 +13,7 @@
   <?php include_once "includes/navbar.php" ?>
   <!-- Mobile User Profile Header -->
   <?php if (isset($_SESSION['email'])) { ?>
-    <div class="bg-white px-4 py-3  shadow-lg flex items-start space-x-3">
+    <div class="bg-white px-4 py-3  shadow-lg flex items-start space-x-3 ">
       <!-- Profile Initial -->
       <div
         class="w-11 h-11 flex items-center justify-center rounded-full bg-[#015551]/10 text-[#015551] font-bold text-lg mt-2">
@@ -34,14 +34,20 @@
         <!-- Sub Info -->
         <p class="text-[13px] text-gray-500 mt-1">
           <?php if ($USERDETAIL['role'] == '2') { ?>
-            <span class="text-blue-600 font-semibold">✨ Valid till
-              <?php
-              $datetime = $USERDETAIL['purchased_end']; // e.g. "2025-07-10 16:30:00"
-              $formattedDate = date("d M Y, h:i A", strtotime($datetime)); // Example: "10 Jul 2025, 04:30 PM"
-              echo $formattedDate;
-              ?>
+            <?php if ($USERDETAIL['purchased_at'] > $USERDETAIL['purchased_end']) { ?>
+              <span class="text-red-600 font-semibold">Expired On</span> <?= date("d M Y, h:i A", strtotime($USERDETAIL['purchased_end'])) ?>
 
-            </span>
+            <?php } else { ?>
+
+              <span class="text-blue-600 font-semibold">✨ Valid till
+                <?php
+                $datetime = $USERDETAIL['purchased_end']; // e.g. "2025-07-10 16:30:00"
+                $formattedDate = date("d M Y, h:i A", strtotime($datetime)); // Example: "10 Jul 2025, 04:30 PM"
+                echo $formattedDate;
+                ?>
+
+              </span>
+            <?php } ?>
           <?php } else { ?>
             <span class="text-blue-600 font-semibold">✨ Not Seller </span>
           <?php } ?>
