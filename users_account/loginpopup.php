@@ -7,134 +7,205 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gray-100 flex items-center justify-center w-full h-screen">
+<body class="bg-gray-200 flex items-center justify-center min-h-screen">
 
-
+    <!-- Trigger Button (Example) -->
+    <!-- <button class="openPopupBtn bg-blue-600 text-white px-4 py-2 rounded-md">Open Login Popup</button> -->
 
     <!-- Popup Overlay -->
-    <div id="popupOverlay" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-        <div class="bg-white w-[90%] max-w-sm rounded-xl shadow-lg relative p-6">
+    <div id="popupOverlay" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
+        <div class="bg-gray-100 rounded-lg border-4 border-[#015551] shadow-lg w-[90%] max-w-sm p-6 relative">
 
             <!-- Close Button -->
-            <button id="closePopupBtn"
-                class="absolute top-4 right-4 text-2xl text-gray-600 hover:text-black">&times;</button>
+            <button id="closePopupBtn" class="absolute top-4 right-4 text-gray-600 text-2xl hover:text-black"></button>
 
-            <!-- Image -->
+            <!-- Logo -->
             <div class="flex justify-center mb-4">
-                <img src="images/logo2.png" alt="Icon" class="w-16 h-16">
+                <img src="images/logo2.png" alt="Logo" class="w-32 h-32 border-2 border-[#015551]">
             </div>
 
-            <!-- Message -->
-            <p class="text-center text-gray-800 font-medium text-lg mb-6">
-                Help us become one of the safest places to buy and sell
-            </p>
-
-            <!-- Progress Dots -->
-            <div class="flex justify-center space-x-2 mb-6">
-                <span class="w-2 h-2 rounded-full bg-teal-800"></span>
-                <span class="w-2 h-2 rounded-full bg-gray-300"></span>
-                <span class="w-2 h-2 rounded-full bg-gray-300"></span>
+            <!-- Step 1: Selection -->
+            <div id="stepSelection">
+                <p class="text-center text-gray-800 font-semibold text-lg mb-6">Help us become one of the safest places
+                    to buy and sell</p>
+                <div class="flex flex-col gap-3">
+                    <button id="showEmailLogin"
+                        class="w-full border py-2 border-2 border-[#015551] rounded-sm hover:bg-gray-100 text-md">Continue
+                        with Password</button>
+                    <button id="showOtpLogin"
+                        class="w-full border py-2 border-2 border-[#015551] rounded-sm hover:bg-gray-100 text-md">Continue
+                        with OTP</button>
+                </div>
             </div>
 
-            <!-- Continue with Email Button -->
-            <button id="showLoginForm"
-                class="w-full border border-gray-400 rounded-md py-2 flex items-center justify-center gap-2 mb-4 hover:bg-gray-100">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M16 12H8m0 0l-4 4m4-4l-4-4" />
-                </svg>
-                Continue with Password
-            </button>
-
-            <!-- Login Form -->
-            <div id="loginForm" class="hidden">
+            <!-- Step 2: Email Login -->
+            <div id="emailLogin" class="hidden">
+                <p class="text-center text-gray-800 font-semibold text-lg mb-6">Enter Your Valid Email Or Password To
+                    Login to Continue </p>
                 <form action="users_account/login_action.php" method="post">
-                    <input type="email" placeholder="Email" name="email"
-                        class="w-full mb-3 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" />
-                    <input type="password" placeholder="Password" name="password"
-                        class="w-full mb-3 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" />
-                    <button name="login"
-                        class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition mb-3">Login</button>
+                    <input type="email" name="email" placeholder="Enter Email"
+                        class="w-full mb-3 px-3 py-2 border-2 border-[#015551] rounded-md focus:ring-2 focus:ring-[#015551]"
+                        required />
+                    <input type="password" name="password" placeholder="Enter Password"
+                        class="w-full mb-3 px-3 py-2 border-2 border-[#015551] rounded-md focus:ring-2 focus:ring-[#015551]"
+                        required />
+                    <button type="submit" name="login"
+                        class="w-full bg-[#015551] text-white py-2 rounded-md  transition">Login</button>
                 </form>
             </div>
 
-            <!-- Google Button -->
-            
-            <a href=""
-                class="w-full border border-gray-400 rounded-md py-2 flex items-center justify-center gap-2 mb-4 hover:bg-gray-100">
-                <img src="https://www.google.com/favicon.ico" alt="Google" class="w-5 h-5">
-                Continue with Google
-            </a>
+            <!-- Step 2: OTP - Email input -->
+            <div id="otpStepEmail" class="hidden">
+                <p class="text-center text-gray-800 font-semibold text-lg mb-6">Enter Your Valid Email To
+                    Get OTP and Continue . </p>
+                <form id="otpEmailForm">
+                    <input type="email" id="otpEmail" placeholder="Enter your Email"
+                        class="w-full mb-3 px-3 py-2 border-2 border-[#015551] rounded-md focus:ring-2 focus:ring-[#015551]"
+                        required />
+                    <button type="button" id="sendOtpBtn"
+                        class="w-full text-white py-2 rounded-md bg-[#015551] transition">Send
+                        OTP</button>
+                </form>
+            </div>
+            <script>
+                document.getElementById('sendOtpBtn').addEventListener('click', function () {
+                    const email = document.getElementById('otpEmail').value.trim();
 
-            <!-- OR -->
-            <!-- <div class="text-center mb-4 font-semibold text-gray-500">OR</div> -->
+                    if (email === "") {
+                        alert("Please enter your email.");
+                        return;
+                    }
 
-            <!-- Forget Password Link -->
-            <!-- <div class="text-center mb-4">
-                <a href="#" id="showOtpSection" class="text-blue-800 font-semibold underline">Forget Password</a>
-            </div> -->
+                    fetch('send_otp.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: `email=${encodeURIComponent(email)}`
+                    })
+                        .then(response => response.text())
+                        // .then(data => {
+                        //     if (data === 'success') {
+                        //         // alert("OTP sent successfully!");
+                        //         // show next OTP input section here
+                        //     } else if (data === 'invalid') {
+                        //         alert("Invalid email address.");
+                        //     } else {
+                        //         alert("Failed to send OTP. Please try again.");
+                        //     }
+                        // })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert("Something went wrong.");
+                        });
+                });
 
-            <!-- OTP Section -->
-            <!-- <div id="otpSection" class="hidden">
-                <input type="email" placeholder="Enter your email"
-                    class="w-full mb-3 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400" />
-                <button class="w-full bg-purple-600 text-white py-2 rounded-md hover:bg-purple-700 transition mb-3">Send
-                    OTP</button>
-                <input type="text" placeholder="Enter OTP"
-                    class="w-full mb-3 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400" />
-                <button class="w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition">Verify
-                    OTP</button>
-            </div> -->
+            </script>
 
-            <!-- Privacy Note -->
+
+            <!-- Step 3: OTP - Code input -->
+            <div id="otpVerifyStep" class="hidden">
+                <form action="" method="post">
+                    <input type="hidden" name="email" value="<?= $_SESSION['otp_email'] ?>" id="otpHiddenEmail">
+                    <input type="text" name="otp" placeholder="Enter OTP"
+                        class="w-full mb-3 px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-400" required />
+                    <button type="submit" name='verifyEmailOtp'
+                        class="w-full bg-[#015551] text-white py-2 rounded-md  transition">Verify
+                        OTP</button>
+                </form>
+                <?php
+                if (isset($_POST['verifyEmailOtp'])) {
+                    $email = $_POST['email'];
+                    $otp = $_POST['otp'];
+
+                    // Fetch user by email
+                    $stmt = $connect->prepare("SELECT id, email, otp FROM users WHERE email = ?");
+                    $stmt->bind_param("s", $email);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+
+                    if ($result->num_rows === 1) {
+                        $user = $result->fetch_assoc();
+                        $databaseOtp = $user['otp'];
+
+                        // Verify password
+                        if ($otp === $databaseOtp) {
+                            // session_regenerate_id(true); // Prevent session fixation
+                            $_SESSION['email'] = $user['email'];
+                            echo '<script>window.history.back();</script>';
+                        }
+                    }
+                    echo '<script>window.history.back();</script>';
+                }
+                ?>
+            </div>
+
+            <!-- Privacy Info -->
             <p class="text-xs text-center text-gray-500 mt-4">
                 All your personal details are safe with us.<br>
-                If you continue, you are accepting <a href="#" class="text-blue-700 underline">pustakhub Terms and
-                    Conditions</a> and <a href="#" class="text-blue-700 underline">Privacy Policy</a>.
+                By continuing, you accept our <a href="#" class="text-blue-700 underline">Terms</a> & <a href="#"
+                    class="text-blue-700 underline">Privacy Policy</a>.
             </p>
         </div>
     </div>
 
-    <!-- JavaScript to Handle Popup & Switching -->
+    <!-- Script -->
     <script>
-    const openButtons = document.querySelectorAll('.openPopupBtn'); // now handles multiple buttons
-    const closeBtn = document.getElementById('closePopupBtn');
-    const overlay = document.getElementById('popupOverlay');
-    const loginForm = document.getElementById('loginForm');
-    const showLoginFormBtn = document.getElementById('showLoginForm');
-    const otpSection = document.getElementById('otpSection');
-    const showOtpBtn = document.getElementById('showOtpSection');
+        const openButtons = document.querySelectorAll('.openPopupBtn');
+        const closeBtn = document.getElementById('closePopupBtn');
+        const overlay = document.getElementById('popupOverlay');
 
-    // loop through all buttons and attach click listener
-    openButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            overlay.classList.remove('hidden');
-            loginForm.classList.add('hidden');
-            otpSection.classList.add('hidden');
+        const stepSelection = document.getElementById('stepSelection');
+        const emailLogin = document.getElementById('emailLogin');
+        const otpStepEmail = document.getElementById('otpStepEmail');
+        const otpVerifyStep = document.getElementById('otpVerifyStep');
+
+        const showEmailLogin = document.getElementById('showEmailLogin');
+        const showOtpLogin = document.getElementById('showOtpLogin');
+        const sendOtpBtn = document.getElementById('sendOtpBtn');
+        const otpHiddenEmail = document.getElementById('otpHiddenEmail');
+
+        // Open Popup
+        openButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                overlay.classList.remove('hidden');
+                showStep('selection');
+            });
         });
-    });
 
-    closeBtn.addEventListener('click', () => {
-        overlay.classList.add('hidden');
-    });
+        // Close Popup
+        closeBtn.addEventListener('click', () => overlay.classList.add('hidden'));
+        window.addEventListener('click', e => { if (e.target === overlay) overlay.classList.add('hidden'); });
 
-    window.addEventListener('click', (e) => {
-        if (e.target === overlay) {
-            overlay.classList.add('hidden');
+        // Show Login Options
+        showEmailLogin.addEventListener('click', () => showStep('email'));
+        showOtpLogin.addEventListener('click', () => showStep('otpEmail'));
+
+        // Send OTP Simulation
+        sendOtpBtn.addEventListener('click', () => {
+            const email = document.getElementById('otpEmail').value.trim();
+            if (email !== "") {
+                otpHiddenEmail.value = email;
+                showStep('otpVerify');
+                // TODO: Send OTP to backend
+            } else {
+                alert("Please enter a valid email.");
+            }
+        });
+
+        // Show different step panels
+        function showStep(step) {
+            stepSelection.classList.add('hidden');
+            emailLogin.classList.add('hidden');
+            otpStepEmail.classList.add('hidden');
+            otpVerifyStep.classList.add('hidden');
+
+            if (step === 'selection') stepSelection.classList.remove('hidden');
+            else if (step === 'email') emailLogin.classList.remove('hidden');
+            else if (step === 'otpEmail') otpStepEmail.classList.remove('hidden');
+            else if (step === 'otpVerify') otpVerifyStep.classList.remove('hidden');
         }
-    });
-
-    showLoginFormBtn.addEventListener('click', () => {
-        loginForm.classList.remove('hidden');
-        otpSection.classList.add('hidden');
-    });
-
-    showOtpBtn.addEventListener('click', () => {
-        otpSection.classList.remove('hidden');
-        loginForm.classList.add('hidden');
-    });
-</script>
+    </script>
 
 </body>
 

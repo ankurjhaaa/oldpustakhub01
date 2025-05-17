@@ -42,6 +42,8 @@ if ($seeVersion['seeVersion'] == 0) {
     <?php include_once "includes/carousel.php" ?>
 
     <?php include_once "includes/books.php" ?>
+    
+    <?php include_once "users_account/withoutNamePopup.php"; ?>
 
 
 
