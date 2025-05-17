@@ -71,14 +71,19 @@ if (isset($_GET['bookId'])) {
                 <!-- Header -->
                 <div class="bg-white p-4 border-b flex items-center shadow-md fixed top-20 left-0 right-0 md:relative">
 
-                    <img src="../images/<?php echo empty($user_name['dp']) ? 'default_user.jpeg' : htmlspecialchars($user_name['dp']); ?>"
+                    <img src="../images/default_user.jpeg"
                         class="w-12 h-12 rounded-sm border object-cover shadow-sm mr-3 cursor-pointer" loading="lazy"
                         onerror="this.onerror=null; this.src='dp/defaultUser.webp';"
                         onclick="window.location.href='../profile.php?email=<?= $user_name['email'] ?>'">
-                    <div class="flex-1" onclick="window.location.href='../profile.php?email=<?= $user_name['email'] ?>'">
+                    <div class="flex-1"
+                        onclick="window.location.href='../profile.php?email=<?= $user_name['email'] ?>'">
                         <p class="font-semibold text-lg"><?= $user_name['firstname'] ?> <?= $user_name['lastname'] ?>
                         </p>
-                        <p id="typingStatus" class="text-sm text-green-500">Seller</p>
+                        <?php if ($user_name['role'] == 2) { ?>
+                            <p id="typingStatus" class="text-sm text-green-500">Seller</p>
+                        <?php } else { ?>
+                            <p id="typingStatus" class="text-sm text-green-500">User</p>
+                        <?php } ?>
                     </div>
                     <?php
                     // PHP में अपना dynamic number लो

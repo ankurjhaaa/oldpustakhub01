@@ -19,10 +19,10 @@ $email = $_SESSION['email'];
 
             <!-- Dropdown Menu -->
             <div class="relative inline-block text-left">
-                <button onclick="toggleDropdown()"
+                <!-- <button onclick="toggleDropdown()"
                     class="bg-gray-300 p-1 h-8 w-10 rounded-md flex items-center justify-center focus:outline-none">
                     <i class="fas fa-bars text-xl"></i>
-                </button>
+                </button> -->
                 <div id="dropdownMenu" class="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg hidden">
                     <a href="profile.php" class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100">
                         <i class="fas fa-user mr-2"></i> Profile
@@ -96,9 +96,9 @@ ORDER BY last_chat_time DESC
             ?>
             <a href="message.php?user=<?= $user['id'] ?>">
                 <div class="user-item flex items-center p-2 hover:bg-gray-200 rounded cursor-pointer">
-                    <img src="../images/<?php echo empty($user['dp']) ? 'default_user.jpeg' : htmlspecialchars($user['dp']); ?>"
+                    <img src="../images/default_user.jpeg"
                         class="w-12 h-12 rounded-full border object-cover mr-3 shadow-sm" loading="lazy"
-                        onerror="this.src='dp/defaultUser.webp'">
+                        >
 
                     <div>
                         <h1 class="text-xl font-medium text-gray-800"><?= $user['firstname'] ?>     <?= $user['lastname'] ?>

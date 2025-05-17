@@ -16,9 +16,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email'])) {
     $_SESSION['otp'] = $otp;
     $_SESSION['otp_email'] = $email;
 
-    $subject = "Your OTP Code";
+    $subject = "pustakhub Signup/Forget OTP Code";
     $message = "Your OTP is: $otp\n\nPlease do not share it with anyone.";
-    $headers = "From: support@yourdomain.com\r\n" .
+    $headers = "From: support@pustakhub.com\r\n" .
                "Reply-To: support@pustakhub.com\r\n" .
                "X-Mailer: PHP/" . phpversion();
 

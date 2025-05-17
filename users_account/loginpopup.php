@@ -33,8 +33,7 @@
                         class="w-full border py-2 border-2 border-[#015551] rounded-sm hover:bg-gray-100 text-md">Continue
                         with Password</button>
                     <button id="showOtpLogin"
-                        class="w-full border py-2 border-2 border-[#015551] rounded-sm hover:bg-gray-100 text-md">Continue
-                        with OTP</button>
+                        class="w-full border py-2 border-2 border-[#015551] rounded-sm hover:bg-gray-100 text-md">Signup / Forget Password</button>
                 </div>
             </div>
 
@@ -105,10 +104,11 @@
 
             <!-- Step 3: OTP - Code input -->
             <div id="otpVerifyStep" class="hidden">
+                <p class="text-center text-gray-800 font-semibold text-lg mb-6">Please check Email And fill Otp to Continue Login . </p>
                 <form action="" method="post">
                     <input type="hidden" name="email" value="<?= $_SESSION['otp_email'] ?>" id="otpHiddenEmail">
                     <input type="text" name="otp" placeholder="Enter OTP"
-                        class="w-full mb-3 px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-400" required />
+                        class="w-full mb-3 px-3 py-2 border-2 border-[#015551] rounded-md focus:ring-2 focus:ring-[#015551]" required />
                     <button type="submit" name='verifyEmailOtp'
                         class="w-full bg-[#015551] text-white py-2 rounded-md  transition">Verify
                         OTP</button>

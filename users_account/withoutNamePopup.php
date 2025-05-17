@@ -15,7 +15,7 @@ if (isset($_SESSION['email'])) { ?>
 
       <!-- Popup Overlay -->
       <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 ">
-        <div class="bg-white w-[90%] max-w-md rounded-xl shadow-xl relative p-6">
+        <div class="bg-white w-[90%] max-w-md rounded-lg border-4 border-[#015551] shadow-lg relative p-6">
 
 
           <!-- Logo/Image -->
@@ -24,8 +24,8 @@ if (isset($_SESSION['email'])) { ?>
           </div>
 
           <!-- Heading -->
-          <h2 class="text-center text-2xl font-bold text-gray-800 mb-2">Welcome to PustakHub</h2>
-          <p class="text-center text-sm text-gray-500 mb-6">Fill All The Input , Than You Access Your Account To Sell Or Buy
+          <h2 class="text-center text-2xl font-bold text-gray-800 mb-1">Welcome to PustakHub</h2>
+          <p class="text-center text-sm text-gray-500 mb-2">Fill All The Input , Than You Access Your Account To Sell Or Buy
             .</p>
           <?php
           if (isset($_POST['submitDataFill'])) {
@@ -81,28 +81,28 @@ if (isset($_SESSION['email'])) { ?>
               echo "First name is required.";
             } ?></p>
             <input type="text" placeholder="First Name" name="firstname" value="<?= $USERDETAIL['firstname'] ?>"
-              class="w-full mb-3 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              class="w-full mb-3 px-3 py-2 border-2 border-[#015551] rounded-md focus:ring-2 focus:ring-[#015551]"
               required />
 
             <p class="text-red-600 text-sm"> <?php if (empty($USERDETAIL['lastname'])) {
               echo "Last name is required.";
             } ?></p>
             <input type="text" placeholder="Last Name" name="lastname" value="<?= $USERDETAIL['lastname'] ?>"
-              class="w-full mb-3 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              class="w-full mb-3 px-3 py-2 border-2 border-[#015551] rounded-md focus:ring-2 focus:ring-[#015551]"
               required />
 
             <p class="text-red-600 text-sm"> <?php if (empty($USERDETAIL['mobile'])) {
               echo "Enter a valid 10-digit mobile number.";
             } ?></p>
             <input type="tel" placeholder="Mobile Number" name="mobile" value="<?= $USERDETAIL['mobile'] ?>"
-              class="w-full mb-3 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              class="w-full mb-3 px-3 py-2 border-2 border-[#015551] rounded-md focus:ring-2 focus:ring-[#015551]"
               required />
 
             <p class="text-red-600 text-sm"> <?php if (empty($USERDETAIL['password'])) {
               echo "Password must be at least 6 characters.";
             } ?></p>
             <input type="password" placeholder="New Password" name="password"
-              class="w-full mb-4 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              class="w-full mb-4 px-3 py-2 border-2 border-[#015551] rounded-md focus:ring-2 focus:ring-[#015551]"
               required />
 
 
