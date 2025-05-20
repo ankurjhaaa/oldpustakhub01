@@ -69,7 +69,7 @@
                     echo "New Delhi";
                 } ?></span>
                 <i class="fa-solid fa-chevron-down text-xs"></i>
-            </button> 
+            </button>
         </div>
         <!-- Search Bar -->
         <div class="relative w-full max-w-xl mx-auto">
@@ -90,23 +90,23 @@
             <!-- 🔻 SUGGESTION BOX -->
             <!-- <ul id="suggestionBox"
                 class="hidden absolute z-50 bg-white w-full border border-gray-300 rounded-lg shadow-md max-h-72 overflow-y-auto text-sm text-gray-800 custom-scroll"> -->
-                <!-- <li class="px-4 py-2 font-semibold text-gray-500 cursor-default select-none">Search
+            <!-- <li class="px-4 py-2 font-semibold text-gray-500 cursor-default select-none">Search
                     Book-Name,Category,Book-detail..</li> -->
-                <?php 
-    //             $call_books_name = mysqli_query($connect, " SELECT title FROM books
-    // UNION ALL
-    // SELECT category_title FROM category
-    // UNION ALL
-    // SELECT subcat_title FROM sub_category ORDER BY RAND()");
-               // while ($books_name = mysqli_fetch_array($call_books_name)) { 
-                    ?>
-                    <!-- <a href="filter.php?find_book=&book_name=<?php //echo  $books_name['title'] ?>"> -->
-                        <!-- <li -->
-                            <!-- class="px-4 py-2 cursor-pointer hover:bg-blue-50 transition-all duration-150 rounded flex items-center gap-2"> -->
-                            <!-- <i class="fa-solid fa-magnifying-glass text-xs"></i> <?php //echo $books_name['title'] ?> -->
-                        <!-- </li> -->
-                    <!-- </a> -->
-                <?php //} ?>
+            <?php
+            //             $call_books_name = mysqli_query($connect, " SELECT title FROM books
+            // UNION ALL
+            // SELECT category_title FROM category
+            // UNION ALL
+            // SELECT subcat_title FROM sub_category ORDER BY RAND()");
+            // while ($books_name = mysqli_fetch_array($call_books_name)) { 
+            ?>
+            <!-- <a href="filter.php?find_book=&book_name=<?php //echo  $books_name['title'] ?>"> -->
+            <!-- <li -->
+            <!-- class="px-4 py-2 cursor-pointer hover:bg-blue-50 transition-all duration-150 rounded flex items-center gap-2"> -->
+            <!-- <i class="fa-solid fa-magnifying-glass text-xs"></i> <?php //echo $books_name['title'] ?> -->
+            <!-- </li> -->
+            <!-- </a> -->
+            <?php //} ?>
 
 
             <!-- </ul> -->
@@ -411,7 +411,7 @@
 
 
     </div>
-    
+
     <!-- Mobile Icons -->
     <div class="md:hidden flex items-center space-x-5">
 
@@ -517,6 +517,7 @@
                         <!-- Hidden fields for lat/lng -->
                         <input type="hidden" id="latitude" name="latitude">
                         <input type="hidden" id="longitude" name="longitude">
+                        <input type="hidden" value="<?= $email ?>" name="userEmail">
                     </div>
 
                     <!-- Optional label -->

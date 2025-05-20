@@ -1,10 +1,9 @@
-
-<?php include_once "../config/db.php"; 
- if(!isset($_SESSION['email'])){
+<?php include_once "../config/db.php";
+if (!isset($_SESSION['email'])) {
   echo '<script>window.history.back();</script>';
 } else {
-  if($USERDETAIL['isPlanActive'] == 0){
-  echo '<script>window.history.back();</script>';
+  if ($USERDETAIL['isPlanActive'] == 0) {
+    echo '<script>window.history.back();</script>';
 
   }
 }
@@ -45,124 +44,68 @@
 
   <!-- Main Container -->
   <div class="max-w-4xl mx-auto mt-4 bg-white rounded shadow overflow-hidden border">
-    <div class="p-4 border-b font-semibold text-lg">CHOOSE A CATEGORY</div>
+    <div class="p-4 border-b font-semibold text-lg">CHOOSE BOOK CATEGORY</div>
 
     <!-- Desktop Layout -->
     <div class="hidden md:flex">
       <!-- Left: Categories -->
       <div class="w-1/2 border-r divide-y" id="desktopCategoryList">
-        <button onclick="showDesktopSubcategory('sub-cars', this)"
-          class="w-full flex items-center justify-between px-4 py-3 hover:bg-gray-100">
-          <div class="flex items-center gap-2"></i><span>Novel </span></div>
-          <i class="fas fa-chevron-right text-gray-400 text-sm"></i>
-        </button>
-        <button onclick="showDesktopSubcategory('sub-mobiles', this)"
-          class="w-full flex items-center justify-between px-4 py-3 hover:bg-gray-100">
-          <div class="flex items-center gap-2"><span>Science</span></div>
-          <i class="fas fa-chevron-right text-gray-400 text-sm"></i>
-        </button>
-        <button onclick="showDesktopSubcategory('sub-jobs', this)"
-          class="w-full flex items-center justify-between px-4 py-3 hover:bg-gray-100">
-          <div class="flex items-center gap-2"></i><span>Entertenment</span></div>
-          <i class="fas fa-chevron-right text-gray-400 text-sm"></i>
-        </button>
-        <button onclick="showDesktopSubcategory('sub-books', this)"
-          class="w-full flex items-center justify-between px-4 py-3 hover:bg-gray-100">
-          <div class="flex items-center gap-2"></i><span>Dummy</span></div>
-          <i class="fas fa-chevron-right text-gray-400 text-sm"></i>
-        </button>
+        <?php
+        $call_cat_id = $connect->query("SELECT * FROM category ");
+        while ($cat_id = $call_cat_id->fetch_array()) { ?>
+          <button onclick="showDesktopSubcategory('category-<?= $cat_id['cat_id'] ?>', this)"
+            class="w-full flex items-center justify-between px-4 py-3 hover:bg-gray-100">
+            <div class="flex items-center gap-2"><span><?= $cat_id['category_title'] ?></span></div>
+            <i class="fas fa-chevron-right text-gray-400 text-sm"></i>
+          </button>
+
+        <?php } ?>
       </div>
 
       <!-- Right: Subcategories -->
       <div class="w-1/2 divide-y" id="desktopSubcategoryList">
-        <div id="sub-cars" data-desktop-sub class="hidden">
-          <?php
-          $call_subcat_id = $connect->query("SELECT * FROM sub_category WHERE cat_id=1");
-          while ($subcat_id = $call_subcat_id->fetch_array()) { ?>
-            <a href="sell_book.php?subcat_id=<?= $subcat_id['subcat_id'] ?>"><div class="px-4 py-3 hover:bg-gray-100 cursor-pointer"><?= $subcat_id['subcat_title'] ?></div></a>
-          <?php } ?>
-
-          <!-- <div class="px-4 py-3 hover:bg-gray-100 cursor-pointer">Hatchback</div>
-          <div class="px-4 py-3 hover:bg-gray-100 cursor-pointer">Sedan</div>
-          <div class="px-4 py-3 hover:bg-gray-100 cursor-pointer">Luxury</div>
-          <div class="px-4 py-3 hover:bg-gray-100 cursor-pointer">Others</div> -->
-        </div>
-        <div id="sub-mobiles" data-desktop-sub class="hidden">
-          <div class="px-4 py-3 hover:bg-gray-100 cursor-pointer">chemistry</div>
-          
-        </div>
-        <div id="sub-jobs" data-desktop-sub class="hidden">
-          <div class="px-4 py-3 hover:bg-gray-100 cursor-pointer">physics</div>
-          
-        </div>
-        <div id="sub-books" data-desktop-sub class="hidden">
-          <div class="px-4 py-3 hover:bg-gray-100 cursor-pointer">new books</div>
-          
-        </div>
+        <?php
+        $call_cat_id = $connect->query("SELECT * FROM category ");
+        while ($cat_id = $call_cat_id->fetch_array()) { ?>
+          <div id="category-<?= $cat_id['cat_id'] ?>" data-desktop-sub class="hidden">
+            <?php
+            $subcatId = $cat_id['cat_id'];
+            $call_subcat_id = $connect->query("SELECT * FROM sub_category WHERE cat_id='$subcatId'");
+            while ($subcat_id = $call_subcat_id->fetch_array()) { ?>
+              <a href="sell_book.php?subcat_id=<?= $subcat_id['subcat_id'] ?>">
+                <div class="px-4 py-3 hover:bg-gray-100 cursor-pointer"><?= $subcat_id['subcat_title'] ?></div>
+              </a>
+            <?php } ?>
+          </div>
+        <?php } ?>
       </div>
     </div>
 
     <!-- Mobile Layout -->
     <div class="md:hidden divide-y" id="mobileCategoryList">
-      <div>
-        <button onclick="toggleMobileSub('mobile-sub-0')"
-          class="w-full flex items-center justify-between px-4 py-3 hover:bg-gray-100">
-          <div class="flex items-center gap-2"></i><span>Novel</span></div>
-          <i class="fas fa-chevron-down text-gray-400 text-sm"></i>
-        </button>
-        <div id="mobile-sub-0" class="hidden bg-gray-50 border-t">
-          <?php
-          $call_subcat_id = $connect->query("SELECT * FROM sub_category WHERE cat_id=1");
-          while ($subcat_id = $call_subcat_id->fetch_array()) { ?>
-            <a href="sell_book.php?subcat_id=<?= $subcat_id['subcat_id'] ?>"><div class="px-6 py-2 hover:bg-gray-100 text-sm"><?= $subcat_id['subcat_title'] ?></div></a>
-          <?php } ?>
-          
-          
-        </div>
-      </div>
+      <?php
+      $call_cat_id = $connect->query("SELECT * FROM category ");
+      while ($cat_id = $call_cat_id->fetch_array()) { ?>
+        <div>
+          <button onclick="toggleMobileSub('mcategory-<?= $cat_id['cat_id'] ?>')"
+            class="w-full flex items-center justify-between px-10 py-4 hover:bg-gray-100">
+            <div class="flex items-center gap-2 text-lg"></i><span><?= $cat_id['category_title'] ?></span></div>
+            <i class="fas fa-chevron-down text-gray-400 text-md"></i>
+          </button>
+          <div id="mcategory-<?= $cat_id['cat_id'] ?>" class="hidden bg-gray-50 border-t">
+            <?php
+            $subcatId = $cat_id['cat_id'];
+            $call_subcat_id = $connect->query("SELECT * FROM sub_category WHERE cat_id='$subcatId'");
+            while ($subcat_id = $call_subcat_id->fetch_array()) { ?>
+              <a href="sell_book.php?subcat_id=<?= $subcat_id['subcat_id'] ?>">
+                <div class="px-20 py-3 hover:bg-gray-100 text-md"><?= $subcat_id['subcat_title'] ?></div>
+              </a>
+            <?php } ?>
 
-      <!-- <div>
-        <button onclick="toggleMobileSub('mobile-sub-1')"
-          class="w-full flex items-center justify-between px-4 py-3 hover:bg-gray-100">
-          <div class="flex items-center gap-2"><i class="fas fa-mobile-alt text-gray-600"></i><span>Mobiles</span></div>
-          <i class="fas fa-chevron-down text-gray-400 text-sm"></i>
-        </button>
-        <div id="mobile-sub-1" class="hidden bg-gray-50 border-t">
-          <div class="px-6 py-2 hover:bg-gray-100 text-sm">Smartphones</div>
-          <div class="px-6 py-2 hover:bg-gray-100 text-sm">Tablets</div>
-          <div class="px-6 py-2 hover:bg-gray-100 text-sm">Accessories</div>
-        </div>
-      </div>
 
-      <div>
-        <button onclick="toggleMobileSub('mobile-sub-2')"
-          class="w-full flex items-center justify-between px-4 py-3 hover:bg-gray-100">
-          <div class="flex items-center gap-2"><i class="fas fa-briefcase text-gray-600"></i><span>Jobs</span></div>
-          <i class="fas fa-chevron-down text-gray-400 text-sm"></i>
-        </button>
-        <div id="mobile-sub-2" class="hidden bg-gray-50 border-t">
-          <div class="px-6 py-2 hover:bg-gray-100 text-sm">IT Jobs</div>
-          <div class="px-6 py-2 hover:bg-gray-100 text-sm">Marketing</div>
-          <div class="px-6 py-2 hover:bg-gray-100 text-sm">BPO</div>
-          <div class="px-6 py-2 hover:bg-gray-100 text-sm">Education</div>
+          </div>
         </div>
-      </div>
-
-      <div>
-        <button onclick="toggleMobileSub('mobile-sub-3')"
-          class="w-full flex items-center justify-between px-4 py-3 hover:bg-gray-100">
-          <div class="flex items-center gap-2"><i class="fas fa-dumbbell text-gray-600"></i><span>Books, Sports &
-              Hobbies</span></div>
-          <i class="fas fa-chevron-down text-gray-400 text-sm"></i>
-        </button>
-        <div id="mobile-sub-3" class="hidden bg-gray-50 border-t">
-          <div class="px-6 py-2 hover:bg-gray-100 text-sm">Books</div>
-          <div class="px-6 py-2 hover:bg-gray-100 text-sm">Gym & Fitness</div>
-          <div class="px-6 py-2 hover:bg-gray-100 text-sm">Musical Instruments</div>
-          <div class="px-6 py-2 hover:bg-gray-100 text-sm">Sports Equipment</div>
-          <div class="px-6 py-2 hover:bg-gray-100 text-sm">Other Hobbies</div>
-        </div>
-      </div> -->
+      <?php } ?>
     </div>
   </div>
 </body>

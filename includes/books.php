@@ -56,7 +56,9 @@ $total_pages = ceil($total_books / $limit);
                 <div class="relative w-full h-[160px] sm:h-[200px]">
                     <div class="absolute top-1 left-1 bg-black/60 text-white text-xs sm:text-sm px-2 py-1 rounded shadow">
                         <?php $bookId = $books['book_id'] ?>
-                        👁️ <?= mysqli_num_rows(mysqli_query($connect,"SELECT * FROM book_views where book_id='$bookId'")) ?> views
+                        👁️
+                        <?= mysqli_num_rows(mysqli_query($connect, "SELECT * FROM book_views where book_id='$bookId'")) ?>
+                        views
                     </div>
                     <?php if (!isset($_SESSION['email'])) { ?>
                         <button
@@ -103,7 +105,7 @@ $total_pages = ceil($total_books / $limit);
                     </p>
                     <p class="text-gray-600 text-xs sm:text-sm mb-1">Author: <?= $books['author'] ?></p>
                     <div class="flex justify-between text-xs text-gray-500">
-                        <span class="truncate">📍 <?= $books['district'] ?></span>
+                        <span class="truncate">📍 <?= $books['state'] ?></span>
                         <span>🕒 Today</span>
                     </div>
                 </div>

@@ -18,7 +18,7 @@
         <?php include_once "includes/sidebar.php"; ?>
         <!-- Main Content -->
         <main class="flex-1 ml-0 md:ml-64 h-[calc(100vh-56px)] overflow-y-auto bg-gray-100 p-6">
-            <h1 class="text-3xl font-bold text-gray-800 mb-6">Welcome, Admin</h1>
+            <h1 class="text-3xl font-bold text-gray-800 mb-6">Welcome, <?= $USERDETAIL['firstname'] ?></h1>
 
 
             <!-- main work space foe shown -->
@@ -48,7 +48,7 @@
                                     class="w-28 h-28 border rounded-md flex items-center justify-center overflow-hidden bg-gray-50 cursor-pointer relative">
                                     <input type="file" id="catImage" name="cat_img" accept="image/*"
                                         onchange="previewImage(event, 'catPreview')"
-                                        class="absolute inset-0 opacity-0 cursor-pointer z-10" />
+                                        class="absolute inset-0 opacity-0 cursor-pointer z-10" required />
                                     <img id="catPreview" class="object-cover w-full h-full hidden" />
                                     <span id="catPlaceholder" class="text-gray-400 text-sm">Click to upload</span>
                                 </div>
@@ -59,8 +59,8 @@
                                 Add Category
                             </button>
                         </form>
-                        
-                        
+
+
 
                     </div>
 
@@ -74,15 +74,18 @@
                             <div class="mb-4">
                                 <label class="block text-sm font-medium text-gray-700">Select Category</label>
                                 <select
-                                    class="mt-1 w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-green-400" name="id_cat">
+                                    class="mt-1 w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-green-400"
+                                    name="id_cat">
                                     <option>Select a category</option>
                                     <?php
-                                        $call_category = $connect->query("SELECT * FROM category");
-                                        while($category_id = $call_category->fetch_array()){ ?>
-                                        <option value="<?= $category_id['cat_id']; ?>"><?= $category_id['category_title']; ?></option>
+                                    $call_category = $connect->query("SELECT * FROM category");
+                                    while ($category_id = $call_category->fetch_array()) { ?>
+                                        <option value="<?= $category_id['cat_id']; ?>">
+                                            <?= $category_id['category_title']; ?>
+                                        </option>
                                     <?php } ?>
-                                    
-                                    
+
+
                                 </select>
                             </div>
 
@@ -101,7 +104,7 @@
                                     class="w-28 h-28 border rounded-md flex items-center justify-center overflow-hidden bg-gray-50 cursor-pointer relative">
                                     <input type="file" name="subcat_img" id="subCatImage" accept="image/*"
                                         onchange="previewImage(event, 'subcatPreview')"
-                                        class="absolute inset-0 opacity-0 cursor-pointer z-10" />
+                                        class="absolute inset-0 opacity-0 cursor-pointer z-10" required />
                                     <img id="subcatPreview" class="object-cover w-full h-full hidden" />
                                     <span id="subcatPlaceholder" class="text-gray-400 text-sm">Click to upload</span>
                                 </div>
@@ -144,24 +147,23 @@
                             <thead class="bg-gray-200 text-gray-800 font-semibold">
                                 <tr>
                                     <th class="px-4 py-2 border">Category</th>
-                                    <th class="px-4 py-2 border">Subcategory</th>
+                                    <th class="px-4 py-2 border">Subcategory</th> 
                                     <th class="px-4 py-2 border">Image</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td class="px-4 py-2 border">Books</td>
-                                    <td class="px-4 py-2 border">Thriller</td>
-                                    <td class="px-4 py-2 border"><img src="https://via.placeholder.com/40"
-                                            class="w-10 h-10 object-cover rounded" /></td>
-                                </tr>
-                                <tr>
-                                    <td class="px-4 py-2 border">Electronics</td>
-                                    <td class="px-4 py-2 border">Mobile</td>
-                                    <td class="px-4 py-2 border"><img src="https://via.placeholder.com/40"
-                                            class="w-10 h-10 object-cover rounded" /></td>
-                                </tr>
-                                <!-- More dynamic rows... -->
+                                <?php
+                                $call_categoryOnAdmin = $connect->query("SELECT * FROM sub_category ");
+                                while ($categoryOnAdmin = $call_categoryOnAdmin->fetch_array()) { ?>
+
+                                    <tr>
+                                        <td class="px-4 py-2 border"><?= $categoryOnAdmin['cat_id'] ?></td>
+                                        <td class="px-4 py-2 border"><?= $categoryOnAdmin['subcat_title'] ?></td>
+                                        <td class="px-4 py-2 border"><img src="../images/<?= $categoryOnAdmin['subcat_img'] ?> "
+                                                class="w-10 h-10 object-cover rounded" /></td>
+                                    </tr>
+                                <?php } ?>
+
                             </tbody>
                         </table>
                     </div>

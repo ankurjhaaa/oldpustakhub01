@@ -1,10 +1,10 @@
 
 <?php
 include_once "../config/db.php";
-$email = $_SESSION['email'];
 if (isset($_POST['locatiomInsertbtn'])) {
     $lat = $_POST['latitude'];
     $lng = $_POST['longitude'];
+    $email = $_POST['userEmail'];
 
     // Update query with proper syntax
     $insertLocationUserQuery = mysqli_query($connect, "UPDATE users SET lat='$lat', lng='$lng' WHERE email='$email'");

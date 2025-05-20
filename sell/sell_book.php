@@ -2,11 +2,11 @@
 
 if (!isset($_SESSION['email'])) {
     echo '<script>window.history.back();</script>';
-}else {
-  if($USERDETAIL['isPlanActive'] == 0){
-  echo '<script>window.history.back();</script>';
+} else {
+    if ($USERDETAIL['isPlanActive'] == 0) {
+        echo '<script>window.history.back();</script>';
 
-  }
+    }
 }
 
 $email = $_SESSION['email'];
@@ -149,16 +149,12 @@ $cate4_name = $call_cat3_name->fetch_array();
 
             <!-- Total Page -->
             <div class="mb-4">
-                <label class="block text-gray-600 mb-1">Total Pages</label>
+                <label class="block text-gray-600 mb-1">Total Pages *optional</label>
                 <input type="number" placeholder="Enter Book Pages" name="page"
-                    class="w-full px-4 py-2 border-2 <?= isset($_SESSION['form_errors']['page']) ? 'border-red-500' : 'border-[#015551]' ?> rounded-sm focus:outline-none focus:ring-2 focus:ring-[#015551] placeholder:text-[#015551]"
-                    value="<?= isset($_SESSION['old_data']['page']) ? $_SESSION['old_data']['page'] : '' ?>" />
+                    class="w-full px-4 py-2 border-2 border-[#015551] rounded-sm focus:outline-none focus:ring-2 focus:ring-[#015551] placeholder:text-[#015551]"
+                    value="" />
 
-                <?php if (isset($_SESSION['form_errors']['page'])): ?>
-                    <p class="text-red-500 text-sm mt-1">
-                        <?= $_SESSION['form_errors']['page'] ?>
-                    </p>
-                <?php endif; ?>
+
             </div>
 
             <!-- Description -->
@@ -178,18 +174,7 @@ $cate4_name = $call_cat3_name->fetch_array();
             if ($userRole['role'] == 2) {
                 // If user is a seller, don't show reason and book condition
             } else { ?>
-                <!-- Reason: Why you Sell -->
-                <div class="mb-4">
-                    <label class="block text-gray-600 mb-1">Reason? Why you Sell</label>
-                    <textarea rows="4" placeholder="Write a short Reason..." name="reason"
-                        class="w-full px-4 py-2 border-2 <?= isset($_SESSION['form_errors']['reason']) ? 'border-red-500' : 'border-[#015551]' ?> rounded-sm focus:outline-none focus:ring-2 focus:ring-[#015551] placeholder:text-[#015551]"><?= isset($_SESSION['old_data']['reason']) ? $_SESSION['old_data']['reason'] : '' ?></textarea>
 
-                    <?php if (isset($_SESSION['form_errors']['reason'])): ?>
-                        <p class="text-red-500 text-sm mt-1">
-                            <?= $_SESSION['form_errors']['reason'] ?>
-                        </p>
-                    <?php endif; ?>
-                </div>
 
                 <!-- Book Condition -->
                 <div class="mb-4">
@@ -415,7 +400,7 @@ $cate4_name = $call_cat3_name->fetch_array();
                 }
             </script>
 
-            <?php include_once "location.php"; ?>
+            <?php //include_once "location.php"; ?>
 
             <!-- Submit Button -->
             <div class="text-center">

@@ -79,7 +79,7 @@ if (isset($_SESSION['email'])) {
                         </button>
 
                         <div class="relative w-full">
-                            <!-- 🟠 Orange "NEW" Badge -->
+                            <!-- ЁЯЯа Orange "NEW" Badge -->
                             <?php if ($BookDetail['version'] == 1) { ?>
                                 <div
                                     class="absolute top-2 left-2 bg-orange-500 text-white text-[11px] sm:text-xs font-bold px-2 py-[2px] rounded shadow-md uppercase tracking-wide z-10">
@@ -94,7 +94,7 @@ if (isset($_SESSION['email'])) {
 
                             <?php } ?>
 
-                            <!-- 📚 Main Image -->
+                            <!-- ЁЯУЪ Main Image -->
                             <img id="mainImage" src="images/<?= $BookDetail['img1'] ?>"
                                 class="w-full h-[400px] sm:h-[500px] object-contain rounded-md shadow bg-white p-2 cursor-zoom-in"
                                 alt="Book Cover" onclick="openFullScreen()">
@@ -190,72 +190,71 @@ if (isset($_SESSION['email'])) {
             <!-- Product Details Section -->
             <div class="lg:col-span-4 space-y-1">
                 <div class="bg-white p-5 rounded-md shadow-sm border border-gray-200">
-                    <h1 class="text-2xl font-bold text-gray-800 mb-2"><?= $BookDetail['title'] ?></h1>
-                    <p class="text-sm text-gray-500 mt-1">
-                        Author : <a href="filter.php?authorName=<?= $BookDetail['author'] ?>"><strong
-                                class="text-sm text-blue-900"><?= $BookDetail['author'] ?></strong></a>
-                    </p>
-                    <div class="flex justify-between items-start mb-4">
-                        <!-- Price & Info -->
-                        <div>
-                            <div>
-                                <span class="text-3xl font-bold text-[#015551]">₹<?= $BookDetail['set_price'] ?></span>
-                                <span class="text-sm text-gray-500 ml-2">(MRP: ₹<?= $BookDetail['mrp'] ?>)</span>
-                            </div>
-                            <div class="text-xs text-gray-500 mt-1">
-                                👁️
-                                <?= mysqli_num_rows(mysqli_query($connect, "SELECT * FROM book_views where book_id='$bookId'")) ?>
-                                views &nbsp;•&nbsp;
-                                📅 <?= 1234//date("d M Y", strtotime($BookDetail['created_at'])) ?>
-                            </div>
-                        </div>
+                    <!-- Header Row -->
+                    <div class="flex justify-between items-start mb-2">
+                        <!-- Title -->
+                        <h1 class="text-xl md:text-2xl font-bold text-gray-800"><?= $BookDetail['title'] ?></h1>
 
-                        <!-- Share + Save -->
-                        <div class="flex space-x-4 items-center">
-                            <!-- Share -->
-                            <button onclick="shareNow()" class="text-gray-600 hover:text-blue-600 transition-colors"
-                                title="Share this page">
-                                <i class="fas fa-share-alt text-lg"></i>
+                        <!-- Share & Wishlist -->
+                        <div class="flex space-x-4">
+                            <button onclick="shareNow()" class="text-gray-600 hover:text-blue-600"
+                                title="Share this book">
+                                <i class="fas fa-share-alt text-lg md:text-xl"></i>
                             </button>
-
-                            <!-- Wishlist -->
-                            <a href="wishlist.php" class="text-gray-600 hover:text-red-600 transition-colors"
-                                title="Save to wishlist">
-                                <i class="fas fa-heart text-lg"></i>
+                            <a href="wishlist.php" class="text-gray-600 hover:text-red-600" title="Save to wishlist">
+                                <i class="fas fa-heart text-lg md:text-xl"></i>
                             </a>
                         </div>
                     </div>
 
-                    <!-- ✅ Native Share Script -->
-                    <script>
-                        function shareNow() {
-                            if (navigator.share) {
-                                navigator.share({
-                                    title: document.title,
-                                    text: 'Check out this book on Pustakhub!',
-                                    url: window.location.href
-                                }).catch(err => {
-                                    console.error("Error sharing:", err);
-                                });
-                            } else {
-                                alert("Sharing not supported in this browser.");
-                            }
-                        }
-                    </script>
+                    <!-- Author -->
+                    <p class="text-xs md:text-sm text-gray-500 mb-4">
+                        Author:
+                        <a href="filter.php?authorName=<?= $BookDetail['author'] ?>"
+                            class="text-blue-800 hover:underline">
+                            <?= $BookDetail['author'] ?>
+                        </a>
+                    </p>
 
-                    <?php if ($BookDetail['version'] == 0) { ?>
-
-                        <div class="space-y-1 text-sm text-gray-600">
-                            <!-- <p><i class="fas fa-book text-blue-500 mr-2"></i> Complete set of NEET preparation books
-                                    including modules</p> -->
-                            <p><i class="fas fa-clipboard-check text-blue-500 mr-2"></i> condition (
-                                <?= $BookDetail['book_condition'] ?> )
-                            </p>
-
+                    <!-- Price & Info -->
+                    <div class="mb-4">
+                        <span
+                            class="text-2xl md:text-3xl font-bold text-[#015551]">тВ╣<?= $BookDetail['set_price'] ?></span>
+                        <span
+                            class="text-xs md:text-sm text-gray-500 ml-2 line-through">тВ╣<?= $BookDetail['mrp'] ?></span>
+                        <div class="text-2xs md:text-xs text-gray-500 mt-1">
+                            ЁЯСБя╕П
+                            <?= mysqli_num_rows(mysqli_query($connect, "SELECT * FROM book_views WHERE book_id='$bookId'")) ?>
+                            views
+                            тАв ЁЯУЕ <?= date("d M Y", strtotime($BookDetail['post_date'])) ?>
                         </div>
+                    </div>
 
-                    <?php } ?>
+                    <!-- Condition (Only for version 0) -->
+                    <?php if ($BookDetail['version'] == 0): ?>
+                        <p class="text-xs md:text-sm text-gray-600">
+                            <i class="fas fa-clipboard-check mr-1"></i>
+                            Condition: <?= $BookDetail['book_condition'] ?>
+                        </p>
+                    <?php endif; ?>
+
                 </div>
+
+                <!-- Share Script -->
+                <script>
+                    function shareNow() {
+                        if (navigator.share) {
+                            navigator.share({
+                                title: document.title,
+                                text: 'Check out this book on Pustakhub!',
+                                url: window.location.href
+                            }).catch(console.error);
+                        } else {
+                            alert("Sharing not supported in this browser.");
+                        }
+                    }
+                </script>
+
 
 
 
@@ -263,15 +262,18 @@ if (isset($_SESSION['email'])) {
                 <div class="bg-white p-5 rounded-md shadow-sm border border-gray-200">
                     <div class="flex justify-between items-center mb-4">
                         <div class="flex items-center space-x-3">
-                            <div class="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center">
-                                <i class="fas fa-user text-teal-700"></i>
-                            </div>
-                            <div>
-                                <h3 class="font-semibold text-gray-800"><?= $userDetail['firstname'] ?>
-                                    <?= $userDetail['lastname'] ?>
-                                </h3>
-                                <p class="text-xs text-gray-500">Member since 2022</p>
-                            </div>
+                            <a href="booksFrom.php?email=<?= $userDetail['email'] ?>"
+                                class="flex items-center justify-center">
+                                <div class="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-user text-teal-700"></i>
+                                </div>
+                                <div class="ms-2">
+                                    <h3 class="font-semibold text-gray-800 "><?= $userDetail['firstname'] ?>
+                                        <?= $userDetail['lastname'] ?>
+                                    </h3>
+                                    <p class="text-xs text-gray-500">Member since 2022</p>
+                                </div>
+                            </a>
                         </div>
                         <a href="booksFrom.php?email=<?= $userDetail['email'] ?>"
                             class="text-blue-500 hover:text-blue-700">
@@ -458,9 +460,9 @@ if (isset($_SESSION['email'])) {
         </a>
 
         <?php
-        // PHP में अपना dynamic number लो
+        // PHP рдореЗрдВ рдЕрдкрдирд╛ dynamic number рд▓реЛ
         $pnumber = $userDetail['mobile'];
-        $phoneNumber = $pnumber; // ➡️ Example (country code + number)
+        $phoneNumber = $pnumber; // тЮбя╕П Example (country code + number)
         ?>
 
         <button onclick="handleCall()"
@@ -475,15 +477,15 @@ if (isset($_SESSION['email'])) {
         </button> -->
 
         <script>
-            // PHP से नंबर JS में पास कर रहे हैं
+            // PHP рд╕реЗ рдирдВрдмрд░ JS рдореЗрдВ рдкрд╛рд╕ рдХрд░ рд░рд╣реЗ рд╣реИрдВ
             const phoneNumber = "<?= $phoneNumber ?>";
 
             function handleCall() {
                 if (window.innerWidth <= 768) {
-                    // 👉 Mobile device
+                    // ЁЯСЙ Mobile device
                     window.location.href = `tel:${phoneNumber}`;
                 } else {
-                    // 👉 Desktop/Laptop
+                    // ЁЯСЙ Desktop/Laptop
                     window.open(`https://wa.me/${phoneNumber}`, '_blank');
                 }
             }

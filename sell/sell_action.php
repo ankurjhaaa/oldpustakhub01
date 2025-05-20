@@ -2,11 +2,11 @@
 include_once "../config/db.php";
 if (!isset($_SESSION['email'])) {
     echo '<script>window.history.back();</script>';
-}else {
-  if($USERDETAIL['isPlanActive'] == 0){
-  echo '<script>window.history.back();</script>';
+} else {
+    if ($USERDETAIL['isPlanActive'] == 0) {
+        echo '<script>window.history.back();</script>';
 
-  }
+    }
 }
 
 if (isset($_POST['post_book'])) {
@@ -21,12 +21,11 @@ if (isset($_POST['post_book'])) {
     $publish_year = $_POST['publish_year'] ?? '';
     $page = $_POST['page'] ?? '';
     $description = trim($_POST['description'] ?? '');
-    $reason = trim($_POST['reason'] ?? '');
     $book_condition = $_POST['book_condition'] ?? '';
     $longitude = $_POST['longitude'] ?? '';
     $latitude = $_POST['latitude'] ?? '';
-    $state = $_POST['state'] ?? '';
-    $district = $_POST['district'] ?? '';
+    //$state = $_POST['state'] ?? '';
+    //$district = $_POST['district'] ?? '';
     $email = $_SESSION['email'] ?? '';
 
     $category = $cate4_name['category_title'] ?? '';
@@ -74,12 +73,7 @@ if (isset($_POST['post_book'])) {
         $publish_year = $_POST['publish_year'];
     }
 
-    // Page Count
-    if (!is_numeric($_POST['page']) || $_POST['page'] <= 0) {
-        $errors['page'] = "Enter a valid number of pages.";
-    } else {
-        $page = intval($_POST['page']);
-    }
+
 
     // Description
     if (empty($_POST['description']) || strlen(trim($_POST['description'])) < 10) {
@@ -91,12 +85,7 @@ if (isset($_POST['post_book'])) {
 
 
     } else {
-        // Reason
-        if (empty($_POST['reason'])) {
-            $errors['reason'] = "Selling reason is required.";
-        } else {
-            $reason = trim($_POST['reason']);
-        }
+
 
         // Book condition
         if (empty($_POST['book_condition'])) {
@@ -116,12 +105,50 @@ if (isset($_POST['post_book'])) {
     }
 
     // State & District
-    if (empty($_POST['state']) || empty($_POST['district'])) {
-        $errors['location_info'] = "State and District are required.";
+
+    // $latitude = $userlatlng['lat'] ?? null;
+    // $longitude = $userlatlng['lng'] ?? null;
+
+    if ($latitude && $longitude) {
+        $url = "https://nominatim.openstreetmap.org/reverse?lat=$latitude&lon=$longitude&format=json";
+
+        $options = [
+            "http" => [
+                "header" => "User-Agent: MyLocationApp/1.0\r\n"
+            ]
+        ];
+        $context = stream_context_create($options);
+        $response = file_get_contents($url, false, $context);
+        $data = json_decode($response, true);
+
+        if (isset($data['address'])) {
+            $address = $data['address'];
+
+            if (!empty($address['county'])) {
+                $ADDRESS = $address['county'];
+            } elseif (!empty($address['district'])) {
+                $ADDRESS = $address['district'];
+            } elseif (!empty($address['state_district'])) {
+                $ADDRESS = $address['state_district'];
+            } elseif (!empty($address['region'])) {
+                $ADDRESS = $address['region'];
+            } else {
+                $ADDRESS = "India";
+
+            }
+        } else {
+            echo "Invalid response from API.";
+        }
     } else {
-        $state = $_POST['state'];
-        $district = $_POST['district'];
+
     }
+
+    // if (empty($_POST['state']) || empty($_POST['district'])) {
+    //     $errors['location_info'] = "State and District are required.";
+    // } else {
+    //     $state = $_POST['state'];
+    //     $district = $_POST['district'];
+    // }
 
     // Email from session
     if (!isset($_SESSION['email'])) {
@@ -192,27 +219,27 @@ if (isset($_POST['post_book'])) {
         // Insert Query for seller
         $sql = "INSERT INTO books (
         title, author, mrp, set_price, publish_year, page, description, img1, img2, img3, img4, img5, img6, img7, 
-        longitude, latitude, state, district, category, sub_category, seller_email, post_date ,version
+        longitude, latitude, category, sub_category, seller_email, post_date ,version ,state
     ) VALUES (
         '$title', '$author', '$mrp', '$set_price', '$publish_year', '$page', '$description', '$img1', '$img2', '$img3', '$img4', '$img5', '$img6', '$img7', 
-        '$longitude', '$latitude', '$state', '$district', '$category', '$sub_category', '$email', '$timestamp' ,1
+        '$longitude', '$latitude', '$category', '$sub_category', '$email', '$timestamp' ,1 , '$ADDRESS'
     )";
     } else {
         // Insert Query for user
         $sql = "INSERT INTO books (
         title, author, mrp, set_price, publish_year, page, description, reason, 
         book_condition, img1, img2, img3, img4, img5, img6, img7, 
-        longitude, latitude, state, district, category, sub_category, seller_email, post_date 
+        longitude, latitude, category, sub_category, seller_email, post_date , state
     ) VALUES (
         '$title', '$author', '$mrp', '$set_price', '$publish_year', '$page', '$description', '$reason', 
         '$book_condition', '$img1', '$img2', '$img3', '$img4', '$img5', '$img6', '$img7', 
-        '$longitude', '$latitude', '$state', '$district', '$category', '$sub_category', '$email', '$timestamp' 
+        '$longitude', '$latitude', '$category', '$sub_category', '$email', '$timestamp' , '$ADDRESS'
     )";
     }
 
 
     if (mysqli_query($connect, $sql)) {
-        echo "<script>window.location.href = '';</script>";
+        echo "<script>window.location.href = '../index.php';</script>";
 
     } else {
         echo "Error: " . mysqli_error($connect);
