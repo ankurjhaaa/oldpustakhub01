@@ -126,59 +126,69 @@ if (isset($_SESSION['email'])) {
             $countBooksInRow = 1;
             while ($books = mysqli_fetch_array($call_books)) { ?>
                 <div
-                    class="border rounded-md shadow-sm hover:shadow-md transition-all duration-200 bg-white overflow-hidden flex flex-col p-1 max-w-sm">
-                    <!-- Image Section -->
-                    <div class="relative w-full h-[160px] sm:h-[200px]">
-                        <?php if (!isset($_SESSION['email'])) { ?>
-                            <button
-                                class="openPopupBtn absolute top-2 right-2 p-2 rounded-full bg-white/60 backdrop-blur-md shadow-md hover:bg-red-100 hover:scale-110 transition-all duration-300 group">
-                                <i
-                                    class="fa-regular fa-heart text-gray-600 group-hover:text-red-500 group-hover:fa-solid transition-all duration-300 text-lg"></i>
+                class="border rounded-md shadow-sm hover:shadow-md transition-all duration-200 bg-white overflow-hidden flex flex-col p-1 max-w-sm">
+                <div class="relative w-full h-[160px] sm:h-[200px]">
+                    <div class="absolute top-1 left-1 bg-black/60 text-white text-xs sm:text-sm px-2 py-1 rounded shadow">
+                        <?php $bookId = $books['book_id'] ?>
+                        👁️
+                        <?= mysqli_num_rows(mysqli_query($connect, "SELECT * FROM book_views where book_id='$bookId'")) ?>
+                        views
+                    </div>
+                    <?php if (!isset($_SESSION['email'])) { ?>
+                        <button
+                            class="openPopupBtn absolute top-2 right-2 p-2 rounded-full bg-white/60 backdrop-blur-md shadow-md hover:bg-red-100 hover:scale-110 transition-all duration-300 group"
+                            aria-label="Add to Wishlist">
+                            <i
+                                class="fa-regular fa-heart text-gray-600 group-hover:text-red-500 group-hover:fa-solid transition-all duration-300 text-lg"></i>
+                        </button>
+                    <?php } else { ?>
+                        <form action="action/liked.php" method="post">
+                            <button id="wishlistBtn" name="like"
+                                class="absolute top-2 right-2 p-2 rounded-full bg-white/60 backdrop-blur-md shadow-md hover:bg-red-100 hover:scale-110 transition-all duration-300 group"
+                                aria-label="Add to Wishlist">
+                                <div class="group w-fit cursor-pointer">
+                                    <?php
+                                    $bookId = $books['book_id'];
+                                    $UserEmail = $_SESSION['email'];
+                                    $CheckLiked = $connect->query("SELECT * FROM liked WHERE UserEmail = '$UserEmail' AND BookId = '$bookId'");
+                                    $isLiked = ($CheckLiked->num_rows > 0);
+                                    ?>
+                                    <i
+                                        class="fa-solid fa-heart text-<?= $isLiked ? 'red' : 'gray'; ?>-500 group-hover-red-500 transition-colors duration-300 text-xl"></i>
+                                </div>
                             </button>
-                        <?php } else { ?>
-                            <form action="action/liked.php" method="post">
-                                <button id="wishlistBtn" name="like"
-                                    class="absolute top-2 right-2 p-2 rounded-full bg-white/60 backdrop-blur-md shadow-md hover:bg-red-100 hover:scale-110 transition-all duration-300 group">
-                                    <div class="group w-fit cursor-pointer">
-                                        <?php
-                                        $bookId = $books['book_id'];
-                                        $UserEmail = $_SESSION['email'];
-                                        $CheckLiked = $connect->query("SELECT * FROM liked WHERE UserEmail = '$UserEmail' AND BookId = '$bookId'");
-                                        $isLiked = ($CheckLiked->num_rows > 0);
-                                        ?>
-                                        <i
-                                            class="fa-solid fa-heart text-<?= $isLiked ? 'red' : 'gray'; ?>-500 group-hover-red-500 transition-colors duration-300 text-xl"></i>
-                                    </div>
-                                </button>
-                                <input type="hidden" name="BookLikeId" value="<?= $books['book_id'] ?>">
-                            </form>
-                        <?php } ?>
-                        <a href="view.php?bookId=<?= $books['book_id'] ?>">
-                            <img src="images/<?= $books['img1'] ?>"
-                                class="w-full h-full object-cover hover:shadow-lg rounded-sm border"
-                                alt="<?= $books['title'] ?>" loading="lazy">
-                        </a>
-                    </div>
-
-                    <!-- Details Section -->
-                    <div class="p-2 flex-grow flex flex-col">
-                        <div class="mb-1">
-                            <div class="flex items-center gap-2">
-                                <h3 class="text-sm sm:text-base font-bold text-gray-900">₹<?= $books['set_price'] ?></h3>
-                                <span class="line-through text-xs text-gray-500">₹<?= $books['mrp'] ?></span>
-                                <span class="text-xs text-green-600 font-semibold">20% off</span>
-                            </div>
-                        </div>
-                        <p class="text-gray-800 text-sm sm:text-base font-medium mb-1 line-clamp-1"><?= $books['title'] ?>
-                        </p>
-                        <p class="text-gray-600 text-xs sm:text-sm mb-1">Author: <?= $books['author'] ?></p>
-                        <div class="flex justify-between text-xs text-gray-500">
-                            <span class="truncate">📍 <?= $books['district'] ?></span>
-                            <span>🕒 Today</span>
-                        </div>
-                    </div>
-                    <hr>
+                            <input type="hidden" name="BookLikeId" value="<?= $books['book_id'] ?>">
+                        </form>
+                    <?php } ?>
+                    <a href="view.php?bookId=<?= $books['book_id'] ?>">
+                        <img src="images/<?= $books['img1'] ?>"
+                            class="w-full h-full object-cover hover:shadow-lg rounded-sm border"
+                            alt="<?= $books['title'] ?>" loading="lazy">
+                    </a>
                 </div>
+                <div class="p-2 flex-grow flex flex-col">
+                    <div class="mb-1">
+                        <div class="flex items-center gap-2">
+                            <h3 class="text-sm sm:text-base font-bold text-gray-900">₹<?= $books['set_price'] ?></h3>
+                            <span class="line-through text-xs text-gray-500">₹<?= $books['mrp'] ?></span>
+                            <span class="text-xs text-green-600 font-semibold">20% off</span>
+                        </div>
+                    </div>
+                    <p class="text-gray-800 text-md sm:text-base font-medium mb-1 line-clamp-1">
+                        <?= strlen($books['title']) > 20 ? substr($books['title'], 0, 20) . '...' : $books['title'] ?>
+                    </p>
+                    <p class="text-gray-600 text-xs sm:text-sm mb-1">Author:
+                        <?= strlen($books['author']) > 15 ? substr($books['author'], 0, 15) . '...' : $books['author'] ?>
+                    </p>
+                    <hr>
+                    <div class="flex justify-between text-xs text-gray-500">
+                        <span
+                            class="truncate">📍<?= strlen($books['state']) > 10 ? substr($books['state'], 0, 10) . '..' : $books['state'] ?></span>
+                        <span>🕒 Today</span>
+                    </div>
+                </div>
+
+            </div>
                 <?php
                 if ($countBooksInRow == 7) { ?>
                     <!-- Match exact size and layout of book card -->

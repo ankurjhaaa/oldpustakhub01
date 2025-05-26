@@ -466,79 +466,65 @@
         </button>
 
         <!-- Heading and content -->
-        <div class="mb-4">
+        <!-- Heading and content -->
+        <div class="mb-4 p-4">
             <h3 class="font-semibold text-gray-900 mb-2">Select Delivery Location</h3>
 
-
             <?php if (!isset($_SESSION['email'])) { ?>
-
                 <div
-                    class="relative flex items-center w-full border rounded-md shadow-sm focus-within:ring-2 focus-within:ring-blue-500">
+                    class="relative flex items-center w-full border border-gray-300 rounded-lg bg-white shadow-sm transition focus-within:ring-2 focus-within:ring-[#015551]">
 
                     <!-- Location icon button (gets location) -->
-                    <button type="button" onclick="getLocation()" class="pl-3 text-blue-500 hover:text-blue-700">
-                        <i class="fas fa-map-marker-alt text-lg text-[#015551]"></i>
+                    <button type="button" onclick="getLocation()" class="pl-3 text-[#015551] hover:text-[#013b3b]">
+                        <i class="fas fa-map-marker-alt text-xl"></i>
                     </button>
+
                     <!-- Readonly visible input for location -->
                     <input type="text" id="location" placeholder="please login to Continue"
-                        class="flex-grow px-3 py-2 bg-white focus:outline-none" readonly>
+                        class="flex-grow px-4 py-2 text-sm sm:text-base bg-transparent focus:outline-none text-gray-600"
+                        readonly>
+
                     <!-- Submit button inside the same input area -->
                     <button type="submit" name="locatiomInsertbtn"
-                        class=" openPopupBtn px-4 py-1 m-1 bg-[#015551] text-white font-semibold rounded-md  focus:outline-none transition duration-300">
+                        class="openPopupBtn px-4 py-1 mx-2 bg-[#015551] hover:bg-[#01403c] text-white text-sm sm:text-base font-medium rounded-md transition-all duration-300">
                         Login
                     </button>
-
                 </div>
 
-                <!-- Optional label -->
                 <label for="location" class="block mt-2 text-sm text-gray-600">Your Location</label>
             <?php } else { ?>
-                <form action="action/locationInsert.php" method="post" class="max-w-xl mx-auto">
+                <form action="action/locationInsert.php" method="post" class="w-full max-w-xl mx-auto">
                     <div
-                        class="relative flex items-center w-full border rounded-md shadow-sm focus-within:ring-2 focus-within:ring-blue-500">
+                        class="relative flex flex-nowrap items-center w-full border border-gray-300 rounded-lg bg-white shadow-sm transition focus-within:ring-2 focus-within:ring-[#015551] overflow-hidden">
 
                         <!-- Location icon button (gets location) -->
-                        <button type="button" onclick="getLocation()" class="pl-3 text-blue-500 hover:text-blue-700">
-                            <i class="fas fa-map-marker-alt text-lg text-[#015551]"></i>
+                        <button type="button" onclick="getLocation()"
+                            class="pl-3 text-[#015551] hover:text-[#013b3b] shrink-0">
+                            <i class="fas fa-map-marker-alt text-xl"></i>
                         </button>
 
                         <!-- Readonly visible input for location -->
                         <input type="text" id="location" placeholder="Use Current Location"
-                            class="flex-grow px-3 py-2 bg-white focus:outline-none" readonly>
+                            class="flex-grow min-w-0 px-4 py-2 text-sm sm:text-base bg-transparent focus:outline-none text-gray-700"
+                            readonly>
 
                         <!-- Submit button inside the same input area -->
-
                         <button type="submit" name="locatiomInsertbtn"
-                            class="px-4 py-1 m-1 bg-[#015551] text-white font-semibold rounded-md  focus:outline-none transition duration-300">
+                            class="shrink-0 px-4 py-1 mx-2 bg-[#015551] hover:bg-[#01403c] text-white text-sm sm:text-base font-medium rounded-md transition-all duration-300 whitespace-nowrap">
                             Submit
                         </button>
-
 
                         <!-- Hidden fields for lat/lng -->
                         <input type="hidden" id="latitude" name="latitude">
                         <input type="hidden" id="longitude" name="longitude">
                         <input type="hidden" value="<?= $email ?>" name="userEmail">
                     </div>
-
-                    <!-- Optional label -->
-                    <label for="location" class="block mt-2 text-sm text-gray-600">Your Location</label>
                 </form>
+
 
             <?php } ?>
 
-
             <script>
-                function toggleAddressForm() {
-                    const form = document.getElementById('addressForm');
-                    form.classList.toggle('hidden');
-                }
-
-                document.getElementById('newAddressForm').addEventListener('submit', function (e) {
-                    e.preventDefault();
-                    alert('Address saved!');
-                    toggleAddressForm();
-                });
-
                 function getLocation() {
                     if (navigator.geolocation) {
                         navigator.geolocation.getCurrentPosition(function (position) {
@@ -555,32 +541,54 @@
                     }
                 }
             </script>
+        </div>
 
-            <div class="relative mb-3">
-                <form action="search.php" method="GET">
-                    <input type="text" name="area" placeholder="Search for area"
-                        class="w-full px-10 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 text-gray-800">
-                    <button type="submit">
-                        <i
-                            class="fa-solid fa-magnifying-glass absolute left-3 top-1/3 transform -translate-y-1/2 text-gray-400 text-sm"></i>
-                    </button>
-                </form>
+        <!-- 🔍 Searchable Suggested Cities -->
+        <div class="mt-6 px-4 sm:px-0">
+            <h4 class="text-xs font-semibold text-gray-500 uppercase mb-2">Suggested Cities</h4>
+
+            <!-- Search box -->
+            <div class="relative mb-2">
+                <input type="text" id="citySearch" placeholder="Search city..."
+                    class="w-full px-4 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 text-gray-800">
+                <i
+                    class="fa-solid fa-magnifying-glass absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
             </div>
 
-        </div>
-
-        <!-- Recent Locations -->
-        <div>
-            <h4 class="text-xs font-semibold text-gray-500 uppercase mb-2">Recent Locations</h4>
-            <ul class="space-y-1">
-                <li class="py-2 px-2 hover:bg-gray-100 rounded cursor-pointer flex justify-between items-center">
-                    <span>Delhi, India</span>
-                    <i class="fa-solid fa-check text-blue-600"></i>
-                </li>
-                <li class="py-2 px-2 hover:bg-gray-100 rounded cursor-pointer">Mumbai, Maharashtra</li>
-                <li class="py-2 px-2 hover:bg-gray-100 rounded cursor-pointer">Bangalore, Karnataka</li>
+            <!-- Suggested city list -->
+            <ul id="cityList" class="space-y-1 max-h-60 overflow-y-auto">
+                <li class="py-2 px-3 bg-gray-50 hover:bg-blue-100 rounded cursor-pointer text-sm">Delhi</li>
+                <li class="py-2 px-3 bg-gray-50 hover:bg-blue-100 rounded cursor-pointer text-sm">Mumbai</li>
+                <li class="py-2 px-3 bg-gray-50 hover:bg-blue-100 rounded cursor-pointer text-sm">Bangalore</li>
+                <li class="py-2 px-3 bg-gray-50 hover:bg-blue-100 rounded cursor-pointer text-sm">Hyderabad</li>
+                <li class="py-2 px-3 bg-gray-50 hover:bg-blue-100 rounded cursor-pointer text-sm">Chennai</li>
+                <li class="py-2 px-3 bg-gray-50 hover:bg-blue-100 rounded cursor-pointer text-sm">Pune</li>
+                <li class="py-2 px-3 bg-gray-50 hover:bg-blue-100 rounded cursor-pointer text-sm">Jaipur</li>
+                <li class="py-2 px-3 bg-gray-50 hover:bg-blue-100 rounded cursor-pointer text-sm">Ahmedabad</li>
+                <li class="py-2 px-3 bg-gray-50 hover:bg-blue-100 rounded cursor-pointer text-sm">Kolkata</li>
             </ul>
         </div>
+
+        <script>
+            const cityInput = document.getElementById("citySearch");
+            const cityList = document.getElementById("cityList");
+            const cities = Array.from(cityList.getElementsByTagName("li"));
+
+            cityInput.addEventListener("input", function () {
+                const filter = this.value.toLowerCase();
+                cities.forEach(city => {
+                    const text = city.textContent.toLowerCase();
+                    city.style.display = text.includes(filter) ? "block" : "none";
+                });
+            });
+
+            cities.forEach(city => {
+                city.addEventListener("click", function () {
+                    cityInput.value = this.textContent;
+                });
+            });
+        </script>
+
 
     </div>
 </div>

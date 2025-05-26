@@ -103,13 +103,17 @@ $total_pages = ceil($total_books / $limit);
                     <p class="text-gray-800 text-md sm:text-base font-medium mb-1 line-clamp-1">
                         <?= strlen($books['title']) > 20 ? substr($books['title'], 0, 20) . '...' : $books['title'] ?>
                     </p>
-                    <p class="text-gray-600 text-xs sm:text-sm mb-1">Author: <?= $books['author'] ?></p>
+                    <p class="text-gray-600 text-xs sm:text-sm mb-1">Author:
+                        <?= strlen($books['author']) > 13 ? substr($books['author'], 0, 13) . '...' : $books['author'] ?>
+                    </p>
+                    <hr>
                     <div class="flex justify-between text-xs text-gray-500">
-                        <span class="truncate">📍 <?= $books['state'] ?></span>
+                        <span
+                            class="truncate">📍<?= strlen($books['state']) > 10 ? substr($books['state'], 0, 10) . '..' : $books['state'] ?></span>
                         <span>🕒 Today</span>
                     </div>
                 </div>
-                <hr>
+
             </div>
             <?php
             if ($countBooksInRow == 7) { ?>

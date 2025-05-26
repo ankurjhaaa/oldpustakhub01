@@ -146,22 +146,28 @@ if (isset($_SESSION['email'])) {
                     <div class="border border-gray-300 rounded-md bg-white p-4">
                         <div class="flex border-b mb-4">
                             <button class="tab-btn px-4 py-2 font-semibold text-green-600 border-b-2 border-green-600"
-                                onclick="openTab(event, 'details')">Details</button>
+                                onclick="openTab(event, 'details')">Description</button>
                             <button class="tab-btn px-4 py-2 text-gray-600"
-                                onclick="openTab(event, 'author')">Author</button>
+                                onclick="openTab(event, 'author')">Details</button>
                         </div>
 
                         <!-- Details Content -->
                         <div id="details" class="tab-content block">
                             <h2 class="text-lg font-semibold text-gray-900 mb-2">Description</h2>
-                            <p class="text-sm font-medium text-gray-800"><?= $BookDetail['description'] ?></p>
-                            <p class="text-sm text-gray-700"><?= $BookDetail['reason'] ?></p>
+                            <p class="text-sm font-medium text-gray-800 whitespace-pre-wrap break-words max-h-60 overflow-y-auto"><?= $BookDetail['description'] ?></p>
+                            
                         </div>
 
                         <!-- Author Content -->
                         <div id="author" class="tab-content hidden">
-                            <h2 class="text-lg font-semibold text-gray-900 mb-2">Author</h2>
-                            <p class="text-sm text-gray-800"><?= $BookDetail['author'] ?></p>
+                            <h2 class="text-lg font-semibold text-gray-900 mb-2">Book Details</h2>
+                            <p class="text-sm text-gray-800"><strong>Author : </strong><?= $BookDetail['author'] ?></p>
+                            <p class="text-sm text-gray-800"><strong>Publish Year : </strong><?= $BookDetail['publish_year'] ?></p>
+                            <p class="text-sm text-gray-800"><strong>Book Condition : </strong><?= $BookDetail['book_condition'] ?></p>
+                            <p class="text-sm text-gray-800"><strong>Category : </strong><?= $BookDetail['category'] ?></p>
+                            <p class="text-sm text-gray-800"><strong>Sub Category : </strong><?= $BookDetail['sub_category'] ?></p>
+                            <p class="text-sm text-gray-800"><strong>Book Version : </strong><?= $BookDetail['version'] ?></p>
+                            <p class="text-sm text-gray-800"><strong>Total Pages : </strong><?= $BookDetail['page'] ?></p>
                         </div>
                     </div>
 
@@ -219,14 +225,14 @@ if (isset($_SESSION['email'])) {
                     <!-- Price & Info -->
                     <div class="mb-4">
                         <span
-                            class="text-2xl md:text-3xl font-bold text-[#015551]">тВ╣<?= $BookDetail['set_price'] ?></span>
+                            class="text-2xl md:text-3xl font-bold text-[#015551]">₹<?= $BookDetail['set_price'] ?></span>
                         <span
-                            class="text-xs md:text-sm text-gray-500 ml-2 line-through">тВ╣<?= $BookDetail['mrp'] ?></span>
+                            class="text-xs md:text-sm text-gray-500 ml-2 line-through">₹<?= $BookDetail['mrp'] ?></span>
                         <div class="text-2xs md:text-xs text-gray-500 mt-1">
-                            ЁЯСБя╕П
+                            👁️
                             <?= mysqli_num_rows(mysqli_query($connect, "SELECT * FROM book_views WHERE book_id='$bookId'")) ?>
                             views
-                            тАв ЁЯУЕ <?= date("d M Y", strtotime($BookDetail['post_date'])) ?>
+                            🕒 <?= date("d M Y", strtotime($BookDetail['post_date'])) ?>
                         </div>
                     </div>
 

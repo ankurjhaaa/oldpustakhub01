@@ -20,7 +20,8 @@ if (isset($_POST['post_book'])) {
     $set_price = $_POST['set_price'] ?? '';
     $publish_year = $_POST['publish_year'] ?? '';
     $page = $_POST['page'] ?? '';
-    $description = trim($_POST['description'] ?? '');
+    $description = addslashes($_POST['description'] ?? '');
+    
     $book_condition = $_POST['book_condition'] ?? '';
     $longitude = $_POST['longitude'] ?? '';
     $latitude = $_POST['latitude'] ?? '';
