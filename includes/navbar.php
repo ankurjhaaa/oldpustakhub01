@@ -551,21 +551,28 @@
             <div class="relative mb-2">
                 <input type="text" id="citySearch" placeholder="Search city..."
                     class="w-full px-4 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 text-gray-800">
-                <i
-                    class="fa-solid fa-magnifying-glass absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                <!-- <i
+                    class="fa-solid fa-magnifying-glass absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i> -->
             </div>
 
             <!-- Suggested city list -->
             <ul id="cityList" class="space-y-1 max-h-60 overflow-y-auto">
-                <li class="py-2 px-3 bg-gray-50 hover:bg-blue-100 rounded cursor-pointer text-sm">Delhi</li>
-                <li class="py-2 px-3 bg-gray-50 hover:bg-blue-100 rounded cursor-pointer text-sm">Mumbai</li>
+                <?php
+                $allCityQuery = $connect->query("SELECT DISTINCT state FROM books  ORDER BY district ASC");
+                while ($allCity = $allCityQuery->fetch_array()) { ?>
+
+                    <a href="filter.php?city=<?= htmlspecialchars($allCity['state']) ?>"><li class="py-2 px-3 bg-gray-50 hover:bg-blue-100 rounded cursor-pointer text-sm">
+                        <?= $allCity['state'] ?> </li></a>
+                <?php } ?>
+
+                <!-- <li class="py-2 px-3 bg-gray-50 hover:bg-blue-100 rounded cursor-pointer text-sm">Mumbai</li>
                 <li class="py-2 px-3 bg-gray-50 hover:bg-blue-100 rounded cursor-pointer text-sm">Bangalore</li>
                 <li class="py-2 px-3 bg-gray-50 hover:bg-blue-100 rounded cursor-pointer text-sm">Hyderabad</li>
                 <li class="py-2 px-3 bg-gray-50 hover:bg-blue-100 rounded cursor-pointer text-sm">Chennai</li>
                 <li class="py-2 px-3 bg-gray-50 hover:bg-blue-100 rounded cursor-pointer text-sm">Pune</li>
                 <li class="py-2 px-3 bg-gray-50 hover:bg-blue-100 rounded cursor-pointer text-sm">Jaipur</li>
                 <li class="py-2 px-3 bg-gray-50 hover:bg-blue-100 rounded cursor-pointer text-sm">Ahmedabad</li>
-                <li class="py-2 px-3 bg-gray-50 hover:bg-blue-100 rounded cursor-pointer text-sm">Kolkata</li>
+                <li class="py-2 px-3 bg-gray-50 hover:bg-blue-100 rounded cursor-pointer text-sm">Kolkata</li> -->
             </ul>
         </div>
 

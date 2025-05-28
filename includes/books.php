@@ -45,7 +45,16 @@ $total_pages = ceil($total_books / $limit);
 ?>
 
 <div class="container mx-auto px-4 sm:px-6 py-6">
-    <h2 class="text-2xl font-bold text-gray-800 mb-5">Recommendation Books</h2>
+    <!-- <h2 class="text-2xl font-bold text-gray-800 mb-5">Recommendation Books</h2> -->
+    <h1 class='text-2xl font-semibold text-[#015551] mb-5'>
+        Showing All <span class='text-gray-800'><?php if (isset($_SESSION['email'])) {
+            if ($seeVersion['seeVersion'] == 0) {
+                echo "Old ";
+            } else {
+                echo "New ";
+            }
+        }?></span> Books
+    </h1>
 
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-1 md:gap-4">
         <?php

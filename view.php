@@ -407,7 +407,7 @@ if (isset($_SESSION['email'])) {
                 <div class="border border-gray-300 rounded-md p-4 bg-white">
                     <h2 class="text-lg font-semibold text-gray-900 mb-2">Posted in</h2>
 
-                    <p class="text-sm text-blue-900"><?= $BookDetail['district'] ?>, <?= $BookDetail['state'] ?></p>
+                    <p class="text-sm text-blue-900"> <?= $BookDetail['state'] ?></p>
                 </div>
 
                 <div class="bg-white p-5 rounded-md shadow-sm border border-gray-200">

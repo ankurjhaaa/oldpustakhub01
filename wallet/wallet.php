@@ -1,6 +1,6 @@
 <?php include_once "../config/db.php"; ?>
-<?php if(!isset($_SESSION['email'])){
-    echo '<script>window.history.back();</script>';
+<?php if (!isset($_SESSION['email'])) {
+  echo '<script>window.history.back();</script>';
 } ?>
 
 
@@ -51,7 +51,7 @@
             class="bg-[#015551] hover:bg-[#014341] text-white px-6 py-2 rounded-sm transition duration-300">Add
             Money</button>
         </form>
-        
+
       </div>
       <script>
         document.getElementById("payBtn").onclick = function (e) {
@@ -67,23 +67,48 @@
 
           const amountInPaisa = amount * 100;
 
-          var options = {
-            "key": "rzp_test_wMrelPwjtkBE1b", // Replace with your Razorpay key_id
-            "amount": amountInPaisa,
-            "currency": "INR",
-            "name": "pustakhub",
-            "description": "Wallet Fund",
-            "handler": function (response) {
-              // Save to database using AJAX or redirect
+          const options = {
+            key: "rzp_test_wMrelPwjtkBE1b", // Replace with your live/test key
+            amount: amountInPaisa,
+            currency: "INR",
+            name: "pustakhub",
+            description: "Wallet Fund",
+            handler: function (response) {
+              // ✅ Payment successful
               window.location.href = "wallet_success.php?payment_id=" + response.razorpay_payment_id + "&amount=" + amount;
             },
-            "theme": {
-              "color": "#015551"
+            theme: {
+              color: "#015551"
+            },
+            modal: {
+              // 🔄 Razorpay popup closed by user (cancelled)
+              ondismiss: function () {
+                alert("Payment was cancelled by you.");
+                window.location.href = "wallet.php"; // Send back to wallet
+              }
+            },
+            // ⛔ Handle other errors
+            retry: {
+              enabled: false // Optional: disable automatic retry
             }
           };
-          var rzp1 = new Razorpay(options);
-          rzp1.open();
+
+          const rzp1 = new Razorpay(options);
+
+          // ⛔ If any error occurs during open()
+          rzp1.on('payment.failed', function (response) {
+            alert("Payment failed. Reason: " + response.error.description);
+            window.location.href = "wallet.php";
+          });
+
+          try {
+            rzp1.open();
+          } catch (err) {
+            alert("Something went wrong: " + err.message);
+            window.location.href = "wallet.php";
+          }
         };
+
       </script>
 
 
@@ -176,10 +201,10 @@
     </div>
   </div>
   <br><br><br>
-    
-    <?php include_once "../includes/footer.php" ?>
 
-    <?php include_once "walletBottomNav.php" ?>
+  <?php include_once "../includes/footer.php" ?>
+
+  <?php include_once "walletBottomNav.php" ?>
 
 </body>
 
