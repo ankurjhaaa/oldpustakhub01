@@ -60,8 +60,10 @@ if (isset($_SESSION['email'])) {
 
 
                 <div class="text-sm text-gray-600 mt-4">
-                    <p><i class="far fa-calendar-alt mr-1"></i> Member since Jan 2015</p>
-                    
+                    <p><i class="far fa-calendar-alt mr-1"></i> Member since
+                        <?= date('M Y', strtotime($sellerDetail['joined_at'])) ?>
+                    </p>
+
                     <!-- <p class="mt-2"><i class="fas fa-users mr-1"></i>
                         <strong></strong>
                         Followers &nbsp; | &nbsp;
@@ -227,14 +229,16 @@ if (isset($_SESSION['email'])) {
                         </script>
 
                     <?php } else { ?>
-                        <a href="users_account\editProfile.php" class="w-full bg-cyan-900 text-white py-2 rounded-md mt-6 font-semibold">
+                        <a href="users_account\editProfile.php"
+                            class="w-full bg-cyan-900 text-white py-2 rounded-md mt-6 font-semibold">
                             <i class="fas fa-edit mr-2"></i>
                             Update profile
                         </a>
-                        <a href="wallet/purchaseSellPlan.php" class="w-full bg-cyan-900 text-white py-2 rounded-md mt-6 font-semibold">
-                            <!-- <i class="fas fa-edit mr-2"></i> -->
+                        <a href="wallet/purchaseSellPlan.php"
+                            class="w-full border-cyan-900 text-cyan-900 py-2 rounded-md mt-3 font-semibold underline">
                             Make You Seller
                         </a>
+
                     <?php } ?>
 
                     <?php if ($sellerDetail['email'] != $thisUserEmail) { ?>
@@ -242,32 +246,32 @@ if (isset($_SESSION['email'])) {
                             Report Profile
                         </a>
                     <?php } else { ?>
-                        <a href="" class="w-full border-cyan-900 text-cyan-900 py-2 rounded-md mt-3 font-semibold underline">
+                        <!-- <a href="" class="w-full border-cyan-900 text-cyan-900 py-2 rounded-md mt-3 font-semibold underline">
                             Share Profile
-                        </a>
+                        </a> -->
                     <?php } ?> <?php } else { ?>
-                        <button onclick="shareProfile()"
-                            class="w-full bg-cyan-900 text-white py-2 rounded-md mt-6 font-semibold">
-                            <i class="fas fa-share-alt mr-2"></i> Share profile
-                        </button>
+                    <button onclick="shareProfile()"
+                        class="w-full bg-cyan-900 text-white py-2 rounded-md mt-6 font-semibold">
+                        <i class="fas fa-share-alt mr-2"></i> Share profile
+                    </button>
 
-                        <script>
-                            function shareProfile() {
-                                if (navigator.share) {
-                                    navigator.share({
-                                        title: document.title,
-                                        text: "Check out this profile!",
-                                        url: window.location.href
-                                    })
-                                        .then(() => console.log('Shared successfully'))
-                                        .catch((error) => console.log('Error sharing:', error));
-                                } else {
-                                    alert("Sharing not supported on this browser. You can copy the link manually: " + window.location.href);
-                                }
+                    <script>
+                        function shareProfile() {
+                            if (navigator.share) {
+                                navigator.share({
+                                    title: document.title,
+                                    text: "Check out this profile!",
+                                    url: window.location.href
+                                })
+                                    .then(() => console.log('Shared successfully'))
+                                    .catch((error) => console.log('Error sharing:', error));
+                            } else {
+                                alert("Sharing not supported on this browser. You can copy the link manually: " + window.location.href);
                             }
-                        </script>
-                    
-                    <?php } ?>
+                        }
+                    </script>
+
+                <?php } ?>
 
 
 

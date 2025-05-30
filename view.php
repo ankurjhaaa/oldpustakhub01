@@ -154,20 +154,28 @@ if (isset($_SESSION['email'])) {
                         <!-- Details Content -->
                         <div id="details" class="tab-content block">
                             <h2 class="text-lg font-semibold text-gray-900 mb-2">Description</h2>
-                            <p class="text-sm font-medium text-gray-800 whitespace-pre-wrap break-words max-h-60 overflow-y-auto"><?= $BookDetail['description'] ?></p>
-                            
+                            <p class="text-sm font-medium text-gray-800  break-words max-h-60 overflow-y-auto">
+                                zjbhknklmnjbhvgcfxdzsdxfcgvhbjnnouigyuftyrterytfuyguihiojopkpjiohuigyuftydrterdytfyuguihiojpoiohuigyuftyxdfcgvhbjnohuigyuftyrtztdxfcygvuhbijnkm
+                            </p>
+
                         </div>
 
                         <!-- Author Content -->
                         <div id="author" class="tab-content hidden">
                             <h2 class="text-lg font-semibold text-gray-900 mb-2">Book Details</h2>
                             <p class="text-sm text-gray-800"><strong>Author : </strong><?= $BookDetail['author'] ?></p>
-                            <p class="text-sm text-gray-800"><strong>Publish Year : </strong><?= $BookDetail['publish_year'] ?></p>
-                            <p class="text-sm text-gray-800"><strong>Book Condition : </strong><?= $BookDetail['book_condition'] ?></p>
-                            <p class="text-sm text-gray-800"><strong>Category : </strong><?= $BookDetail['category'] ?></p>
-                            <p class="text-sm text-gray-800"><strong>Sub Category : </strong><?= $BookDetail['sub_category'] ?></p>
-                            <p class="text-sm text-gray-800"><strong>Book Version : </strong><?= $BookDetail['version'] ?></p>
-                            <p class="text-sm text-gray-800"><strong>Total Pages : </strong><?= $BookDetail['page'] ?></p>
+                            <p class="text-sm text-gray-800"><strong>Publish Year :
+                                </strong><?= $BookDetail['publish_year'] ?></p>
+                            <p class="text-sm text-gray-800"><strong>Book Condition :
+                                </strong><?= $BookDetail['book_condition'] ?></p>
+                            <p class="text-sm text-gray-800"><strong>Category : </strong><?= $BookDetail['category'] ?>
+                            </p>
+                            <p class="text-sm text-gray-800"><strong>Sub Category :
+                                </strong><?= $BookDetail['sub_category'] ?></p>
+                            <p class="text-sm text-gray-800"><strong>Book Version :
+                                </strong><?= $BookDetail['version'] ?></p>
+                            <p class="text-sm text-gray-800"><strong>Total Pages : </strong><?= $BookDetail['page'] ?>
+                            </p>
                         </div>
                     </div>
 
@@ -458,24 +466,44 @@ if (isset($_SESSION['email'])) {
 
 
     <div class="fixed bottom-0 left-0 right-0 bg-[#F4F4F2] text-white flex justify-around p-3 md:hidden shadow-lg z-50">
+        <?php if (isset($_SESSION['email'])) { ?>
+            <a href="chat/message.php?user=<?= $userDetail['id'] ?>&bookId=<?= $BookDetail['book_id'] ?>"
+                class="flex items-center gap-2 px-4 py-2 rounded-md bg-[#015551]  transition duration-300 text-sm font-semibold">
+                <i class="fas fa-comments"></i>
+                Chat With <?= $userDetail['firstname'] ?>
+            </a>
 
-        <a href="chat/message.php?user=<?= $userDetail['id'] ?>&bookId=<?= $BookDetail['book_id'] ?>"
-            class="flex items-center gap-2 px-4 py-2 rounded-md bg-[#015551]  transition duration-300 text-sm font-semibold">
-            <i class="fas fa-comments"></i>
-            Chat With Ankur
-        </a>
+        <?php } else { ?>
+            <a
+                class="flex items-center gap-2 px-4 py-2 rounded-md bg-[#015551]  transition duration-300 text-sm font-semibold">
+                <i class="fas fa-comments"></i>
+                Login To Chat
+            </a>
+
+        <?php } ?>
+
 
         <?php
         // PHP рдореЗрдВ рдЕрдкрдирд╛ dynamic number рд▓реЛ
         $pnumber = $userDetail['mobile'];
         $phoneNumber = $pnumber; // тЮбя╕П Example (country code + number)
         ?>
+        <?php if (isset($_SESSION['email'])) { ?>
+            <button onclick="handleCall()"
+                class="flex items-center gap-2 px-4 py-2 rounded-md bg-[#015551]  transition duration-300 text-sm font-semibold">
+                <i class="fas fa-phone-alt"></i>
+                Call
+            </button>
 
-        <button onclick="handleCall()"
-            class="flex items-center gap-2 px-4 py-2 rounded-md bg-[#015551]  transition duration-300 text-sm font-semibold">
-            <i class="fas fa-phone-alt"></i>
-            Call
-        </button>
+        <?php } else { ?>
+            <button 
+                class="flex items-center gap-2 px-4 py-2 rounded-md bg-[#015551]  transition duration-300 text-sm font-semibold">
+                <i class="fas fa-phone-alt"></i>
+                Call
+            </button>
+
+        <?php } ?>
+
         <!-- <button 
             class="flex items-center gap-2 bg-[#015551] hover:bg-[#01403f] text-white font-semibold py-2 px-4 rounded-md me-6 shadow-md">
             <i class="fa-solid fa-phone text-xl"></i>

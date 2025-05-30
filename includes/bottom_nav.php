@@ -76,10 +76,10 @@
                         d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                 </svg>
                 <!-- Notification Badge -->
-                <span
+                <!-- <span
                     class="absolute -top-2 -right-2 bg-[#00ADB5] text-white text-xs font-medium px-1.5 py-0.5 rounded-full flex items-center justify-center min-w-[20px]">
                     3
-                </span>
+                </span> -->
             </div>
             <span class="text-xs mt-1 font-medium">Chat</span>
         </a>

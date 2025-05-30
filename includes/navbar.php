@@ -225,10 +225,10 @@
                         class="fa-regular fa-comment-dots text-[28px] text-[#FDFBEE] hover:text-[#FDFBEE] transition-all duration-200"></i>
 
                     <!-- Notification Badge -->
-                    <span
+                    <!-- <span
                         class="absolute -top-1.5 -right-1.5 bg-red-500 text-[#FDFBEE] text-xs font-bold px-2 py-0.5 rounded-full shadow-md">
                         3
-                    </span>
+                    </span> -->
                 </div>
 
             </a>
