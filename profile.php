@@ -196,17 +196,32 @@
       </div>
       <?php if (isset($_SESSION['email'])) { ?>
         <!-- Sell -->
-        <div class="bg-white mt-2 p-4 space-y-2">
-          <h3 class="font-bold">Get Seller Tag</h3>
-          <div class="p-2">
-            <a href="wallet/purchaseSellPlan.php">
-              <p>🏪 Sell New Books With Us</p>
 
-            </a>
+
+        <?php if ($USERDETAIL['role'] == 2) { ?>
+          <div class="bg-white mt-2 p-4 space-y-2">
+            <h3 class="font-bold">Upgrade</h3>
+            <div class="p-2">
+              <a href="wallet/purchaseSellPlan.php">
+                <p>Upgrade Plan with us </p>
+
+              </a>
+            </div>
+
+          </div>
+        <?php } else { ?>
+          <div class="bg-white mt-2 p-4 space-y-2">
+            <h3 class="font-bold">Get Seller Tag</h3>
+            <div class="p-2">
+              <a href="wallet/purchaseSellPlan.php">
+                <p>Sell New Books With Us</p>
+
+              </a>
+            </div>
+
           </div>
 
-        </div>
-
+        <?php } ?>
 
         <!-- Logout -->
         <div class="bg-white p-4 text-center mt-2">
@@ -239,6 +254,7 @@
       <br>
       <br>
       <br>
+      <?php include_once "users_account/withoutNamePopup.php"; ?>
       <?php include_once "users_account/loginpopup.php"; ?>
     </div>
 
@@ -357,7 +373,7 @@
             }
 
             if ($stmt->execute()) {
-              echo '<script>window.location.href = "";</script>';
+              echo '<script>window.location.href = "profile.php";</script>';
 
               echo "<p class='text-green-600 font-medium mt-4'>Profile updated successfully.</p>";
             } else {

@@ -67,21 +67,28 @@
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-100 bg-white">
-                                <?php 
-                                    $callAllUser = $connect->query("SELECT * FROM users ");
-                                    while ($allUser = $callAllUser->fetch_array()){ ?>    
+                                <?php
+                                $callAllUser = $connect->query("SELECT * FROM users ");
+                                while ($allUser = $callAllUser->fetch_array()) { ?>
                                     <tr class="userRow">
                                         <td class="px-6 py-4 flex items-center gap-3">
                                             <img src="https://i.pravatar.cc/100?img=5" alt=""
                                                 class="w-10 h-10 rounded-full" />
                                             <div>
-                                                <p class="font-semibold"><?= $allUser['firstname'] ?> <?= $allUser['lastname'] ?></p>
+                                                <p class="font-semibold"><?= $allUser['firstname'] ?>
+                                                    <?= $allUser['lastname'] ?></p>
                                                 <p class="text-xs text-gray-400">#<?= $allUser['id'] ?></p>
                                             </div>
                                         </td>
                                         <td class="px-6 py-4"><?= $allUser['email'] ?></td>
                                         <td class="px-6 py-4"><span
-                                                class="bg-indigo-100 text-indigo-700 text-xs px-2 py-1 rounded">Admin</span>
+                                                class="bg-indigo-100 text-indigo-700 text-xs px-2 py-1 rounded"><?php if ($allUser['role'] == 0) {
+                                                    echo "User";
+                                                } elseif($allUser['role'] == 2){
+                                                    echo "Seller";
+                                                } elseif ($allUser['role'] == 1){
+                                                    echo "admin";
+                                                } ?></span>
                                         </td>
                                         <td class="px-6 py-4"><?= $allUser['joined_at'] ?></td>
                                         <td class="px-6 py-4"><span
@@ -104,7 +111,7 @@
                                                         class="w-full text-left px-3 py-2 hover:bg-gray-100 text-sm text-red-600">Delete</button>
                                                 </div>
                                             </div>
-    
+
                                             <!-- Desktop buttons -->
                                             <div class="hidden md:flex justify-end gap-2">
                                                 <button class="text-blue-600 hover:underline text-sm">View</button>
@@ -114,7 +121,7 @@
                                         </td>
                                     </tr>
                                 <?php } ?>
-                                
+
 
                                 <!-- More .userRow can go here -->
 

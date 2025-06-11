@@ -17,7 +17,7 @@
 </head>
 
 <body class="bg-gray-100 text-gray-800 font-sans">
-  <?php include_once "walletNavbar.php"; ?>
+  <?php include_once "../includes/minusNavbar.php"; ?>
 
   <div class="max-w-6xl mx-auto px-4 py-8 space-y-8">
 
@@ -201,10 +201,10 @@
     </div>
   </div>
   <br><br><br>
-
+  <?php include_once "../users_account/withoutNamePopup.php"; ?>
   <?php include_once "../includes/footer.php" ?>
 
-  <?php include_once "walletBottomNav.php" ?>
+  <?php include_once "../includes/minusBottomNav.php" ?>
 
 </body>
 

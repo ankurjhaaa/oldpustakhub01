@@ -239,8 +239,13 @@
                 <button id="profileBtn"
                     class="flex items-center space-x-2 text-gray-800 hover:text-blue-600 focus:outline-none transition-all duration-200">
                     <div class="w-9 h-9 bg-gray-300 rounded-full flex items-center justify-center overflow-hidden">
-                        <img src="images/default_user.jpeg" alt="User" class="w-full h-full object-cover">
+                        <!-- <img src="images/default_user.jpeg" alt="User" class=""> -->
+                        <div
+                            class="w-full h-full object-cover flex items-center justify-center rounded-full bg-[#015551]/10 text-[#015551] font-bold text-lg">
+                            <?= strtoupper(substr($USERDETAIL['firstname'], 0, 1)) ?>
+                        </div>
                     </div>
+
                     <i class="fa-solid fa-chevron-down text-xs text-[#FDFBEE] "></i>
                 </button>
 
@@ -250,11 +255,15 @@
                     <!-- Top Section with User Info -->
                     <div class="p-4 border-b">
                         <div class="flex items-center space-x-3">
-                            <div class="w-12 h-12 bg-gray-300 rounded-full overflow-hidden">
-                                <img src="images/default_user.jpeg" alt="User" class="w-full h-full object-cover">
-                            </div>
+                            <div class="w-9 h-9 bg-gray-300 rounded-full flex items-center justify-center overflow-hidden">
+                        <!-- <img src="images/default_user.jpeg" alt="User" class=""> -->
+                        <div
+                            class="w-full h-full object-cover flex items-center justify-center rounded-full bg-[#015551]/10 text-[#015551] font-bold text-lg">
+                            <?= strtoupper(substr($USERDETAIL['firstname'], 0, 1)) ?>
+                        </div>
+                    </div>
                             <div>
-                                <h3 class="text-gray-900 font-semibold">Ankur Sharma</h3>
+                                <h3 class="text-gray-900 font-semibold"><?= $USERDETAIL['firstname'] . ' ' . $USERDETAIL['lastname'] ?></h3>
                                 <p class="text-gray-500 text-sm"><?= $_SESSION['email'] ?></p>
                             </div>
                         </div>
@@ -561,8 +570,11 @@
                 $allCityQuery = $connect->query("SELECT DISTINCT state FROM books  ORDER BY district ASC");
                 while ($allCity = $allCityQuery->fetch_array()) { ?>
 
-                    <a href="filter.php?city=<?= htmlspecialchars($allCity['state']) ?>"><li class="py-2 px-3 bg-gray-50 hover:bg-blue-100 rounded cursor-pointer text-sm">
-                        <?= $allCity['state'] ?> </li></a>
+                    <a href="filter.php?city=<?= htmlspecialchars($allCity['state']) ?>">
+                        <li class="py-2 px-3 bg-gray-50 hover:bg-blue-100 rounded cursor-pointer text-sm">
+                            <?= $allCity['state'] ?>
+                        </li>
+                    </a>
                 <?php } ?>
 
                 <!-- <li class="py-2 px-3 bg-gray-50 hover:bg-blue-100 rounded cursor-pointer text-sm">Mumbai</li>

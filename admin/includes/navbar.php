@@ -45,22 +45,22 @@
         <!-- Admin Info -->
         <div class="flex flex-col items-center py-6 space-y-2">
             <img src="https://i.pravatar.cc/80" class="w-16 h-16 rounded-full border-2 border-blue-400" alt="Admin">
-            <span class="text-sm">Admin Name</span>
+            <span class="text-sm"><?= $USERDETAIL['firstname'] ?> <?= $USERDETAIL['lastname'] ?></span>
         </div>
 
         <!-- Menu Links -->
         <nav class="flex flex-col space-y-2 px-6">
-            <a href="#" class="py-2 px-4 rounded bg-gray-700 flex items-center space-x-2">
+            <a href="index.php" class="py-2 px-4 rounded bg-gray-700 flex items-center space-x-2">
                 <i class="fas fa-tachometer-alt"></i>
                 <span>Dashboard</span>
             </a>
-            <a href="#" class="py-2 px-4 rounded bg-gray-700 flex items-center space-x-2">
+            <a href="users.php" class="py-2 px-4 rounded bg-gray-700 flex items-center space-x-2">
                 <i class="fas fa-users"></i>
                 <span>Users</span>
             </a>
-            <a href="#" class="py-2 px-4 rounded bg-gray-700 flex items-center space-x-2">
+            <a href="category.php" class="py-2 px-4 rounded bg-gray-700 flex items-center space-x-2">
                 <i class="fas fa-file-alt"></i>
-                <span>Reports</span>
+                <span>Category</span>
             </a>
             <a href="#" class="py-2 px-4 rounded bg-gray-700 flex items-center space-x-2">
                 <i class="fas fa-cog"></i>

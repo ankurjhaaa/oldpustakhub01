@@ -43,6 +43,7 @@ if (isset($_SESSION['email'])) {
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"
         crossorigin="anonymous"></script>
+        <link rel="icon" type="image/png" href="images\logo2.png">
     <style>
         .thumbnail.active {
             border-color: #3b82f6;
@@ -496,7 +497,7 @@ if (isset($_SESSION['email'])) {
             </button>
 
         <?php } else { ?>
-            <button 
+            <button
                 class="flex items-center gap-2 px-4 py-2 rounded-md bg-[#015551]  transition duration-300 text-sm font-semibold">
                 <i class="fas fa-phone-alt"></i>
                 Call
@@ -529,6 +530,7 @@ if (isset($_SESSION['email'])) {
     <br>
     <br>
     <br>
+    <?php include_once "users_account/withoutNamePopup.php"; ?>
     <?php include_once "includes/footer.php" ?>
     <?php include_once "users_account/loginpopup.php"; ?>
 

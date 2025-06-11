@@ -32,7 +32,13 @@ if (isset($_SESSION['email'])) {
             <div class="flex flex-col items-center text-center">
                 <div
                     class="w-24 h-24 rounded-full bg-cyan-800 text-white flex items-center justify-center text-4xl font-bold">
-                    <i class="fas fa-user"></i>
+                    <div class="w-20 h-20 bg-gray-300 rounded-full flex items-center justify-center overflow-hidden">
+                        <!-- <img src="images/default_user.jpeg" alt="User" class=""> -->
+                        <div
+                            class="w-full h-full object-cover flex items-center justify-center rounded-full bg-[#015551]/10 text-[#015551] font-bold text-6xl mb-1">
+                            <?= strtoupper(substr($sellerDetail['firstname'], 0, 1)) ?>
+                        </div>
+                    </div>
                 </div>
                 <h2 class="text-lg font-semibold mt-4"><?= $sellerDetail['firstname'] ?>
                     <?= $sellerDetail['lastname'] ?>
@@ -288,9 +294,16 @@ if (isset($_SESSION['email'])) {
                 <?php while ($books = mysqli_fetch_array($call_books)) {
                     ?>
                     <div
-                        class="border rounded-md shadow-sm hover:shadow-md transition-all duration-200 bg-white overflow-hidden flex flex-col p-1 max-w-sm h-80">
+                        class="border rounded-md shadow-sm hover:shadow-md transition-all duration-200 bg-white overflow-hidden flex flex-col p-1 max-w-sm h-70">
                         <!-- Image Section -->
                         <div class="relative w-full h-[160px] sm:h-[200px]">
+                            <div
+                                class="absolute top-1 left-1 bg-black/60 text-white text-xs sm:text-sm px-2 py-1 rounded shadow">
+                                <?php $bookId = $books['book_id'] ?>
+                                👁️
+                                <?= mysqli_num_rows(mysqli_query($connect, "SELECT * FROM book_views where book_id='$bookId'")) ?>
+                                views
+                            </div>
                             <?php if (!isset($_SESSION['email'])) { ?>
                                 <button
                                     class="openPopupBtn absolute top-2 right-2 p-2 rounded-full bg-white/60 backdrop-blur-md shadow-md hover:bg-red-100 hover:scale-110 transition-all duration-300 group"
@@ -357,8 +370,9 @@ if (isset($_SESSION['email'])) {
                                 <span class="truncate">📍 <?= $books['district'] ?></span>
                                 <span>🕒 Today</span>
                             </div>
+                            <!-- xfdcgvhbhjnk -->
                         </div>
-                        <hr>
+                        <!-- <hr> -->
                     </div>
                 <?php } ?>
             <?php } else { ?>
@@ -379,7 +393,7 @@ if (isset($_SESSION['email'])) {
 
 
 
-
+<?php include_once "users_account/withoutNamePopup.php"; ?>
     <?php include_once "includes/bottom_nav.php" ?>
     <br>
     <br>

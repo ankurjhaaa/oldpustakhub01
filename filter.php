@@ -2,20 +2,20 @@
 <?php
 if (isset($_GET['find_book'])) {
     $book_name = $_GET['book_name'];
-    $filterTitle = 'Search Book'. ' '  . $book_name ;
+    $filterTitle = 'Search Book' . ' ' . $book_name;
 }
 if (isset($_GET['category'])) {
     $category_name = $_GET['category'];
-    $filterTitle = 'Search Category'. ' ' . $category_name ;
+    $filterTitle = 'Search Category' . ' ' . $category_name;
 }
 if (isset($_GET['authorName'])) {
     $authorName = $_GET['authorName'];
-    $filterTitle = 'Search Author' . ' ' . $authorName ;
+    $filterTitle = 'Search Author' . ' ' . $authorName;
 
 }
 if (isset($_GET['city'])) {
     $cityName = $_GET['city'];
-    $filterTitle = 'Search your Location '. ' '  . $cityName ;
+    $filterTitle = 'Search your Location ' . ' ' . $cityName;
 
 }
 if (isset($_SESSION['email'])) {
@@ -43,6 +43,7 @@ if (isset($_SESSION['email'])) {
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"
         crossorigin="anonymous"></script>
+    <link rel="icon" type="image/png" href="images\logo2.png">
 </head>
 
 <body class="<?= $BG ?>">
@@ -87,10 +88,14 @@ if (isset($_SESSION['email'])) {
 
             }
             $category_name = $_GET['category'];
+
             echo "
-                <h1 class='text-2xl font-semibold text-[#015551] mb-5'>
+            <h1 class='text-2xl font-semibold text-[#015551] mb-5'>
                     Book Category: <span class='text-gray-800'>" . htmlspecialchars($category_name) . "</span>
-                </h1>
+            </h1>
+            
+
+                
             ";
             // $where = "WHERE category='$category_name' $seeVersionUserQuery";
         } elseif (isset($_GET['find_book'])) {
@@ -137,7 +142,7 @@ if (isset($_SESSION['email'])) {
             $seeVersionUserQuery = "";
             $where = "WHERE state='$cityName' $seeVersionUserQuery";
             $call_books = mysqli_query($connect, "SELECT * FROM books $where ORDER BY book_id DESC LIMIT $offset, $limit");
-                echo "
+            echo "
                 <h1 class='text-2xl font-semibold text-[#015551] mb-5'>
                      Search City: <span class='text-gray-800'>" . htmlspecialchars($cityName) . "</span>
                 </h1>
@@ -155,7 +160,30 @@ if (isset($_SESSION['email'])) {
 
 
         ?>
+        <style>
+            .scrollbar-hide::-webkit-scrollbar {
+                display: none;
+            }
 
+            .scrollbar-hide {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+        </style>
+        <!-- <div class='bg-gray-100 py-2 mb-4 px-4 overflow-x-auto whitespace-nowrap shadow-sm border-b'>
+            <ul class='flex space-x-4 text-sm font-medium text-gray-700'>
+                <li>
+                    <a href='#' class='px-4 py-2 rounded-full  hover:bg-green-100 transition'>All</a>
+                </li> -->
+<?php
+//$callSubcategoryFilterQuery = $connect->query("SELECT * FROM sub_category WHERE cat_id='$'");
+?>
+                <!-- <li>
+                    <a href='#' class='px-4 py-2 rounded-full  hover:bg-green-100 transition'>Fiction</a>
+                </li>
+
+            </ul>
+        </div> -->
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-1 md:gap-4">
             <?php
             $countBooksInRow = 1;
@@ -317,6 +345,7 @@ if (isset($_SESSION['email'])) {
 
     <!-- Bottom Navbar (Visible on Mobile) -->
     <br><br><br>
+    <?php include_once "users_account/withoutNamePopup.php"; ?>
     <?php include_once "includes/footer.php" ?>
     <?php include_once "includes/bottom_nav.php" ?>
     <?php include_once "includes/mob_foot.php" ?>

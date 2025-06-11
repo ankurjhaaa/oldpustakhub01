@@ -108,6 +108,7 @@ if (!isset($_SESSION['email'])) {
       <?php } ?>
     </div>
   </div>
+  <?php include_once "../users_account/withoutNamePopup.php"; ?>
 </body>
 
 </html>

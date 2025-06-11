@@ -24,7 +24,7 @@ if (!isset($_SESSION['email'])) {
 
 <body class="bg-gray-100 h-full overflow-hidden"> <!-- Important Update Here -->
     <div class="fixed top-0 left-0 right-0 z-50 overflow-y-auto max-h-20 bg-white">
-        <?php include_once "navbar.php"; ?>
+        <?php include_once "../includes/minusNavbar.php"; ?>
     </div>
 
     <div class="flex h-screen"> <!-- pt-20 navbar ke neeche space dene ke liye -->
@@ -46,7 +46,7 @@ if (!isset($_SESSION['email'])) {
             </div>
         </div>
     </div>
-
+<?php include_once "../users_account/withoutNamePopup.php"; ?>
 </body>
 
 </html>

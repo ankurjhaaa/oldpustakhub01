@@ -10,12 +10,12 @@ if (isset($_SESSION['email'])) {
 
     // Check if not admin
     if ($userRole['role'] != 1) {
-        header("Location: ../users_account/login.php");
+        header("Location: ../index.php");
         exit;
     }
 } else {
     // If not logged in at all
-    header("Location: ../users_account/login.php");
+    header("Location: ../index.php");
     exit;
 }
 

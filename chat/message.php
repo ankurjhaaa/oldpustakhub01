@@ -55,7 +55,7 @@ if (isset($_GET['bookId'])) {
 
 <body class="bg-gray-100">
     <div class="fixed top-0 left-0 right-0 ">
-        <?php include_once "navbar.php"; ?>
+        <?php include_once "../includes/minusNavbar.php"; ?>
     </div>
     <div class="flex h-screen">
         <!-- Friends List -->
@@ -123,8 +123,7 @@ if (isset($_GET['bookId'])) {
 
 
                 <!-- Messages -->
-                <div id="chatBox"
-                    class="flex-1 p-4 space-y-2 flex flex-col-reverse mt-20 mb-16 overflow-y-auto overflow-x-hidden">
+                <div id="chatBox" class="flex-1 p-4 space-y-2 flex flex-col-reverse mt-40 lg:mt-20 mb-16 overflow-y-auto overflow-x-hidden">
                     <!-- Messages will be loaded here via AJAX -->
                 </div>
                 <!-- Input Box -->
